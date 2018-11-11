@@ -7,3 +7,4 @@
 * Pip libraries: boto3
 * AWS-CLI installed and configured 
 
+Deploy the `resources/example_lambda.py` on AWS and link it in the fullfillmentActivity in `resources/example_intent.json`.

@@ -1,0 +1,32 @@
+{
+  "intents": [
+    {
+      "intentVersion": "$LATEST",
+      "intentName": "ChoosePill"
+    }
+  ],
+  "name": "ChoosePillBot",
+  "locale": "en-US",
+  "processBehavior": "BUILD",
+  "abortStatement": {
+    "messages": [
+      {
+        "content": "Remember that all I am offering is the truth.  Nothing more.",
+        "contentType": "PlainText"
+      }
+    ]
+  },
+  "clarificationPrompt": {
+    "maxAttempts": 5,
+    "messages": [
+      {
+        "content": "Just say hi to Morpheus.",
+        "contentType": "PlainText"
+      }
+    ]
+  },
+  "voiceId": "Salli",
+  "childDirected": false,
+  "idleSessionTTLInSeconds": 600,
+  "description": "Bot to choose a pill"
+}
