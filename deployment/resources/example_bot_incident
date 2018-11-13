@@ -1,0 +1,182 @@
+{
+  "metadata": {
+    "schemaVersion": "1.0",
+    "importType": "LEX",
+    "importFormat": "JSON"
+  },
+  "resource": {
+    "name": "IncidentManagemenBot",
+    "version": "1",
+    "intents": [
+      {
+        "name": "Help",
+        "version": "3",
+        "fulfillmentActivity": {
+          "type": "ReturnIntent"
+        },
+        "sampleUtterances": [
+          "Which functions you offer"
+        ],
+        "slots": [],
+        "conclusionStatement": {
+          "messages": [
+            {
+              "contentType": "PlainText",
+              "content": "Here you can find a list with all of my functions:",
+              "groupNumber": 1
+            }
+          ]
+        }
+      },
+      {
+        "name": "TodaysWeather",
+        "version": "4",
+        "fulfillmentActivity": {
+          "type": "ReturnIntent"
+        },
+        "sampleUtterances": [
+          "How is the weather"
+        ],
+        "slots": [],
+        "conclusionStatement": {
+          "messages": [
+            {
+              "contentType": "PlainText",
+              "content": "The sun is shining today.",
+              "groupNumber": 1
+            },
+            {
+              "contentType": "PlainText",
+              "content": "It's rainy",
+              "groupNumber": 1
+            }
+          ]
+        }
+      },
+      {
+        "name": "Hello",
+        "version": "1",
+        "fulfillmentActivity": {
+          "type": "ReturnIntent"
+        },
+        "sampleUtterances": [
+          "Hello",
+          "Hi",
+          "What's up",
+          "Hey",
+          "Jo"
+        ],
+        "slots": [],
+        "conclusionStatement": {
+          "messages": [
+            {
+              "contentType": "PlainText",
+              "content": "Hey Bro",
+              "groupNumber": 1
+            }
+          ]
+        }
+      },
+      {
+        "rejectionStatement": {
+          "messages": [
+            {
+              "contentType": "PlainText",
+              "content": "I'll cancel this call. Please use the incident function carefully and prevent misuse."
+            }
+          ]
+        },
+        "name": "ReportIncident",
+        "version": "8",
+        "fulfillmentActivity": {
+          "type": "ReturnIntent"
+        },
+        "sampleUtterances": [
+          "I want to report an incident",
+          "We have an incident",
+          "incident",
+          "emergency",
+          "help",
+          "accident"
+        ],
+        "slots": [
+          {
+            "name": "Location",
+            "slotConstraint": "Required",
+            "slotType": "AMAZON.DE_REGION",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "Where is the incident?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 1,
+            "sampleUtterances": []
+          },
+          {
+            "name": "Number",
+            "slotConstraint": "Required",
+            "slotType": "AMAZON.NUMBER",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "How many people are injured severely?"
+                }
+              ],
+              "maxAttempts": 2,
+              "responseCard": "{\"version\":1,\"contentType\":\"application/vnd.amazonaws.card.generic\"}"
+            },
+            "priority": 2,
+            "sampleUtterances": [
+              "{Number} people are injured",
+              "{Number} people"
+            ]
+          }
+        ],
+        "confirmationPrompt": {
+          "messages": [
+            {
+              "contentType": "PlainText",
+              "content": "{Number} people are injured at the location: {Location}. Please confirm it with yes. Otherwise say no."
+            }
+          ],
+          "maxAttempts": 3
+        },
+        "conclusionStatement": {
+          "messages": [
+            {
+              "contentType": "PlainText",
+              "content": "We will send an emergency doctor to {Location}. Please stay calm and help other people if possible.",
+              "groupNumber": 1
+            }
+          ]
+        }
+      }
+    ],
+    "voiceId": "Matthew",
+    "childDirected": false,
+    "locale": "en-US",
+    "idleSessionTTLInSeconds": 300,
+    "clarificationPrompt": {
+      "messages": [
+        {
+          "contentType": "PlainText",
+          "content": "Sorry, can you please repeat that?"
+        }
+      ],
+      "maxAttempts": 5
+    },
+    "abortStatement": {
+      "messages": [
+        {
+          "contentType": "PlainText",
+          "content": "Sorry, I could not understand. Goodbye."
+        }
+      ]
+    }
+  }
+}
