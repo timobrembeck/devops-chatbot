@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import boto3
 import json
 
@@ -25,7 +27,7 @@ def put_slot_type(slot_type_file):
     print (response)
 
     response = client.get_slot_types()
-    print 'Currently ' + str(len(response['slotTypes'])) + ' slot types.'
+    print ('Currently ' + str(len(response['slotTypes'])) + ' slot types.')
 
 
 def put_intent(intent_file):
@@ -47,7 +49,7 @@ def put_intent(intent_file):
     print (response)
 
     response = client.get_intents()
-    print 'Currently ' + str(len(response['intents'])) + ' intents.'
+    print ('Currently ' + str(len(response['intents'])) + ' intents.')
 
 
 def put_bot(bot_file):
@@ -72,7 +74,7 @@ def put_bot(bot_file):
     print (response)
 
     response = client.get_bots()
-    print 'Currently ' + str(len(response['bots'])) + ' bots.'
+    print ('Currently ' + str(len(response['bots'])) + ' bots.')
 
 
 slot_type_file = 'example_slot_types.json'
