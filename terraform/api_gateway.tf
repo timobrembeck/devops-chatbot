@@ -1,6 +1,6 @@
 resource "aws_api_gateway_rest_api" "alert_manager_notification_api" {
   name        = "alert_manager_notification_api"
-  description = "The Alert Manager Notification API to trigger the TriggerIncidentNotification_Alert"
+  description = "The Alert Manager Notification API to trigger the TriggerIncidentNotification_AlertManager"
 }
 
 resource "aws_api_gateway_resource" "proxy" {
@@ -23,7 +23,7 @@ resource "aws_api_gateway_integration" "lambda" {
 
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = "${aws_lambda_function.TriggerIncidentNotification_CloudWatch.invoke_arn}"
+  uri                     = "${aws_lambda_function.TriggerIncidentNotification_AlertManager.invoke_arn}"
 }
 
 
@@ -41,7 +41,7 @@ resource "aws_api_gateway_integration" "lambda_root" {
 
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = "${aws_lambda_function.TriggerIncidentNotification_CloudWatch.invoke_arn}"
+  uri                     = "${aws_lambda_function.TriggerIncidentNotification_AlertManager.invoke_arn}"
 }
 
 

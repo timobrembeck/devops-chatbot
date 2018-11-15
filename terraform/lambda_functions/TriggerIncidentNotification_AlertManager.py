@@ -34,7 +34,7 @@ def lambda_handler(event, context):
     bearer_token = 'Bearer ' + os.environ['BearerToken']
     received_token = set_received_token(event)
     
-    status = 403
+    http_status = 403
 
     if bearer_custom_authentication(bearer_token,received_token):
         http_status = 200

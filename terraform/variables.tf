@@ -2,14 +2,9 @@ variable "aws_region" {
   default = "eu-west-1"
 }
 
-variable "lambda_zipped_src" {
-    type = "string"
-    default = "lambda.zip"
-}
-
 variable "iam_acc_key" {
   type = "string"
-  default = "989380504362"
+  default = "746022503515"
 }
 
 variable "lambda_role" {
