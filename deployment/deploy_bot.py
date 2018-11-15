@@ -78,8 +78,10 @@ def put_bot(bot_file):
 
 
 slot_type_file = 'example_slot_types.json'
-intent_file = 'example_intent.json'
-bot_file = 'example_bot.json'
+#intent_file = 'example_intent.json'
+#bot_file = 'example_bot.json'
+intent_file = 'GetCurrentIncidentIntent.json'
+bot_file = 'DevOpsChatBot.json'
 
 client = boto3.client('lex-models', region_name='eu-west-1')
 
