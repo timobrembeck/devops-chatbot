@@ -179,4 +179,10 @@ resource "aws_lambda_function" "GetCurrentIncident_AWSConnect" {
   runtime = "python3.6"
   source_code_hash = "${data.archive_file.GetCurrentIncident_AWSConnect_file.output_base64sha256}"
 }
+#GetCurrentIncident_AWSConnect connect to DynamoDB
+resource "aws_lambda_event_source_mapping" "aws_lambda_event_source_DDB" {
+  event_source_arn  = "${aws_dynamodb_table.alert_log.stream_arn}"
+  function_name     = "${aws_lambda_function.GetCurrentIncident_AWSConnect.arn}"
+  starting_position = "LATEST"
+}
 #--End GetCurrentIncident_AWSConnect

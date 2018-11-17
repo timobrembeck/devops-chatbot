@@ -27,7 +27,10 @@ def lambda_handler(event, context):
         message = 'Currently no active Incident.'
     
     print(json.dumps(message))
-    
-    resultMap = {"message":message}
 
-    return resultMap
+    response = {
+        'statusCode': 200,
+        'message':message
+    }
+
+    return response
