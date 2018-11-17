@@ -2,14 +2,13 @@ import boto3
 import json
 import os
 
-def publish_to_connect_sns(payload, topic):
+def publish_to_connect_sns(payload):
     sns = boto3.client('sns')
     response = sns.publish (
-        TargetArn = topic,
+        TargetArn = os.environ['SNS_EIP_NOTIFY_ARN'],
         Message = json.dumps(payload)
     )
     return response
-
 
 def lambda_handler(event, context):
     print(json.dumps(event))
@@ -48,7 +47,7 @@ def lambda_handler(event, context):
         
         
     print(json.dumps(payload))
-    publish_to_connect_sns(payload, 'arn:aws:sns:eu-central-1:583726959404:alert_to_awsconnect')
+    publish_to_connect_sns(payload)
 
     resultMap = {'escalation':'done'}
     

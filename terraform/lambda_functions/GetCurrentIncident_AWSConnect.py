@@ -7,7 +7,7 @@ def get_key_from_ddb(key):
     response = ddb.get_item(
         TableName = 'alert-log', 
         Key = {
-            'message-id': {
+            'messageID': {
                 'S': key
             }
         }

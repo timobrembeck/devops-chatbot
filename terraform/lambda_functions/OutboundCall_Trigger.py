@@ -8,7 +8,7 @@ def get_key_from_ddb(key):
     response = ddb.get_item(
         TableName = 'alert-log', 
         Key = {
-            'message-id': {
+            'messageID': {
                 'S': key
             }
         }
@@ -22,7 +22,7 @@ def put_item_on_ddb(key, item):
     response = ddb.put_item(
         TableName = 'alert-log',
         Item = {
-            'message-id': {
+            'messageID': {
                 'S': key
             },
             'message': {
@@ -48,25 +48,31 @@ def lambda_handler(event, context):
     print(destination_phone_number)
 
     counter = get_key_from_ddb('counter')
+    print(counter)
     current_key = int(counter['Item']['message']['S'])
     next_key = current_key + 1
     
     print(str(next_key))
     
-    print(put_item_on_ddb(str(next_key), message))
-    print(put_item_on_ddb('counter', str(next_key)))
+    put_item_on_ddb(str(next_key), message)
+    put_item_on_ddb('counter', str(next_key))
     
-
-    connect = boto3.client('connect')
+    #connect = boto3.client('connect')
     
-    response = connect.start_outbound_voice_contact(
-        #Attributes={
-        #    'message': message
-        #},
-        ContactFlowId='ccd7e5bc-2ace-4d0e-bc71-df8e89bd6021',
-        DestinationPhoneNumber=destination_phone_number,
-        InstanceId='9828d4e7-acc4-4f9f-9e4e-fab1138fcc06',
-        SourcePhoneNumber='+15106792051'
-    )
+    #response = connect.start_outbound_voice_contact(
+        ##Attributes={
+        ##    'message': message
+        ##},
+        #ContactFlowId='ccd7e5bc-2ace-4d0e-bc71-df8e89bd6021',
+        #DestinationPhoneNumber=destination_phone_number,
+        #InstanceId='9828d4e7-acc4-4f9f-9e4e-fab1138fcc06',
+        #SourcePhoneNumber='+15106792051'
+    #)
     
     print('[info] Phone with number: ' + destination_phone_number + ' has been called with message: "' + message + ' "')
+
+    response = {
+        'statusCode': 200
+    }
+    
+    return response

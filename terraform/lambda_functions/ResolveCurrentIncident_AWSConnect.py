@@ -7,7 +7,7 @@ def get_key_from_ddb(key):
     response = ddb.get_item(
         TableName = 'alert-log', 
         Key = {
-            'message-id': {
+            'messageID': {
                 'S': key
             }
         }
@@ -21,7 +21,7 @@ def make_inactive(key):
     response = ddb.update_item(
         TableName = 'alert-log',
         Key = {
-            'message-id': {
+            'messageID': {
                 'S': key
             }
         },
@@ -45,6 +45,5 @@ def lambda_handler(event, context):
     make_inactive(current_key)
     
     resultMap = {'incident':'resolved'}
-    
     
     return resultMap

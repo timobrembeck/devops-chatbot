@@ -33,11 +33,19 @@ def lambda_handler(event, context):
     
     payload = {
         'message': message,
-        'destination_phone_number': destination_phone_number
+        'destination_phone_number': destination_phone_number,
+        'priority': 'high',
+        'escalation' : 'test'
     }
     
     print(json.dumps(payload))
     
     publish_to_connect_sns(payload)
+
+    response = {
+        'statusCode': 200
+    }
+    
+    return response
     
     

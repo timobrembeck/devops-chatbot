@@ -17,7 +17,7 @@ resource "aws_lambda_function" "TriggerIncidentNotification_CloudWatch" {
   environment = {
     variables = {
       AlexNumber = "+4919999999999"
-      SNS_EIP_NOTIFY_ARN = "arn:aws:sns:${var.aws_region}:${var.iam_acc_key}:alert_to_awsconnect"
+      SNS_EIP_NOTIFY_ARN = "arn:aws:sns:${var.aws_region}:${var.iam_acc_key}:alert_dispatcher"
       SodNumber = "+4919999999999"
       destinationPhoneNumber = "+4919999999999"
     }
@@ -91,6 +91,7 @@ resource "aws_lambda_function" "Dispatch_Alerts" {
   source_code_hash = "${data.archive_file.Dispatch_Alerts_file.output_base64sha256}"
   environment = {
     variables = {
+        SNS_EIP_NOTIFY_ARN = "arn:aws:sns:${var.aws_region}:${var.iam_acc_key}:alert_to_awsconnect"
         sodPhoneNumber = "+4919999999999"
         odPhoneNumber_org = "+4919999999999"
     }
@@ -134,3 +135,48 @@ resource "aws_lambda_permission" "OutboundCall_Trigger_with_sns" {
   principal     = "sns.amazonaws.com"
   source_arn    = "${aws_sns_topic.alert_to_awsconnect_SNS.arn}"
 }
+
+
+
+#--Start Escalate_Incident
+#Escalate_Incident data file
+data "archive_file" "Escalate_Incident_file" {
+  type = "zip"
+  source_dir = "${path.module}/lambda_functions/"
+  output_path = "${path.module}/.terraform/archive_files/Escalate_Incident.zip"
+}
+#Escalate_Incident function
+resource "aws_lambda_function" "Escalate_Incident" {
+  filename = "${data.archive_file.Escalate_Incident_file.output_path}"
+  function_name = "Escalate_Incident"
+  handler = "Escalate_Incident.lambda_handler"
+  role = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  runtime = "python3.6"
+  source_code_hash = "${data.archive_file.Escalate_Incident_file.output_base64sha256}"
+  environment = {
+    variables = {
+        SNS_EIP_NOTIFY_ARN = "arn:aws:sns:${var.aws_region}:${var.iam_acc_key}:alert_dispatcher"
+    }
+  }
+}
+#--End Escalate_Incident
+
+
+
+#--Start GetCurrentIncident_AWSConnect
+#GetCurrentIncident_AWSConnect data file
+data "archive_file" "GetCurrentIncident_AWSConnect_file" {
+  type = "zip"
+  source_dir = "${path.module}/lambda_functions/"
+  output_path = "${path.module}/.terraform/archive_files/GetCurrentIncident_AWSConnect.zip"
+}
+#GetCurrentIncident_AWSConnect function
+resource "aws_lambda_function" "GetCurrentIncident_AWSConnect" {
+  filename = "${data.archive_file.GetCurrentIncident_AWSConnect_file.output_path}"
+  function_name = "GetCurrentIncident_AWSConnect"
+  handler = "GetCurrentIncident_AWSConnect.lambda_handler"
+  role = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  runtime = "python3.6"
+  source_code_hash = "${data.archive_file.GetCurrentIncident_AWSConnect_file.output_base64sha256}"
+}
+#--End GetCurrentIncident_AWSConnect

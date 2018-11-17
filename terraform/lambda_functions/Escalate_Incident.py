@@ -1,18 +1,18 @@
 import boto3
+import os
 import json
 
 
-def publish_to_connect_sns(payload, topic):
+def publish_to_connect_sns(payload):
     sns = boto3.client('sns')
     response = sns.publish (
-        TargetArn = topic,
+        TargetArn = os.environ['SNS_EIP_NOTIFY_ARN'],
         Message = json.dumps(payload)
     )
     return response
 
 
 def lambda_handler(event, context):
-    #sns_message = json.loads(event['Records'][0]['Sns']['Message']) 
     
     print(json.dumps(event))
     
@@ -27,7 +27,7 @@ def lambda_handler(event, context):
         'escalation': escalation_target
     }        
     
-    publish_to_connect_sns(payload, 'arn:aws:sns:eu-central-1:583726959404:alert_dispatcher')
+    publish_to_connect_sns(payload)
         
     print(json.dumps(payload))
     

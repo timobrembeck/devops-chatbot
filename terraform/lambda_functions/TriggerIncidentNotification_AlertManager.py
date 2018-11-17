@@ -50,7 +50,7 @@ def lambda_handler(event, context):
 
             payload = {
                 'message': message,
-                'escalation': 'SOD',
+                'escalation': 'test',
                 'priority': 'high'
             }
         
