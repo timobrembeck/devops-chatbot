@@ -41,11 +41,9 @@ def put_slot_type(client, slot_type_file):
     print('Currently ' + str(len(response['slotTypes'])) + ' slot types.')
 
 
-def put_intent(client, intent_file, checksum=False):
+def put_intent(client, intent_file):
     intent_string = open('resources/' + intent_file, 'r').read()
     intent = json.loads(intent_string)
-    if checksum:
-        intent['checksum'] = checksum
     print('Putting intent')
     try:
         # TODO Throws PreconditionFailedException on version update or BadRequestException on value error,
@@ -96,19 +94,15 @@ def main(args):
     # intent_file = 'example_intent.json'
     # bot_file = 'example_bot.json'
     intent_file = 'getCurrentIncident/GetCurrentIncidentIntent.json'
-    intent_file_fulfillment = 'getCurrentIncident/GetCurrentIncidentIntentFulfillmentActivity.json'
     lambda_function = 'getCurrentIncident/GetCurrentIncident_AWSConnect'
     bot_file = 'DevOpsChatBot.json'
 
     client = boto3.client('lex-models', region_name='eu-west-1')
 
     # put_slot_type(client, slot_type_file)
-
-    response = put_intent(client, intent_file)
-
     # currently, we cannot add the permission automatically, but have to add the lambda function to the bot manually.
     # add_permission(lambda_function, 'GetCurrentIncidentIntent')
-    # put_intent(client, intent_file_fulfillment, response['checksum'])
+    put_intent(client, intent_file)
 
     put_bot(client, bot_file)
 
