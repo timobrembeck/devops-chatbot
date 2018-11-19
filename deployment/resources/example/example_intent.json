@@ -1,0 +1,42 @@
+{
+  "name": "ChoosePill",
+  "sampleUtterances": [
+    "Hi Morpheus",
+    "Hey Morpheus",
+    "Hello Morpheus",
+    "Hi",
+    "Hey",
+    "Hello",
+    "Hallo"
+  ],
+  "slots": [
+    {
+      "slotType": "PillTypes",
+      "name": "PillType",
+      "slotConstraint": "Required",
+      "valueElicitationPrompt": {
+        "maxAttempts": 3,
+        "messages": [
+          {
+            "content": "You take the blue pill and the story ends.  You wake in your bed and you believe whatever you want to believe. You take the red pill and you stay in Wonderland and I show you how deep the rabbit-hole goes.",
+            "contentType": "PlainText"
+          }
+        ]
+      },
+      "priority": 1,
+      "slotTypeVersion": "$LATEST",
+      "sampleUtterances": [
+        "I take the {PillType} pill"
+      ],
+      "description": "The type of pill to pick"
+    }
+  ],
+  "fulfillmentActivity": {
+    "type": "CodeHook",
+    "codeHook": {
+      "uri": "arn:aws:lambda:eu-west-1:717760576333:function:pillAnswer",
+      "messageVersion": "1.0"
+    }
+  },
+  "description": "Intent to choose a pill"
+}

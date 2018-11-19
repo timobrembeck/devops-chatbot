@@ -1,0 +1,10 @@
+{
+  "name": "GetCurrentIncidentIntent",
+  "sampleUtterances": [
+    "Current Incident",
+    "Incident"
+  ],
+  "slots": [
+  ],
+  "description": "Intent to request the most recent incident"
+}

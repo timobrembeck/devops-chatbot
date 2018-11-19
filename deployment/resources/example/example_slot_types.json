@@ -1,0 +1,14 @@
+{
+  "enumerationValues": [
+    {
+      "value": "red"
+    },
+    {
+      "value": "blue"
+    }
+  ],
+  "name": "PillTypes",
+  "description": "Types of pills to pick"
+}
+
+

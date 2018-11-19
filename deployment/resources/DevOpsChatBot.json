@@ -1,0 +1,32 @@
+{
+  "intents": [
+    {
+      "intentVersion": "$LATEST",
+      "intentName": "GetCurrentIncidentIntent"
+    }
+  ],
+  "name": "DevOpsChatBot",
+  "locale": "en-US",
+  "processBehavior": "BUILD",
+  "abortStatement": {
+    "messages": [
+      {
+        "content": "Bye.",
+        "contentType": "PlainText"
+      }
+    ]
+  },
+  "clarificationPrompt": {
+    "maxAttempts": 5,
+    "messages": [
+      {
+        "content": "Type help for all available commands.",
+        "contentType": "PlainText"
+      }
+    ]
+  },
+  "voiceId": "Salli",
+  "childDirected": false,
+  "idleSessionTTLInSeconds": 600,
+  "description": "DevOps ChatBot"
+}
