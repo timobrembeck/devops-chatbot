@@ -6,5 +6,8 @@
   ],
   "slots": [
   ],
+  "fulfillmentActivity": {
+    "type": "ReturnIntent"
+  },
   "description": "Intent to request the most recent incident"
 }
