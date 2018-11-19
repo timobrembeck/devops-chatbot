@@ -2,7 +2,7 @@
   "intents": [
     {
       "intentVersion": "$LATEST",
-      "intentName": "GetCurrentIncident"
+      "intentName": "GetCurrentIncidentIntent"
     }
   ],
   "name": "DevOpsChatBot",
