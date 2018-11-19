@@ -14,29 +14,29 @@ def add_permission(function_name, intent):
 		Principal = 'lex.amazonaws.com',
 		SourceArn = 'arn:aws:lambda:eu-west-1:746022503515:intent:' + intent
 	)
-	print ('Adding permission to intent')
-	print (response)
+	print('Adding permission to intent')
+	print(response)
 
-def put_slot_type(slot_type_file):
+def put_slot_type(client, slot_type_file):
 	slot_type_string = open('resources/' + slot_type_file, 'r').read()
 	slot_type = json.loads(slot_type_string)
-	print ('Putting slot type')
+	print('Putting slot type')
 	try:
 		# TODO Throws PreconditionFailedException on version update or BadRequestException on value error,
 		# but how to catch and handle these?
 		response = client.put_slot_type(**slot_type)
 	except Exception as e:
-		print (e)
-		print ('Setting checksum to $LATEST to replace current version!')
+		print(e)
+		print('Setting checksum to $LATEST to replace current version!')
 		response = client.get_slot_type(name=slot_type['name'], version='$LATEST')
 		slot_type['checksum'] = response['checksum']
 		response = client.put_slot_type(**slot_type)
 
-	print ('Putting slot type done')
-	print (response)
+	print('Putting slot type done')
+	print(response)
 
 	response = client.get_slot_types()
-	print ('Currently ' + str(len(response['slotTypes'])) + ' slot types.')
+	print('Currently ' + str(len(response['slotTypes'])) + ' slot types.')
 
 
 def put_intent(client, intent_file, checksum = False):
@@ -44,49 +44,49 @@ def put_intent(client, intent_file, checksum = False):
 	intent = json.loads(intent_string)
 	if checksum:
 		intent['checksum'] = checksum
-	print ('Putting intent')
+	print('Putting intent')
 	try:
 		# TODO Throws PreconditionFailedException on version update or BadRequestException on value error,
 		# but how to catch and handle these?
 		response = client.put_intent(**intent)
 	except Exception as e:
-		print (e)
-		print ('Setting checksum to $LATEST to replace current version!')
+		print(e)
+		print('Setting checksum to $LATEST to replace current version!')
 		response = client.get_intent(name=intent['name'], version='$LATEST')
 		intent['checksum'] = response['checksum']
 		response = client.put_intent(**intent)
 
-	print ('Putting intent done')
-	print (response)
+	print('Putting intent done')
+	print(response)
 
 	#response = client.get_intents()
-	#print ('Currently ' + str(len(response['intents'])) + ' intents.')
+	#print('Currently ' + str(len(response['intents'])) + ' intents.')
 	return response
 
 
 def put_bot(client, bot_file):
 	bot_string = open('resources/' + bot_file, 'r').read()
 	bot = json.loads(bot_string)
-	print ('Putting bot')
+	print('Putting bot')
 	try:
 		# TODO Throws PreconditionFailedException on version update or BadRequestException on value error,
 		# but how to catch and handle these?
 		response = client.put_bot(**bot)
 	except Exception as e:
-		print (e)
-		print ('Setting checksum to $LATEST to replace current version!')
-		print (bot['name'])
+		print(e)
+		print('Setting checksum to $LATEST to replace current version!')
+		print(bot['name'])
 		response = client.get_bot(name=bot['name'], versionOrAlias='$LATEST')
-		print (bot['name'])
-		print (response)
+		print(bot['name'])
+		print(response)
 		bot['checksum'] = response['checksum']
 		response = client.put_bot(**bot)
 
-	print ('Putting bot done')
-	print (response)
+	print('Putting bot done')
+	print(response)
 
 	response = client.get_bots()
-	print ('Currently ' + str(len(response['bots'])) + ' bots.')
+	print('Currently ' + str(len(response['bots'])) + ' bots.')
 
 def main(args):
 	#slot_type_file = 'example_slot_types.json'
@@ -99,7 +99,7 @@ def main(args):
 
 	client = boto3.client('lex-models', region_name='eu-west-1')
 
-	#put_slot_type(slot_type_file)
+	#put_slot_type(client, slot_type_file)
 	
 	response = put_intent(client, intent_file)
 
