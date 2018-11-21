@@ -1,12 +1,5 @@
-{
-  "metadata": {
-    "schemaVersion": "1.0",
-    "importType": "LEX",
-    "importFormat": "JSON"
-  },
-  "resource": {
-    "name": "TodaysWeather",
-    "version": "4",
+ {
+    "name": "TodaysWeatherIntent",
     "fulfillmentActivity": {
       "type": "ReturnIntent"
     },
@@ -27,7 +20,5 @@
           "groupNumber": 1
         }
       ]
-    },
-    "slotTypes": []
+    }
   }
-}

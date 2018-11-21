@@ -1,12 +1,5 @@
 {
-  "metadata": {
-    "schemaVersion": "1.0",
-    "importType": "LEX",
-    "importFormat": "JSON"
-  },
-  "resource": {
-    "name": "JokeTelling",
-    "version": "1",
+    "name": "JokeTellingIntent",
     "fulfillmentActivity": {
       "type": "ReturnIntent"
     },
@@ -34,7 +27,5 @@
           "groupNumber": 1
         }
       ]
-    },
-    "slotTypes": []
+    }
   }
-}

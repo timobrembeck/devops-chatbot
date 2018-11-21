@@ -7,6 +7,22 @@
     {
       "intentVersion": "$LATEST",
       "intentName": "EscalateIncidentIntent"
+    },
+    {
+      "intentVersion": "$LATEST",
+      "intentName": "HelloIntent"
+    },
+    {
+      "intentVersion": "$LATEST",
+      "intentName": "JokeTellingIntent"
+    },
+    {
+      "intentVersion": "$LATEST",
+      "intentName": "TodaysWeatherIntent"
+    },
+    {
+      "intentVersion": "$LATEST",
+      "intentName": "WhatIsYourNameIntent"
     }
   ],
   "name": "DevOpsChatBotTest",

@@ -1,12 +1,5 @@
 {
-  "metadata": {
-    "schemaVersion": "1.0",
-    "importType": "LEX",
-    "importFormat": "JSON"
-  },
-  "resource": {
-    "name": "Hello",
-    "version": "1",
+    "name": "HelloIntent",
     "fulfillmentActivity": {
       "type": "ReturnIntent"
     },
@@ -51,7 +44,5 @@
           "groupNumber": 1
         }
       ]
-    },
-    "slotTypes": []
+    }
   }
-}
