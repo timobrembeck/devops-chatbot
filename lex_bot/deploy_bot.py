@@ -1,111 +1,104 @@
-#!/usr/bin/python3
+import os
+import boto3
+import json
+import fnmatch
+import random
+import string
+"""
+Global Information
+"""
 
-import boto3, json, random, string, sys, time
+lex = boto3.client('lex-models', region_name='eu-west-1')
+lambda_client = boto3.client('lambda', region_name='eu-west-1')
+rootdir = cwd = os.getcwd()
 
 
-# from botocore.exceptions import PreconditionFailedException
-# from botocore.exceptions import BadRequestException
-
-def add_permission(function_name, intent):
-    lambda_client = boto3.client('lambda')
+"""
+Add permissions to intents, in order to trigger Lambda functions
+"""
+def add_permission(function_name):
     response = lambda_client.add_permission(
         FunctionName='arn:aws:lambda:eu-west-1:746022503515:function:' + function_name,
         StatementId='add-invoke-permission_' + ''.join(random.choice(string.hexdigits) for i in range(1, 20)),
         Action='lambda:InvokeFunction',
         Principal='lex.amazonaws.com',
-        SourceArn='arn:aws:lambda:eu-west-1:746022503515:intent:' + intent
     )
     print('Adding permission to intent')
     print(response)
 
 
-def put_slot_type(client, slot_type_file):
-    slot_type_string = open('resources/' + slot_type_file, 'r').read()
-    slot_type = json.loads(slot_type_string)
-    print('Putting slot type')
+add_permission('GetCurrentIncident_AWSConnect')
+add_permission('Escalate_Incident')
+
+
+
+"""
+Place Slots
+For each .json file in the slots directory, open that file and load the JSON.
+Check to see if that slot already exists in AWS, if so set the checksum to enable update.
+Write the slot to AWS
+"""
+os.chdir("%s/slots" %rootdir)
+slot_json = fnmatch.filter(os.listdir('.'), '*.json')
+
+for slot in slot_json:
+    with open(slot, 'r') as stream:
+        try:
+            slotdef = json.load(stream)
+        except Exception as e:
+            print(e)
     try:
-        # TODO Throws PreconditionFailedException on version update or BadRequestException on value error,
-        # but how to catch and handle these?
-        response = client.put_slot_type(**slot_type)
+        slotdef_aws = lex.get_slot_type(name=slotdef["name"], version="$LATEST")
+        slotdef["checksum"] = slotdef_aws["checksum"]
     except Exception as e:
         print(e)
-        print('Setting checksum to $LATEST to replace current version!')
-        response = client.get_slot_type(name=slot_type['name'], version='$LATEST')
-        slot_type['checksum'] = response['checksum']
-        response = client.put_slot_type(**slot_type)
-
-    print('Putting slot type done')
-    print(response)
-
-    response = client.get_slot_types()
-    print('Currently ' + str(len(response['slotTypes'])) + ' slot types.')
+    lex.put_slot_type(**slotdef)
 
 
-def put_intent(client, intent_file):
-    intent_string = open('resources/' + intent_file, 'r').read()
-    intent = json.loads(intent_string)
-    print('Putting intent')
+
+"""
+Place Intents
+
+For each .json file in the intent directory, open that file and load the JSON.
+Check to see if that intent already exists in AWS, if so set the checksum to enable update.
+Write the intent to AWS
+"""
+os.chdir("%s/intents" %rootdir)
+intent_json = fnmatch.filter(os.listdir('.'), '*.json')
+for intent in intent_json:
+    with open(intent, 'r') as stream:
+        try:
+            intentdef = json.load(stream)
+        except Exception as e:
+            print(e)
     try:
-        # TODO Throws PreconditionFailedException on version update or BadRequestException on value error,
-        # but how to catch and handle these?
-        response = client.put_intent(**intent)
+        intentdef_aws = lex.get_intent(name=intentdef["name"], version="$LATEST")
+        intentdef["checksum"] = intentdef_aws["checksum"]
     except Exception as e:
         print(e)
-        print('Setting checksum to $LATEST to replace current version!')
-        response = client.get_intent(name=intent['name'], version='$LATEST')
-        intent['checksum'] = response['checksum']
-        response = client.put_intent(**intent)
+    lex.put_intent(**intentdef)
+    
+    
 
-    print('Putting intent done')
-    print(response)
+"""
+Place Bots
 
-    # response = client.get_intents()
-    # print('Currently ' + str(len(response['intents'])) + ' intents.')
-    return response
-
-
-def put_bot(client, bot_file):
-    bot_string = open('resources/' + bot_file, 'r').read()
-    bot = json.loads(bot_string)
-    print('Putting bot')
+For each .json file in the bot directory, open that file and load the JSON.
+Check to see if that bot already exists in AWS, if so set the checksum to enable update.
+Write the bot to AWS
+"""
+os.chdir("%s/bots" %rootdir)
+bot_json = fnmatch.filter(os.listdir('.'), '*.json')
+for bot in bot_json:
+    with open(bot, 'r') as stream:
+        try:
+            botdef = json.load(stream)
+        except Exception as e:
+            print(e)
     try:
-        # TODO Throws PreconditionFailedException on version update or BadRequestException on value error,
-        # but how to catch and handle these?
-        response = client.put_bot(**bot)
+        botdef_aws = lex.get_bot(name=botdef["name"], versionOrAlias="$LATEST")
+        botdef["checksum"] = botdef_aws["checksum"]
     except Exception as e:
         print(e)
-        print('Setting checksum to $LATEST to replace current version!')
-        print(bot['name'])
-        response = client.get_bot(name=bot['name'], versionOrAlias='$LATEST')
-        print(bot['name'])
-        print(response)
-        bot['checksum'] = response['checksum']
-        response = client.put_bot(**bot)
-
-    print('Putting bot done')
-    print(response)
-
-    response = client.get_bots()
-    print('Currently ' + str(len(response['bots'])) + ' bots.')
-
-
-def main(args):
-    # slot_type_file = 'example_slot_types.json'
-    # intent_file = 'example_intent.json'
-    # bot_file = 'example_bot.json'
-    intent_file = 'getCurrentIncident/GetCurrentIncidentIntent.json'
-    lambda_function = 'getCurrentIncident/GetCurrentIncident_AWSConnect'
-    bot_file = 'DevOpsChatBot.json'
-
-    client = boto3.client('lex-models', region_name='eu-west-1')
-
-    # put_slot_type(client, slot_type_file)
-    # currently, we cannot add the permission automatically, but have to add the lambda function to the bot manually.
-    # add_permission(lambda_function, 'GetCurrentIncidentIntent')
-    put_intent(client, intent_file)
-
-    put_bot(client, bot_file)
-
-
-if __name__ == '__main__':
-    main(sys.argv)
+    lex.put_bot(**botdef)
+    
