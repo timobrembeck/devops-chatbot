@@ -1,31 +1,31 @@
 {
   "intents": [
     {
-      "intentVersion": "$LATEST",
+      "intentVersion": "1",
       "intentName": "GetCurrentIncidentIntent"
     },
     {
-      "intentVersion": "$LATEST",
+      "intentVersion": "1",
       "intentName": "EscalateIncidentIntent"
     },
     {
-      "intentVersion": "$LATEST",
+      "intentVersion": "1",
       "intentName": "HelloIntent"
     },
     {
-      "intentVersion": "$LATEST",
+      "intentVersion": "1",
       "intentName": "JokeTellingIntent"
     },
     {
-      "intentVersion": "$LATEST",
+      "intentVersion": "1",
       "intentName": "TodaysWeatherIntent"
     },
     {
-      "intentVersion": "$LATEST",
+      "intentVersion": "1",
       "intentName": "WhatIsYourNameIntent"
     }
   ],
-  "name": "DevOpsChatBotTest",
+  "name": "DevOpsChatBot",
   "locale": "en-US",
   "processBehavior": "BUILD",
   "abortStatement": {
@@ -48,5 +48,6 @@
   "voiceId": "Salli",
   "childDirected": false,
   "idleSessionTTLInSeconds": 600,
-  "description": "DevOps ChatBot"
+  "description": "DevOps ChatBot",
+  "createVersion": true
 }

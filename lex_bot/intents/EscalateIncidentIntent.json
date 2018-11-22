@@ -45,6 +45,7 @@
         "messageVersion": "1.0"
       }
     },
-    "description": "Intent to escalate incident"
+    "description": "Intent to escalate incident",
+    "createVersion": true
   }
   
