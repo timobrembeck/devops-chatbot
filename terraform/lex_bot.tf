@@ -5,13 +5,13 @@ resource "null_resource" "test" {
   ]
 
   provisioner "local-exec" {
-    command     = "./deploy.py create"
+    command     = "python deploy.py create"
     working_dir = "../lex_bot"
   }
 
   provisioner "local-exec" {
     when        = "destroy"
-    command     = "./deploy.py destroy"
+    command     = "python deploy.py destroy"
     working_dir = "../lex_bot"
   }
 }
