@@ -1,7 +1,7 @@
 import boto3
 import os
 import json
-
+from datetime import datetime
 
 def publish_to_connect_sns(payload):
     sns = boto3.client('sns')
@@ -11,6 +11,20 @@ def publish_to_connect_sns(payload):
     )
     return response
 
+
+def get_escalation_target_from_ddb(dayToday):
+    ddb = boto3.client('dynamodb')
+
+    response = ddb.get_item(
+        TableName = 'escalation_target', 
+        Key = {
+            'dayName': {
+                'S': dayToday
+            }
+        }
+    )
+    
+    return response
 
 # -- AWS Lex Bot Intent response --
 def close(session_attributes, fulfillment_state, message):
@@ -27,21 +41,24 @@ def close(session_attributes, fulfillment_state, message):
 
 def lambda_handler(event, context):
     
-    event_response = json.dumps(event)
+    event_response = json.loads(json.dumps(event))
 
     print(event_response)
 
+    dayToday = datetime.now().strftime("%A")
+    escalation = get_escalation_target_from_ddb(dayToday)
+    escalationTarget = escalation['Item']['escalationTarget']['S']
+    escalationNumber = escalation['Item']['escalationNumber']['S']
+
+    print(escalation)
+
     if 'bot' in event_response:
 
-        parsed_event = json.loads(event_response)
-
-        escalation_target = parsed_event['currentIntent']['slotDetails']['escalationTarget']['originalValue']
-        message = parsed_event['currentIntent']['slotDetails']['message']['originalValue']
+        message = event_response['currentIntent']['slotDetails']['message']['originalValue']
 
         payload = {
             'message': message,
             'priority': 'high',
-            'escalation': escalation_target
         }        
 
         publish_to_connect_sns(payload)
@@ -53,24 +70,22 @@ def lambda_handler(event, context):
             'Fulfilled',
             {
                 'contentType': 'PlainText',
-                'content': 'The incident with message ' + message + ' has been escalated to ' + escalation_target
+                'content': 'The incident with message ' + message + ' has been escalated to ' + escalationTarget + ' with phone number: ' + escalationNumber
             }
         )
 
     else:
-        escalation_target = event_response['Details']['Parameters']['escalationTarget']
         message = event_response['Details']['Parameters']['message']
     
         payload = {
             'message': message,
             'priority': 'high',
-            'escalation': escalation_target
         }        
 
         publish_to_connect_sns(payload)
             
         print(json.dumps(payload))
 
-        resultMap = {'escalation':'done'}
+        resultMap = {'escalation': 'The incident with message ' + message + ' has been escalated to ' + escalationTarget + ' with phone number: ' + escalationNumber }
 
         return resultMap

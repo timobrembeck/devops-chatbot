@@ -1,8 +1,8 @@
 {
-  "Details": {
+    "Details": {
       "Parameters": {
-          "escalationTarget" : "testEscalationTarget",
-          "message": "testMessage"
+        "priority": "high",
+        "message": "testMessage"
       }
     }
-}
+  }
