@@ -29,13 +29,10 @@ def lambda_handler(event, context):
         description = ''
 
     message = 'CloudWatch Alarm in ' + region + '.;;;; Alarm description: ;;' + description + '. ;; Details: ' + metric_name + ' ' + comparison_operator + ' '+ str(threshold) + ' for ' + str(int(datapoints)) + ' data points, within ' + str(int(datapoints*period/60)) + ' minutes.</speak>'
-    destination_phone_number = os.environ['destinationPhoneNumber']
     
     payload = {
         'message': message,
-        'destination_phone_number': destination_phone_number,
         'priority': 'high',
-        'escalation' : 'test'
     }
     
     print(json.dumps(payload))

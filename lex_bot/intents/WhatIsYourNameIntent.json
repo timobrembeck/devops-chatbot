@@ -63,5 +63,6 @@
         "groupNumber": 3
       }
     ]
-  }
+  },
+  "createVersion": true
 }

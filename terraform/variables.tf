@@ -3,12 +3,11 @@ variable "aws_region" {
 }
 
 variable "iam_acc_key" {
-  type = "string"
+  type    = "string"
   default = "746022503515"
 }
 
 variable "lambda_role" {
-  type = "string"
+  type    = "string"
   default = "lambda_sns"
 }
-

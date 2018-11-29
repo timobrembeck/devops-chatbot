@@ -13,5 +13,6 @@
       "messageVersion": "1.0"
     }
   },
-  "description": "Intent to request the most recent incident"
+  "description": "Intent to request the most recent incident",
+  "createVersion": true
 }

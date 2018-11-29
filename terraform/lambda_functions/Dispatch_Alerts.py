@@ -17,35 +17,12 @@ def lambda_handler(event, context):
     
     message = sns_message['message']
     priority = sns_message['priority']
-    escalation = sns_message['escalation']
 
-    if escalation == 'test':
-        payload = {
-            'message': message,
-            'destination_phone_number': '+4915160140655'
-        }
-    elif escalation == "Alex":
-        payload = {
-            'message': message,
-            'destination_phone_number': '+491725342610'
-        }  
-    elif escalation == "Brad":
-        payload = {
-            'message': message,
-            'destination_phone_number': '+18643266769'
-        }  
-    elif escalation == "Michael":
-        payload = {
-            'message': message,
-            'destination_phone_number': '+18645017555'
-        }
-    else:
-        payload = {
-            'message': message,
-            'destination_phone_number': os.environ['sodPhoneNumber']
-        }
-        
-        
+    payload = {
+        'message': message,
+        'priority': 'high'
+    }
+ 
     print(json.dumps(payload))
     publish_to_connect_sns(payload)
 

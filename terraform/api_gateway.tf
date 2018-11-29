@@ -26,7 +26,6 @@ resource "aws_api_gateway_integration" "lambda" {
   uri                     = "${aws_lambda_function.TriggerIncidentNotification_AlertManager.invoke_arn}"
 }
 
-
 resource "aws_api_gateway_method" "proxy_root" {
   rest_api_id   = "${aws_api_gateway_rest_api.alert_manager_notification_api.id}"
   resource_id   = "${aws_api_gateway_rest_api.alert_manager_notification_api.root_resource_id}"
@@ -44,7 +43,6 @@ resource "aws_api_gateway_integration" "lambda_root" {
   uri                     = "${aws_lambda_function.TriggerIncidentNotification_AlertManager.invoke_arn}"
 }
 
-
 resource "aws_api_gateway_deployment" "alert_manager_notification_api" {
   depends_on = [
     "aws_api_gateway_integration.lambda",
@@ -54,4 +52,3 @@ resource "aws_api_gateway_deployment" "alert_manager_notification_api" {
   rest_api_id = "${aws_api_gateway_rest_api.alert_manager_notification_api.id}"
   stage_name  = "alert_manager_notification_api_stage_name"
 }
-

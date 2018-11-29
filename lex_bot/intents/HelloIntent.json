@@ -44,5 +44,6 @@
           "groupNumber": 1
         }
       ]
-    }
+    },
+    "createVersion": true
   }

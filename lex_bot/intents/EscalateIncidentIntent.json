@@ -6,22 +6,6 @@
     ],
     "slots": [
       {
-          "name": "escalationTarget",
-          "slotConstraint": "Required",
-          "slotType": "AMAZON.US_FIRST_NAME",
-          "valueElicitationPrompt": {
-              "messages": [
-              {
-                  "contentType": "PlainText",
-                  "content": "What is the escalation target ? "
-              }
-              ],
-              "maxAttempts": 2
-          },
-          "priority": 1,
-          "sampleUtterances": []
-      },
-      {
           "name": "message",
           "slotConstraint": "Required",
           "slotType": "AMAZON.Actor",
@@ -45,6 +29,7 @@
         "messageVersion": "1.0"
       }
     },
-    "description": "Intent to escalate incident"
+    "description": "Intent to escalate incident",
+    "createVersion": true
   }
   
