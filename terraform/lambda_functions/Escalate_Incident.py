@@ -54,7 +54,7 @@ def lambda_handler(event, context):
 
     if 'bot' in event_response:
 
-        message = event_response['currentIntent']['slotDetails']['message']['originalValue']
+        message = event_response['currentIntent']['slots']['message']
 
         payload = {
             'message': message,
@@ -70,7 +70,7 @@ def lambda_handler(event, context):
             'Fulfilled',
             {
                 'contentType': 'PlainText',
-                'content': 'The incident with message ' + message + ' has been escalated to ' + escalationTarget + ' with phone number: ' + escalationNumber
+                'content': 'The incident with message ' + message + ' has been escalated to ' + escalationTarget
             }
         )
 

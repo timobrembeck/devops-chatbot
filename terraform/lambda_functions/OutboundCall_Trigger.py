@@ -81,38 +81,29 @@ def lambda_handler(event, context):
     message = sns_msg['message']
     priority = sns_msg['priority']
 
-    print(message)
-    print(priority)
-
     counter = get_key_from_ddb('counter')
-    print(counter)
     current_key = int(counter['Item']['message']['S'])
     next_key = current_key + 1
-    
-    print(str(next_key))
 
     dayToday = datetime.now().strftime("%A")
     escalation = get_escalation_target_from_ddb(dayToday)
     escalationTarget = escalation['Item']['escalationTarget']['S']
     escalationNumber = escalation['Item']['escalationNumber']['S']
-    
-    print(escalation)
 
     put_item_on_ddb(str(next_key), message, escalationTarget)
     increase_counter_on_ddb('counter', str(next_key))
 
-    #connect = boto3.client('connect')
-    
-    #response = connect.start_outbound_voice_contact(
-        ##Attributes={
-        ##    'message': message
-        ##},
-        #ContactFlowId='ccd7e5bc-2ace-4d0e-bc71-df8e89bd6021',
-        #DestinationPhoneNumber=escalationNumber,
-        #InstanceId='9828d4e7-acc4-4f9f-9e4e-fab1138fcc06',
-        #SourcePhoneNumber='+15106792051'
-    #)
-    
+    connect = boto3.client('connect', region_name='eu-central-1')
+    connect_repsonse = connect.start_outbound_voice_contact(
+        InstanceId='b1bef7dc-1ece-4ce8-8644-f87e8ad43d03',
+        ContactFlowId='fe297d3a-2203-4621-845e-5b3ef730a235',
+        DestinationPhoneNumber=escalationNumber,
+        SourcePhoneNumber='+18552560766',
+        Attributes={
+           'message': message
+        },
+    )
+
     print('[info] Escalation target ' +  escalationTarget + ' with phone number: ' + escalationNumber + ' has been called with message: "' + message + ' "')
 
     response = {
