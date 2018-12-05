@@ -2,7 +2,11 @@
     <div class="col-md-9">
         <h1 class="display-4">Welcome, Cloud Lovers!</h1>
         <p class="lead">This is our homepage, Choose a button</p>
+        <p>
+            <button type="button" class="btn btn-warning" (click)="fullLoad()">Test normal load</button>
+            <button type="button" class="btn btn-danger" (click)="mediumLoad()">Test full load</button>
 
+        </p>
         <div [ngSwitch]="isAuthenticated()">
             <div class="alert alert-success" *ngSwitchCase="true">
                 <span id="home-logged-message" *ngIf="account"
