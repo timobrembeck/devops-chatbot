@@ -4,21 +4,33 @@ import boto3, fnmatch, json, os, sys, time
 
 """
 |--------------------------------------------------------------------------
-| Global Variables
+| Config
+|--------------------------------------------------------------------------
+|
+| slot_types_dir: The directory which contains the slot type files
+| intents_dir:    The directory which contains the intent files
+| bots_dir:       The directory which contains the bot files
+| version:        The version of all bots, intents and slot types
+|
+"""
+slot_types_dir = "./slots/"
+intents_dir    = "./intents/"
+bots_dir       = "./bots/"
+version        = "1"
+
+"""
+|--------------------------------------------------------------------------
+| AWS Clients
 |--------------------------------------------------------------------------
 |
 | lex:            A client representing Amazon Lex Model Building Service
 | lambda_client:  A client representing AWS Lambda
 | aws_account_id: The AWS account id retrieved from the aws cli config
-| rootdir:        The directory in which the script is called
-| version:        The version of all bots, intents and slot types
 |
 """
 lex            = boto3.client("lex-models", region_name="eu-west-1")
 lambda_client  = boto3.client("lambda",     region_name="eu-west-1")
 aws_account_id = boto3.client('sts').get_caller_identity()['Account']
-rootdir        = os.getcwd()
-version        = "1"
 
 """
 |--------------------------------------------------------------------------
@@ -32,11 +44,10 @@ version        = "1"
 |
 """
 def get_slot_types():
-    os.chdir(rootdir + "/slots")
-    slot_type_files = fnmatch.filter(os.listdir("."), "*.json")
+    slot_type_files = fnmatch.filter(os.listdir(slot_types_dir), "*.json")
     slot_types = []
     for slot_type_file in slot_type_files:
-        with open(slot_type_file, "r") as stream:
+        with open(slot_types_dir + slot_type_file, "r") as stream:
             slot_type = json.load(stream)
         try:
             slot_type_aws = lex.get_slot_type(name=slot_type["name"], version=version)
@@ -74,25 +85,12 @@ def put_slot_types():
 |--------------------------------------------------------------------------
 |
 | Delete each slot type from AWS.
-| We need the while loop because the delete function is asynchronous and
-| multiple delete operations can not be executed in parallel which may
-| result in a ConflictException. In this case, we want to retry until
-| the operation is successful.
 |
 """
 def delete_slot_types():
     slot_types = get_slot_types()
     for slot_type in slot_types:
-        while True:
-            try:
-                lex.delete_slot_type(name=slot_type["name"])
-                print("Deleted Slot Type '" + slot_type["name"] + "'")
-            except lex.exceptions.NotFoundException:
-                pass
-            except lex.exceptions.ConflictException:
-                time.sleep(1)
-                continue
-            break
+        delete(lex.delete_slot_type, {"name": slot_type["name"]}, "Deleted Slot Type '" + slot_type["name"] + "'")
 
 """
 |--------------------------------------------------------------------------
@@ -128,11 +126,10 @@ def add_permission(intent):
 |
 """
 def get_intents():
-    os.chdir(rootdir + "/intents")
-    intent_files = fnmatch.filter(os.listdir("."), "*.json")
+    intent_files = fnmatch.filter(os.listdir(intents_dir), "*.json")
     intents = []
     for intent_file in intent_files:
-        with open(intent_file, "r") as stream:
+        with open(intents_dir + intent_file, "r") as stream:
             intent = json.load(stream)
         try:
             intent_aws = lex.get_intent(name=intent["name"], version=version)
@@ -175,25 +172,12 @@ def put_intents():
 |--------------------------------------------------------------------------
 |
 | Delete each intent from AWS.
-| We need the while loop because the delete function is asynchronous and
-| multiple delete operations can not be executed in parallel which may
-| result in a ConflictException. In this case, we want to retry until
-| the operation is successful.
 |
 """
 def delete_intents():
     intents = get_intents()
     for intent in intents:
-        while True:
-            try:
-                lex.delete_intent(name=intent["name"])
-                print("Deleted Intent '" + intent["name"] + "'")
-            except lex.exceptions.NotFoundException:
-                pass
-            except lex.exceptions.ConflictException:
-                time.sleep(1)
-                continue
-            break
+        delete(lex.delete_intent, {"name": intent["name"]}, "Deleted Intent '" + intent["name"] + "'")
 
 """
 |--------------------------------------------------------------------------
@@ -207,11 +191,10 @@ def delete_intents():
 |
 """
 def get_bots():
-    os.chdir(rootdir + "/bots")
-    bot_files =  fnmatch.filter(os.listdir("."), "*.json")
+    bot_files =  fnmatch.filter(os.listdir(bots_dir), "*.json")
     bots = []
     for bot_file in bot_files:
-        with open(bot_file, "r") as stream:
+        with open(bots_dir + bot_file, "r") as stream:
             bot = json.load(stream)
         try:
             bot_aws = lex.get_bot(name=bot["name"], versionOrAlias=version)
@@ -228,6 +211,7 @@ def get_bots():
 |
 | Upload each bot to AWS.
 | If the checksum is set, the existing bot will be updated.
+| After the each bot is created, call the put_bot_alias method.
 |
 """
 def put_bots():
@@ -250,26 +234,14 @@ def put_bots():
 |--------------------------------------------------------------------------
 |
 | For every bot, delete the bot alias and then the bot itself from AWS.
-| We need the while loop because the delete function is asynchronous and
-| multiple delete operations can not be executed in parallel which may
-| result in a ConflictException. In this case, we want to retry until
-| the operation is successful.
 |
 """
 def delete_bots():
     bots = get_bots()
     for bot in bots:
-        delete_bot_alias(bot)
-        while True:
-            try:
-                lex.delete_bot(name=bot["name"])
-                print("Deleted Bot '" + bot["name"] + "'")
-            except lex.exceptions.NotFoundException:
-                pass
-            except lex.exceptions.ConflictException:
-                time.sleep(1)
-                continue
-            break
+        bot_alias = get_bot_alias(bot)
+        delete_bot_alias(bot_alias)
+        delete(lex.delete_bot, {"name": bot["name"]}, "Deleted Bot '" + bot["name"] + "'")
 
 """
 |--------------------------------------------------------------------------
@@ -321,24 +293,48 @@ def put_bot_alias(bot):
 | Delete Bot Alias
 |--------------------------------------------------------------------------
 |
-| Delete the alias of the given bot from AWS.
+| Delete the alias of the given bot and all its channel associations from AWS.
+|
+"""
+def delete_bot_alias(bot_alias):
+    bot_channel_associations = lex.get_bot_channel_associations(botName=bot_alias["botName"], botAlias=bot_alias["name"])["botChannelAssociations"]
+    for bot_channel_association in bot_channel_associations:
+        arguments = {
+            "name":     bot_channel_association["name"],
+            "botName":  bot_channel_association["botName"],
+            "botAlias": bot_channel_association["botAlias"]
+        }
+        delete(
+            lex.delete_bot_channel_association, arguments, "Deleted Bot Channel Association '" + bot_channel_association["name"] + "'"
+        )
+    arguments = {
+        "name":    bot_alias["name"],
+        "botName": bot_alias["botName"]
+    }
+    delete(lex.delete_bot_alias, arguments, "Deleted Bot Alias '" + bot_alias["name"] + "'")
+
+"""
+|--------------------------------------------------------------------------
+| Delete
+|--------------------------------------------------------------------------
+|
+| Delete something from AWS.
 | We need the while loop because the delete function is asynchronous and
 | multiple delete operations can not be executed in parallel which may
 | result in a ConflictException. In this case, we want to retry until
 | the operation is successful.
 |
 """
-def delete_bot_alias(bot):
-    bot_alias = get_bot_alias(bot)
+def delete(function_name, arguments, message):
     while True:
         try:
-            lex.delete_bot_alias(name=bot_alias["name"], botName=bot_alias["botName"])
-            print("Deleted Bot Alias '" + bot_alias["name"] + "'")
+            function_name(**arguments)
+            print(message)
         except lex.exceptions.NotFoundException:
-             pass
+            pass
         except lex.exceptions.ConflictException:
-              time.sleep(1)
-              continue
+            time.sleep(1)
+            continue
         break
 
 """
