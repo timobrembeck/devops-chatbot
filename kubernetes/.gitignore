@@ -1,0 +1,3 @@
+setup.cfg
+lambda_functions/*
+!lambda_functions/kubectlGet.py
