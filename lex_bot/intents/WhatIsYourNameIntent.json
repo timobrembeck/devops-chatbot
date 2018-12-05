@@ -1,0 +1,68 @@
+{
+  "name": "WhatIsYourNameIntent",
+  "fulfillmentActivity": {
+    "type": "ReturnIntent"
+  },
+  "sampleUtterances": [
+    "What's your name",
+    "What is your name"
+  ],
+  "slots": [
+    {
+      "name": "Name",
+      "slotConstraint": "Required",
+      "slotType": "AMAZON.DE_FIRST_NAME",
+      "valueElicitationPrompt": {
+        "messages": [
+          {
+            "contentType": "PlainText",
+            "content": "My name is Lex. What is your name?"
+          }
+        ],
+        "maxAttempts": 2
+      },
+      "priority": 1,
+      "sampleUtterances": []
+    }
+  ],
+  "conclusionStatement": {
+    "messages": [
+      {
+        "contentType": "PlainText",
+        "content": "Hello {Name}",
+        "groupNumber": 1
+      },
+      {
+        "contentType": "PlainText",
+        "content": "Hey, {Name}.",
+        "groupNumber": 1
+      },
+      {
+        "contentType": "PlainText",
+        "content": "Have a nice day.",
+        "groupNumber": 2
+      },
+      {
+        "contentType": "PlainText",
+        "content": "Enjoy your day.",
+        "groupNumber": 2
+      },
+      {
+        "contentType": "PlainText",
+        "content": "Stay positive.",
+        "groupNumber": 2
+      },
+      {
+        "contentType": "PlainText",
+        "content": "How can I help you?",
+        "groupNumber": 3
+      },
+      {
+        "contentType": "PlainText",
+        "content": "What can I do for you?",
+        "groupNumber": 3
+      }
+    ]
+  },
+  "createVersion": true
+}

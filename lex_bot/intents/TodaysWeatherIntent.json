@@ -1,0 +1,25 @@
+ {
+    "name": "TodaysWeatherIntent",
+    "fulfillmentActivity": {
+      "type": "ReturnIntent"
+    },
+    "sampleUtterances": [
+      "How is the weather"
+    ],
+    "slots": [],
+    "conclusionStatement": {
+      "messages": [
+        {
+          "contentType": "PlainText",
+          "content": "The sun is shining today.",
+          "groupNumber": 1
+        },
+        {
+          "contentType": "PlainText",
+          "content": "It's rainy",
+          "groupNumber": 1
+        }
+      ]
+    },
+    "createVersion": true
+  }

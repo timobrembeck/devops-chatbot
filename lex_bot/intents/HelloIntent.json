@@ -1,0 +1,49 @@
+{
+    "name": "HelloIntent",
+    "fulfillmentActivity": {
+      "type": "ReturnIntent"
+    },
+    "sampleUtterances": [
+      "Hello",
+      "Hi",
+      "What's up",
+      "Hey",
+      "Jo"
+    ],
+    "slots": [],
+    "conclusionStatement": {
+      "messages": [
+        {
+          "contentType": "PlainText",
+          "content": "Hey",
+          "groupNumber": 1
+        },
+        {
+          "contentType": "PlainText",
+          "content": "Hello",
+          "groupNumber": 1
+        },
+        {
+          "contentType": "PlainText",
+          "content": "Grüß Gott",
+          "groupNumber": 1
+        },
+        {
+          "contentType": "PlainText",
+          "content": "Moin Moin",
+          "groupNumber": 1
+        },
+        {
+          "contentType": "PlainText",
+          "content": "Aloha",
+          "groupNumber": 1
+        },
+        {
+          "contentType": "PlainText",
+          "content": "Ahoi",
+          "groupNumber": 1
+        }
+      ]
+    },
+    "createVersion": true
+  }

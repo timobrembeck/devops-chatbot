@@ -1,0 +1,18 @@
+{
+  "name": "GetCurrentIncidentIntent",
+  "sampleUtterances": [
+    "Current Incident",
+    "Incident"
+  ],
+  "slots": [
+  ],
+  "fulfillmentActivity": {
+    "type": "CodeHook",
+    "codeHook": {
+      "uri": "arn:aws:lambda:eu-west-1:746022503515:function:GetCurrentIncident_AWSConnect",
+      "messageVersion": "1.0"
+    }
+  },
+  "description": "Intent to request the most recent incident",
+  "createVersion": true
+}

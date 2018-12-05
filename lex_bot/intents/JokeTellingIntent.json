@@ -1,0 +1,32 @@
+{
+    "name": "JokeTellingIntent",
+    "fulfillmentActivity": {
+      "type": "ReturnIntent"
+    },
+    "sampleUtterances": [
+      "Tell me a joke",
+      "Do you know a joke",
+      "Tell me something funny"
+    ],
+    "slots": [],
+    "conclusionStatement": {
+      "messages": [
+        {
+          "contentType": "PlainText",
+          "content": "Chuck Norris makes onions cry.",
+          "groupNumber": 1
+        },
+        {
+          "contentType": "PlainText",
+          "content": "Chuck Norris knows Victoria's secret.",
+          "groupNumber": 1
+        },
+        {
+          "contentType": "PlainText",
+          "content": "Chuck Norris can build a snowman out of rain.",
+          "groupNumber": 1
+        }
+      ]
+    },
+    "createVersion": true
+  }

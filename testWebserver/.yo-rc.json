@@ -1,0 +1,37 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.chatbot"
+    },
+    "jhipsterVersion": "5.7.0",
+    "applicationType": "monolith",
+    "baseName": "testWebserver",
+    "packageName": "com.chatbot",
+    "packageFolder": "com/chatbot",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "ehcache",
+    "enableHibernateCache": false,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "h2Memory",
+    "prodDatabaseType": "mysql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "ZDdiODg4MGFlYjM2MTVjODI5NDAwZTQ1MDIxNDkyMjc3NGJiYmY1NjhlOTA5MmZiYmQzYzc4MjA4MGE1ODk4MjEzYjZhMzEwNWY5MWYzNTI0YmFmOGFkZDRjNmEwMWYxMmRkNWYzZTk3Mzc3YzZhNjc0NjNhNGNmYmE5NWMxZDI=",
+    "clientFramework": "angularX",
+    "useSass": false,
+    "clientPackageManager": "npm",
+    "testFrameworks": [
+      "gatling",
+      "cucumber",
+      "protractor"
+    ],
+    "jhiPrefix": "jhi",
+    "otherModules": [],
+    "enableTranslation": false
+  }
+}
