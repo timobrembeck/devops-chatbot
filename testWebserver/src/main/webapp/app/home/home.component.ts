@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager } from 'ng-jhipster';
+import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 
 import { LoginModalService, Principal, Account } from 'app/core';
 import { HomeService } from './home.service';
@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
     constructor(
         private principal: Principal,
         private loginModalService: LoginModalService,
+        private alertService: JhiAlertService,
         private eventManager: JhiEventManager,
         private homeService: HomeService
     ) {}
@@ -48,8 +49,9 @@ export class HomeComponent implements OnInit {
 
     fullLoad() {
         this.homeService.mediumLoad().subscribe(
-            (res: HttpResponse<String>) => {
+            (res: string) => {
                 console.log(res);
+                this.alertService.success('Pi is:' + res, '', null);
             },
             (err: HttpErrorResponse) => {
                 console.log(err);
@@ -59,8 +61,9 @@ export class HomeComponent implements OnInit {
 
     mediumLoad() {
         this.homeService.fullLoad().subscribe(
-            (res: HttpResponse<String>) => {
+            (res: string) => {
                 console.log(res);
+                this.alertService.success('Pi is:' + res, '', null);
             },
             (err: HttpErrorResponse) => {
                 console.log(err);
