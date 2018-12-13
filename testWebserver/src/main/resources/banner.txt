@@ -1,10 +1,9 @@
+${AnsiColor.RED} ________     ___       ______           ${AnsiColor.BLACK}   ______    ________   _______      ____   ____   ________   _______
+${AnsiColor.RED}|_   __  |  .'   `.   .' ___  |          ${AnsiColor.BLACK} .' ____ \  |_   __  | |_   __ \    |_  _| |_  _| |_   __  | |_   __ \
+${AnsiColor.RED}  | |_ \_| /  .-.  \ / .'   \_|   ______ ${AnsiColor.BLACK} | (___ \_|   | |_ \_|   | |__) |     \ \   / /     | |_ \_|   | |__) |
+${AnsiColor.RED}  |  _|    | |   | | | |   ____  |______|${AnsiColor.BLACK}  _.____`.    |  _| _    |  __ /       \ \ / /      |  _| _    |  __ /
+${AnsiColor.RED} _| |_     \  `-'  / \ `.___]  |         ${AnsiColor.BLACK} | \____) |  _| |__/ |  _| |  \ \_      \ ' /      _| |__/ |  _| |  \ \_
+${AnsiColor.RED}|_____|     `.___.'   `._____.'          ${AnsiColor.BLACK}  \______.' |________| |____| |___|      \_/      |________| |____| |___|
 
-  ${AnsiColor.GREEN}      ██╗${AnsiColor.RED} ██╗   ██╗ ████████╗ ███████╗   ██████╗ ████████╗ ████████╗ ███████╗
-  ${AnsiColor.GREEN}      ██║${AnsiColor.RED} ██║   ██║ ╚══██╔══╝ ██╔═══██╗ ██╔════╝ ╚══██╔══╝ ██╔═════╝ ██╔═══██╗
-  ${AnsiColor.GREEN}      ██║${AnsiColor.RED} ████████║    ██║    ███████╔╝ ╚█████╗     ██║    ██████╗   ███████╔╝
-  ${AnsiColor.GREEN}██╗   ██║${AnsiColor.RED} ██╔═══██║    ██║    ██╔════╝   ╚═══██╗    ██║    ██╔═══╝   ██╔══██║
-  ${AnsiColor.GREEN}╚██████╔╝${AnsiColor.RED} ██║   ██║ ████████╗ ██║       ██████╔╝    ██║    ████████╗ ██║  ╚██╗
-  ${AnsiColor.GREEN} ╚═════╝ ${AnsiColor.RED} ╚═╝   ╚═╝ ╚═══════╝ ╚═╝       ╚═════╝     ╚═╝    ╚═══════╝ ╚═╝   ╚═╝
-
-${AnsiColor.BRIGHT_BLUE}:: JHipster 🤓  :: Running Spring Boot ${spring-boot.version} ::
-:: https://www.jhipster.tech ::${AnsiColor.DEFAULT}
+${AnsiColor.BRIGHT_BLUE}:: Cloud rocks 🤓  :: Running Spring Boot ${spring-boot.version} ::
+:: https://www.tu-berlin.de ::${AnsiColor.DEFAULT}
