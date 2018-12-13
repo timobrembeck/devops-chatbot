@@ -5,6 +5,8 @@ from kubernetes import client, config
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
+node_list_keys = ('name', 'role', 'status', 'last_message', 'creation')
+
 v1 = 0
 """ --- Helpers to build responses which match the structure of the necessary dialog actions --- """
 
@@ -26,12 +28,30 @@ def close(session_attributes, fulfillment_state, message):
     return response
 
 
+def print_table(rows):
+    # figure out column widths
+    widths = [len(max(columns, key=len)) for columns in zip(*rows)]
+
+    # print the header
+    header, data = rows[0], rows[1:]
+    result = ' | '.join(format(title, "%ds" % width) for width, title in zip(widths, header)) + "\n"
+
+    # print the separator
+    result += '-+-'.join('-' * width for width in widths) + "\n"
+
+    # print the data
+    for row in data:
+        result += " | ".join(format(cdata, "%ds" % width) for width, cdata in zip(widths, row)) + "\n"
+
+    return result
+
+
 """ --- Functions that control the bot's behavior --- """
 
 
 def kubectl_get_api_call(intent_request):
     """
-    Performs dialog management and fulfillment for ordering flowers.
+    Performs dialog management and fulfillment.
     Beyond fulfillment, the implementation of this intent demonstrates the use of the elicitSlot dialog action
     in slot validation and re-prompting.
     """
@@ -50,7 +70,16 @@ def kubectl_get_api_call(intent_request):
 
     if get_resource == 'node' or get_resource == 'nodes':
         logger.debug("api call list_node")
-        result = v1.list_node(pretty='true')
+        result = v1.list_node()
+        rows = [node_list_keys]
+        for node in result.items:
+            row = (node.metadata.name,
+                   node.metadata.labels['kubernetes.io/role'],
+                   node.status.conditions[-1].type,
+                   node.status.conditions[-1].message,
+                   node.metadata.creation_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
+            rows.append(row)
+        result = print_table(rows)
     elif get_resource == 'componentstatus':
         logger.debug("api call list_component_status")
         result = v1.list_component_status()
@@ -61,8 +90,6 @@ def kubectl_get_api_call(intent_request):
         logger.warning("api call not in core api v1")
         result = {"message": "error: the core api v1 does not implement the resource " + get_resource + " yet."}
 
-    # Order the flowers, and rely on the goodbye message of the bot to define the message to the end user.
-    # In a real bot, this would likely involve a call to a backend service.
     return close(intent_request['sessionAttributes'],
                  'Fulfilled',
                  {'contentType': 'CustomPayload',
@@ -146,8 +173,8 @@ demo_event = {
 }
 
 # Offline mock call comment when publish!
-# print("init")
-# print(lambda_handler(demo_event, ''))
+#print("init")
+#print(lambda_handler(demo_event, '')['dialogAction']['message']['content'])
 # print("ini2t")
 # demo_event['currentIntent']['slots']['resource'] = "componentstatus"
 # print(lambda_handler(demo_event, ''))

@@ -4,7 +4,7 @@ This readme describes how to deploy minimal kubectl lambda wrapper on aws lambda
 You can us the example data at the end of the `lambda_functions/kubectlGet.py` to test the bot local or in aws lambda.
 A minimal bot called `kubectlBot` is implementing the lambda function fot fullfilment.
 
-
+Documentation on python kube api: [https://github.com/kubernetes-client/python/blob/master/kubernetes/docs/CoreV1Api.md](https://github.com/kubernetes-client/python/blob/master/kubernetes/docs/CoreV1Api.md)
 ## Setup development kubernetes cluster
 
 Export some regularly used variables in your shell
