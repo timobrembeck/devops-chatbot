@@ -1,5 +1,8 @@
-{
+  {
     "name": "HelpForMenu",
+    "fulfillmentActivity": {
+      "type": "ReturnIntent"
+    },
     "sampleUtterances": [
       "i need help",
       "help",

@@ -1,5 +1,8 @@
-{
+  {
     "name": "EndConversation",
+    "fulfillmentActivity": {
+      "type": "ReturnIntent"
+    },
     "sampleUtterances": [
       "good bye",
       "bye",
