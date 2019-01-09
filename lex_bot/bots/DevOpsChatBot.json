@@ -23,6 +23,14 @@
     {
       "intentVersion": "1",
       "intentName": "WhatIsYourNameIntent"
+    },
+    {
+      "intentVersion": "1",
+      "intentName": "HelpForMenu"
+    },
+    {
+      "intentVersion": "1",
+      "intentName": "EndConversation"
     }
   ],
   "name": "DevOpsChatBot",

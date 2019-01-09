@@ -1,0 +1,21 @@
+{
+    "name": "HelpForMenu",
+    "sampleUtterances": [
+      "i need help",
+      "help",
+      "what should i do",
+      "what can you do",
+      "could you do anything"
+    ],
+    "slots": [],
+    "conclusionStatement": {
+      "messages": [
+        {
+          "contentType": "PlainText",
+          "content": "Help menu. In order to escalate an incident say, Escalate incident. or to get current incident say current incident. or to know about the weather say How is the weather. or to lighten up your mood say Tell me a joke.",
+          "groupNumber": 1
+        }
+      ]
+    },
+    "createVersion": true
+  }
