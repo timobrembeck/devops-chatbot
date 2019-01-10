@@ -31,6 +31,10 @@
     {
       "intentVersion": "1",
       "intentName": "EndConversation"
+    },
+    {
+      "intentVersion": "1",
+      "intentName": "WelcomeIntent"
     }
   ],
   "name": "DevOpsChatBot",
