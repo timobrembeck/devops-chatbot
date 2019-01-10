@@ -48,7 +48,7 @@
     "maxAttempts": 5,
     "messages": [
       {
-        "content": "Type help for all available commands.",
+        "content": "Type or say help for all available commands.",
         "contentType": "PlainText"
       }
     ]

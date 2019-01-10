@@ -15,7 +15,7 @@
       "messages": [
         {
           "contentType": "PlainText",
-          "content": "Help menu. In order to escalate an incident say, Escalate incident. or to get current incident say current incident. or to know about the weather say How is the weather. or to lighten up your mood say Tell me a joke.",
+          "content": "Some thing you can ask me. To escalate an incident say Escalate incident. or to get current incident say current incident. or to know about the weather say How is the weather. or to lighten up your mood say Tell me a joke. or to end the conversation say Good bye.",
           "groupNumber": 1
         }
       ]
