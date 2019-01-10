@@ -95,8 +95,8 @@ def lambda_handler(event, context):
 
     connect = boto3.client('connect', region_name='eu-central-1')
     connect_repsonse = connect.start_outbound_voice_contact(
-        InstanceId='b1bef7dc-1ece-4ce8-8644-f87e8ad43d03',
-        ContactFlowId='fe297d3a-2203-4621-845e-5b3ef730a235',
+        InstanceId='736d65e0-6ce5-4210-9d44-55c366ea9a16',
+        ContactFlowId='c5ec7da0-8bb8-4055-b803-87b3723a7093',
         DestinationPhoneNumber=escalationNumber,
         SourcePhoneNumber='+18552560766',
         Attributes={
