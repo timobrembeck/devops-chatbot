@@ -16,23 +16,16 @@ def lambda_handler(event, context):
     
     print(json.dumps(event_msg))
 
-    state_value = event_msg['NewStateValue']
-    region = event_msg['Region']
-    metric_name = event_msg['Trigger']['MetricName']
-    comparison_operator = event_msg['Trigger']['ComparisonOperator']
-    threshold = event_msg['Trigger']['Threshold']
-    datapoints = event_msg['Trigger']['EvaluationPeriods']
-    period = event_msg['Trigger']['Period']
-    description = event_msg['AlarmDescription']
-    
-    if description is None:
-        description = ''
 
-    message = 'CloudWatch Alarm in ' + region + '.;;;; Alarm description: ;;' + description + '. ;; Details: ' + metric_name + ' ' + comparison_operator + ' '+ str(threshold) + ' for ' + str(int(datapoints)) + ' data points, within ' + str(int(datapoints*period/60)) + ' minutes.</speak>'
-    
+    description = event_msg['description']
+    priority = event_msg['priority']
+    region = os.environ['AWS_REGION']
+
+    message = 'CloudWatch Alarm with description: ' + description + ', in ' + region + '.'
+
     payload = {
         'message': message,
-        'priority': 'high',
+        'priority': priority,
     }
     
     print(json.dumps(payload))

@@ -50,15 +50,13 @@ def lambda_handler(event, context):
     escalationTarget = escalation['Item']['escalationTarget']['S']
     escalationNumber = escalation['Item']['escalationNumber']['S']
 
-    print(escalation)
-
     if 'bot' in event_response:
 
         message = event_response['currentIntent']['slots']['message']
-
+        priority = event_response['currentIntent']['slots']['priority']
         payload = {
             'message': message,
-            'priority': 'high',
+            'priority': priority,
         }        
 
         publish_to_connect_sns(payload)
@@ -70,22 +68,23 @@ def lambda_handler(event, context):
             'Fulfilled',
             {
                 'contentType': 'PlainText',
-                'content': 'The incident with message ' + message + ' has been escalated to ' + escalationTarget
+                'content': 'The incident with message ' + message + ' and priority ' + priority + ' has been escalated to ' + escalationTarget
             }
         )
 
     else:
         message = event_response['Details']['Parameters']['message']
+        priority = event_response['Details']['Parameters']['priority']
     
         payload = {
             'message': message,
-            'priority': 'high',
+            'priority': priority,
         }        
 
         publish_to_connect_sns(payload)
             
         print(json.dumps(payload))
 
-        resultMap = {'escalation': 'The incident with message ' + message + ' has been escalated to ' + escalationTarget + ' with phone number: ' + escalationNumber }
+        resultMap = {'escalation': 'The incident with message ' + message + ' and priority ' + priority + ' has been escalated to ' + escalationTarget + ' with phone number: ' + escalationNumber }
 
         return resultMap

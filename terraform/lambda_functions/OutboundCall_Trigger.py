@@ -31,7 +31,7 @@ def get_escalation_target_from_ddb(dayToday):
     
     return response
     
-def put_item_on_ddb(key, item, target):
+def put_item_on_ddb(key, item, priority, timestamp, target):
     ddb = boto3.client('dynamodb')
     
     response = ddb.put_item(
@@ -43,8 +43,14 @@ def put_item_on_ddb(key, item, target):
             'message': {
                 'S': item
             },
-            'active': {
-                'BOOL': True
+            'priority': {
+                'S': priority
+            },
+            'status': {
+                'S': 'Open'
+            },
+            'timestamp': {
+                'S': timestamp
             },
             'escalationTarget': {
                 'S': target
@@ -80,6 +86,7 @@ def lambda_handler(event, context):
 
     message = sns_msg['message']
     priority = sns_msg['priority']
+    timestamp = str(datetime.now().timestamp())
 
     counter = get_key_from_ddb('counter')
     current_key = int(counter['Item']['message']['S'])
@@ -90,15 +97,15 @@ def lambda_handler(event, context):
     escalationTarget = escalation['Item']['escalationTarget']['S']
     escalationNumber = escalation['Item']['escalationNumber']['S']
 
-    put_item_on_ddb(str(next_key), message, escalationTarget)
+    put_item_on_ddb(str(next_key), message, priority, timestamp, escalationTarget)
     increase_counter_on_ddb('counter', str(next_key))
 
     connect = boto3.client('connect', region_name='eu-central-1')
-    connect_repsonse = connect.start_outbound_voice_contact(
-        InstanceId='736d65e0-6ce5-4210-9d44-55c366ea9a16',
-        ContactFlowId='c5ec7da0-8bb8-4055-b803-87b3723a7093',
+    connect_response = connect.start_outbound_voice_contact(
+        InstanceId='b1bef7dc-1ece-4ce8-8644-f87e8ad43d03',
+        ContactFlowId='fe297d3a-2203-4621-845e-5b3ef730a235',
         DestinationPhoneNumber=escalationNumber,
-        SourcePhoneNumber='+448081649919',
+        SourcePhoneNumber='+18552560766',
         Attributes={
            'message': message
         },
