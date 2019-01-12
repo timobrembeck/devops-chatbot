@@ -1,8 +1,9 @@
+In order to use the API Gateway provided from the FCP DevOps_Chatbot team please follow the instructions below.
+
 {
     "status": "firing",
-    "commonAnnotations" : {
-        "summary" : "testsummary"
-    }
+    "description": "example description",
+    "priority": "high"
 }
 
 

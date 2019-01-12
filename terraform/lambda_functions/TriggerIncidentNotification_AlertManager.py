@@ -41,16 +41,17 @@ def lambda_handler(event, context):
         print('[success] Sending 200 OK')
         
         body = json.loads(event['body'])
-        common_annotation_summary = body['commonAnnotations']['summary']
         status = body['status']
+        description = body['description']
+        priority = body['priority']
         region = os.environ['AWS_REGION']
         
         if status == 'firing':
-            message = 'AlertManager status ' + status + ', in ' + region + '. ' + common_annotation_summary + '.'
+            message = 'AlertManager with description: ' + description + ', in ' + region + '.'
 
             payload = {
                 'message': message,
-                'priority': 'high'
+                'priority': priority
             }
         
             print(json.dumps(payload))

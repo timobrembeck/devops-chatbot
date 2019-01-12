@@ -35,11 +35,7 @@ def lambda_handler(event, context):
     current_key = counter['Item']['message']['S']
     
     dataset = get_key_from_ddb(current_key)
-    if dataset['Item']['active']['BOOL']:
-        message = 'The current incident has the message: ' + dataset['Item']['message']['S'] + ' and has been escalated to: ' + dataset['Item']['escalationTarget']['S']
-    else:
-        message = 'Currently no active Incident.'
-    
+    message = 'The current incident has the message: ' + dataset['Item']['message']['S'] + ' and has been escalated to: ' + dataset['Item']['escalationTarget']['S']
     print(json.dumps(message))
 
     event_response = json.dumps(event)

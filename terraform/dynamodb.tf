@@ -23,8 +23,7 @@ resource "aws_dynamodb_table_item" "alert_log_counter_item" {
   item = <<ITEM
 {
     "messageID": {"S": "counter"},
-    "message": {"S":"0"},
-    "active": {"B": "true"}
+    "message": {"S":"0"}
 }
 ITEM
 }

@@ -17,10 +17,10 @@ def lambda_handler(event, context):
     
     message = sns_message['message']
     priority = sns_message['priority']
-
+    
     payload = {
         'message': message,
-        'priority': 'high'
+        'priority': priority
     }
  
     print(json.dumps(payload))
