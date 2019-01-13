@@ -12,7 +12,7 @@
       {
           "name": "inputNumber",
           "slotConstraint": "Required",
-          "slotType": "AMAZON.Actor",
+          "slotType": "AMAZON.NUMBER",
           "valueElicitationPrompt": {
               "messages": [
               {
