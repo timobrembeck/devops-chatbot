@@ -23,6 +23,18 @@
     {
       "intentVersion": "1",
       "intentName": "WhatIsYourNameIntent"
+    },
+    {
+      "intentVersion": "1",
+      "intentName": "HelpForMenu"
+    },
+    {
+      "intentVersion": "1",
+      "intentName": "EndConversation"
+    },
+    {
+      "intentVersion": "1",
+      "intentName": "WelcomeIntent"
     }
   ],
   "name": "DevOpsChatBot",
@@ -40,7 +52,7 @@
     "maxAttempts": 5,
     "messages": [
       {
-        "content": "Type help for all available commands.",
+        "content": "Type or say help for all available commands.",
         "contentType": "PlainText"
       }
     ]
