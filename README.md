@@ -11,6 +11,6 @@ The alerting infrastructure needed for the devops-chatbot project can be automat
 ## How to use it after deploying that
 You can escalate or get the current incident via various ways. 
   - Text/Talk to the deployed 'DevOpsChatBot' lex-bot
-  - Call the AWS Connect +1855-253-1753 phone number
+  - Call the AWS Connect +448081649919 phone number
   - Publish an appropriate message to the 'alert_from_cloudwatch' SNS topic(see the testcases folder for example message)
   - Call the 'alert_manager_notification_api' API_GW with a POST request and appropriate request body/authentication(see the testcases folder)
