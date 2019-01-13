@@ -1,7 +1,8 @@
 resource "null_resource" "test" {
   depends_on = [
     "aws_lambda_function.GetCurrentIncident_AWSConnect",
-    "aws_lambda_function.Escalate_Incident"
+    "aws_lambda_function.Escalate_Incident",
+    "aws_lambda_function.GetIncidentWithNumber"
   ]
 
   provisioner "local-exec" {

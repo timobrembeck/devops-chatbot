@@ -41,8 +41,8 @@ def lambda_handler(event, context):
     else:
         inputNumber = event_response['currentIntent']['slots']['inputNumber']
         dataset = get_key_from_ddb(inputNumber)
-        if dataset['Item']['message']['S'] != None:
-            message = 'Sorry we could not find any esclated incident for input' + inputNumber
+        if dataset['Item']['message']['S'] == None:
+            message = 'Sorry we could not find any esclated incident for input: ' + inputNumber
         else:
             message = 'The incident with message: ' + dataset['Item']['message']['S'] + ' was escalated to: ' + dataset['Item']['escalationTarget']['S'] + 'and has a status' + dataset['Item']['status']['S']
     print(message)
