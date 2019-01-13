@@ -50,7 +50,7 @@ def lambda_handler(event, context):
     #Check if lambda is called from AWS Lex
     if 'bot' in event_response:
         return close(
-            {}, 
+            {},
             'Fulfilled',
             {
                 'contentType': 'PlainText',
