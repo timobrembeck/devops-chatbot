@@ -39,8 +39,8 @@ def lambda_handler(event, context):
     if event_response['currentIntent']['slots']['inputNumber'] == None:
         message = 'Total number of esclated incidents are' + current_key
     else:
-        inputNumber = int(event_response['currentIntent']['slots']['inputNumber'])
-        dataset = get_key_from_ddb('inputNumber')
+        inputNumber = event_response['currentIntent']['slots']['inputNumber']
+        dataset = get_key_from_ddb(inputNumber)
         if dataset['Item']['message']['S'] != None:
             message = 'Sorry we could not find any esclated incident for input' + inputNumber
         else:
