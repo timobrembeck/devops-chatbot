@@ -20,6 +20,22 @@
           },
           "priority": 2,
           "sampleUtterances": []
+      }, 
+      {
+        "name": "priority",
+          "slotConstraint": "Required",
+          "slotType": "AMAZON.Actor",
+          "valueElicitationPrompt": {
+              "messages": [
+              {
+                  "contentType": "PlainText",
+                  "content": "What is the priority of the incident(low, medium or high)? "
+              }
+              ],
+              "maxAttempts": 2
+          },
+          "priority": 2,
+          "sampleUtterances": []
       }
   ],
     "fulfillmentActivity": {
