@@ -143,3 +143,86 @@ ITEM
 }
 
 #--END escalation_target DDB table
+
+# See https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-general-nosql-design.html on why all the data is in one table
+#--Start escalation_target_dev DDB table
+#escalation_target table
+resource "aws_dynamodb_table" "escalation_target_dev" {
+   name = "escalation_target_dev"
+   hash_key = "dayName"
+   read_capacity    = 20
+   write_capacity   = 20
+   stream_enabled = true
+   stream_view_type = "NEW_AND_OLD_IMAGES"
+
+   attribute {
+      name = "dayName"
+      type = "S"
+   }
+
+   tags {
+     Name = "DynamoDB escalation target table"
+   }
+}
+
+#escalation_target table item
+resource "aws_dynamodb_table_item" "escalation_target_dev_item_Monday" {
+  table_name = "${aws_dynamodb_table.escalation_target_dev.name}"
+  hash_key   = "${aws_dynamodb_table.escalation_target_dev.hash_key}"
+  item = <<ITEM
+{
+    "dayName": {"S": "Monday"},
+    "escalationTarget": {"M" : {
+       "teamName": {"S" :"TeamA"},
+        "firstPhone" : {"S":"017657883511"},
+        "secondPhone" : {"S":"017657883544"},
+        "comment" : {"S":"Navigation service operations"},
+        "members" : {"L": [
+            {"M" : {"Name" : {"S":"Oswald Operator"}, "SlackHandle":{"S":"os_op"}}},
+            {"M" : {"Name" : {"S":"Carmen Commit"}, "SlackHandle":{"S":"ca_co"}}},
+            {"M" : {"Name" : {"S":"Arne Admin"}, "SlackHandle":{"S":"admin"}}}]
+    }}}}
+ITEM
+}
+
+#escalation_target table item
+resource "aws_dynamodb_table_item" "escalation_target_dev_item_Tuesday" {
+  table_name = "${aws_dynamodb_table.escalation_target_dev.name}"
+  hash_key   = "${aws_dynamodb_table.escalation_target_dev.hash_key}"
+  item = <<ITEM
+{
+    "dayName": {"S": "Tuesday"},
+    "escalationTarget": {"M" : {
+       "teamName": {"S" :"TeamB"},
+        "firstPhone" : {"S":"017657883522"},
+        "secondPhone" : {"S":"017657883533"},
+        "comment" : {"S":"Car service operations"},
+        "members" : {"L": [
+            {"M" : {"Name" : {"S":"Peter Pan"}, "SlackHandle":{"S":"pepa"}}},
+            {"M" : {"Name" : {"S":"Jose Jump"}, "SlackHandle":{"S":"jojo"}}},
+            {"M" : {"Name" : {"S":"Sandra Stash"}, "SlackHandle":{"S":"sandra"}}}]
+    }}}}
+ITEM
+}
+
+#escalation_target table item
+resource "aws_dynamodb_table_item" "escalation_target_dev_item_Wednesday" {
+  table_name = "${aws_dynamodb_table.escalation_target_dev.name}"
+  hash_key   = "${aws_dynamodb_table.escalation_target_dev.hash_key}"
+  item = <<ITEM
+{
+    "dayName": {"S": "Wednesday"},
+    "escalationTarget": {"M" : {
+       "teamName": {"S" :"TeamC"},
+        "firstPhone" : {"S":"017657883577"},
+        "secondPhone" : {"S":"017657883588"},
+        "comment" : {"S":"Customer service operations"},
+        "members" : {"L": [
+            {"M" : {"Name" : {"S":"Alice A"}, "SlackHandle":{"S":"ananas"}}},
+            {"M" : {"Name" : {"S":"Elmo Elliot"}, "SlackHandle":{"S":"elle"}}},
+            {"M" : {"Name" : {"S":"Tom"}, "SlackHandle":{"S":"tom"}}}]
+    }}}}
+ITEM
+}
+
+#--END escalation_target_dev DDB table

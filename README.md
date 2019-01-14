@@ -8,6 +8,8 @@ The alerting infrastructure needed for the devops-chatbot project can be automat
 - on the same folder path write the command 'terraform plan' on the terminal
 - finally write the command 'terrform apply'
 
+### Terraform in development
+- use -target to plan/apply single resources e.g. `terraform plan -target=aws_dynamodb_table.escalation_target`
 ## How to use it after deploying that
 You can escalate or get the current incident via various ways. 
   - Text/Talk to the deployed 'DevOpsChatBot' lex-bot
