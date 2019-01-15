@@ -5,36 +5,41 @@ def update_item_at_Key(key):
     ddb = boto3.client('dynamodb', region_name='eu-west-1')
     response = ddb.update_item(
         TableName = 'alert-log',
-        Key= {'messageID': {
+        Key= {
+            'messageID': {
                 'S': key
                 }
             },
         AttributeUpdates={
             "status": {
-            "Action": "PUT", 
-            "Value": {"S":"pending"}
+                "Action": "PUT", 
+                "Value": {
+                    "S":"Pending"
+                }
             } 
         }
     )
     return response
     
-def get_count_from_ddb():
+
+def get_key_from_ddb(key):
     ddb = boto3.client('dynamodb', region_name='eu-west-1')
-    response = ddb.scan(
-        TableName='alert-log'
+    response = ddb.get_item(
+        TableName = 'alert-log', 
+        Key = {
+            'messageID': {
+                'S': key
+            }
+        }
     )
     return response
     
 def lambda_handler(event, context):
-    extractedItemsFromDB = get_count_from_ddb()
-    totalNumberOfItemsInDB = len(extractedItemsFromDB['Items']) - 1
-    print('key retrieved')
-    print(totalNumberOfItemsInDB)
-    res = update_item_at_Key(str(totalNumberOfItemsInDB))
-    print('update success')
-    print(res)
+    counter = get_key_from_ddb('counter')
+    current_key = counter['Item']['message']['S']
+    updateResponse = update_item_at_Key(current_key)
+    print('The status of the item with ID ' + current_key + ' has been updated to Pending')
     response = {
         'statusCode': 200
     }
-    
     return response
