@@ -223,3 +223,31 @@ resource "aws_lambda_function" "GetIncidentWithNumber" {
 }
 
 #--End GetIncidentWithNumber
+
+#--End Update_Incident_Status
+
+#--Start Update_Incident_Status
+#Update_Incident_Status data file
+data "archive_file" "Update_Incident_Status_file" {
+  type        = "zip"
+  source_dir  = "${path.module}/lambda_functions/"
+  output_path = "${path.module}/.terraform/archive_files/Update_Incident_Status.zip"
+}
+
+#GetIncidentWithNumber function
+resource "aws_lambda_function" "Update_Incident_Status" {
+  filename         = "${data.archive_file.Update_Incident_Status_file.output_path}"
+  function_name    = "Update_Incident_Status"
+  handler          = "Update_Incident_Status.lambda_handler"
+  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  runtime          = "python3.6"
+  source_code_hash = "${data.archive_file.Update_Incident_Status_file.output_base64sha256}"
+
+  environment = {
+    variables = {
+      SNS_EIP_NOTIFY_ARN = "arn:aws:sns:eu-central-1:${var.iam_acc_key}:alert_dispatcher"
+    }
+  }
+}
+
+#--End Update_Incident_Status
