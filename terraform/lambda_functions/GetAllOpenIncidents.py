@@ -1,5 +1,6 @@
 import json
 import boto3
+from boto3.dynamodb.conditions import Key, Attr
 
 
 def get_key_from_ddb(key):
@@ -32,13 +33,20 @@ def close(session_attributes, fulfillment_state, message):
 
 
 def lambda_handler(event, context):
-    counter = get_key_from_ddb('counter')
-    current_key = counter['Item']['message']['S']
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('alert-log')
 
-    dataset = get_key_from_ddb(current_key)
-    message = 'The current incident has the message: ' + dataset['Item']['message'][
-        'S'] + ' and has been escalated to: ' + dataset['Item']['escalationTarget']['S']
-    print(json.dumps(message))
+    result = table.scan(
+        FilterExpression=Attr('status').eq('Open'),
+        ProjectionExpression="escalationTarget, message"
+    )
+
+    message = 'All open incidents: \n'
+
+    for x in result['Items']:
+        message += 'Responsible Person: ' + x['escalationTarget'] + '; Message: ' + x['message'] + ' \n'
+
+    print(message)
 
     event_response = json.dumps(event)
 
