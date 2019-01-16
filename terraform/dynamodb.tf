@@ -144,85 +144,109 @@ ITEM
 
 #--END escalation_target DDB table
 
-# See https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-general-nosql-design.html on why all the data is in one table
-#--Start escalation_target_dev DDB table
-#escalation_target table
-resource "aws_dynamodb_table" "escalation_target_dev" {
-   name = "escalation_target_dev"
-   hash_key = "dayName"
+# See https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-general-nosql-design.html on the design
+# Developer guide: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/
+#--Start user DDB table
+#user table
+resource "aws_dynamodb_table" "user" {
+   name = "user"
+   hash_key = "slackUserID"
    read_capacity    = 20
    write_capacity   = 20
    stream_enabled = true
    stream_view_type = "NEW_AND_OLD_IMAGES"
 
    attribute {
-      name = "dayName"
+      name = "slackUserID"
       type = "S"
    }
 
    tags {
-     Name = "DynamoDB escalation target table"
+     Name = "DynamoDB user table"
    }
 }
 
-#escalation_target table item
-resource "aws_dynamodb_table_item" "escalation_target_dev_item_Monday" {
-  table_name = "${aws_dynamodb_table.escalation_target_dev.name}"
-  hash_key   = "${aws_dynamodb_table.escalation_target_dev.hash_key}"
+#user table item
+resource "aws_dynamodb_table_item" "user_item_Aamir" {
+  table_name = "${aws_dynamodb_table.user.name}"
+  hash_key   = "${aws_dynamodb_table.user.hash_key}"
   item = <<ITEM
 {
-    "dayName": {"S": "Monday"},
-    "escalationTarget": {"M" : {
-       "teamName": {"S" :"TeamA"},
-        "firstPhone" : {"S":"017657883511"},
-        "secondPhone" : {"S":"017657883544"},
-        "comment" : {"S":"Navigation service operations"},
-        "members" : {"L": [
-            {"M" : {"Name" : {"S":"Oswald Operator"}, "SlackHandle":{"S":"os_op"}}},
-            {"M" : {"Name" : {"S":"Carmen Commit"}, "SlackHandle":{"S":"ca_co"}}},
-            {"M" : {"Name" : {"S":"Arne Admin"}, "SlackHandle":{"S":"admin"}}}]
+    "slackUserID": {"S": "UDNAUTB9A"},
+    "email" : {"S" : "aamir@test.de"},
+    "name" : {"S" : "Aamir"},
+    "teams" : {"L": [{"S":"TeamA"}, {"S":"TeamD"}]}
     }}}}
 ITEM
 }
 
-#escalation_target table item
-resource "aws_dynamodb_table_item" "escalation_target_dev_item_Tuesday" {
-  table_name = "${aws_dynamodb_table.escalation_target_dev.name}"
-  hash_key   = "${aws_dynamodb_table.escalation_target_dev.hash_key}"
+#user table item
+resource "aws_dynamodb_table_item" "user_item_Jonathan" {
+  table_name = "${aws_dynamodb_table.user.name}"
+  hash_key = "${aws_dynamodb_table.user.hash_key}"
   item = <<ITEM
 {
-    "dayName": {"S": "Tuesday"},
-    "escalationTarget": {"M" : {
-       "teamName": {"S" :"TeamB"},
-        "firstPhone" : {"S":"017657883522"},
-        "secondPhone" : {"S":"017657883533"},
-        "comment" : {"S":"Car service operations"},
-        "members" : {"L": [
-            {"M" : {"Name" : {"S":"Peter Pan"}, "SlackHandle":{"S":"pepa"}}},
-            {"M" : {"Name" : {"S":"Jose Jump"}, "SlackHandle":{"S":"jojo"}}},
-            {"M" : {"Name" : {"S":"Sandra Stash"}, "SlackHandle":{"S":"sandra"}}}]
+    "slackUserID": {"S": "UDNAUTB9X"},
+    "email" : {"S" : "jonathan@test.de"},
+    "name" : {"S" : "Jonathan"},
+    "teams" : {"L": [{"S":"TeamA"}, {"S":"TeamB"}]}
     }}}}
 ITEM
 }
 
-#escalation_target table item
-resource "aws_dynamodb_table_item" "escalation_target_dev_item_Wednesday" {
-  table_name = "${aws_dynamodb_table.escalation_target_dev.name}"
-  hash_key   = "${aws_dynamodb_table.escalation_target_dev.hash_key}"
+#user table item
+resource "aws_dynamodb_table_item" "user_item_Konstantinos" {
+  table_name = "${aws_dynamodb_table.user.name}"
+  hash_key = "${aws_dynamodb_table.user.hash_key}"
   item = <<ITEM
 {
-    "dayName": {"S": "Wednesday"},
-    "escalationTarget": {"M" : {
-       "teamName": {"S" :"TeamC"},
-        "firstPhone" : {"S":"017657883577"},
-        "secondPhone" : {"S":"017657883588"},
-        "comment" : {"S":"Customer service operations"},
-        "members" : {"L": [
-            {"M" : {"Name" : {"S":"Alice A"}, "SlackHandle":{"S":"ananas"}}},
-            {"M" : {"Name" : {"S":"Elmo Elliot"}, "SlackHandle":{"S":"elle"}}},
-            {"M" : {"Name" : {"S":"Tom"}, "SlackHandle":{"S":"tom"}}}]
+    "slackUserID": {"S": "UDNAUTB9C"},
+    "email" : {"S" : "konstantinos@test.de"},
+    "name" : {"S" : "Konstantinos"},
+    "teams" : {"L": [{"S":"TeamA"}, {"S":"TeamC"}]}
     }}}}
 ITEM
 }
 
-#--END escalation_target_dev DDB table
+#user table item
+resource "aws_dynamodb_table_item" "user_item_Peewee" {
+  table_name = "${aws_dynamodb_table.user.name}"
+  hash_key = "${aws_dynamodb_table.user.hash_key}"
+  item = <<ITEM
+{
+    "slackUserID": {"S": "UDNAUTB9D"},
+    "email" : {"S" : "peewee@test.de"},
+    "name" : {"S" : "Peewee"},
+    "teams" : {"L": [{"S":"TeamA"}, {"S":"TeamD"}]}
+    }}}}
+ITEM
+}
+
+#user table item
+resource "aws_dynamodb_table_item" "user_item_Timo" {
+  table_name = "${aws_dynamodb_table.user.name}"
+  hash_key = "${aws_dynamodb_table.user.hash_key}"
+  item = <<ITEM
+{
+    "slackUserID": {"S": "UDNAWCCBF"},
+    "email" : {"S" : "timo@test.de"},
+    "name" : {"S" : "Timo"},
+    "teams" : {"L": [{"S":"TeamA"}, {"S":"TeamB"}]}
+    }}}}
+ITEM
+}
+
+#user table item
+resource "aws_dynamodb_table_item" "user_item_Luca" {
+  table_name = "${aws_dynamodb_table.user.name}"
+  hash_key = "${aws_dynamodb_table.user.hash_key}"
+  item = <<ITEM
+{
+    "slackUserID": {"S": "UDNAUTB9B"},
+    "email" : {"S" : "luca@test.de"},
+    "name" : {"S" : "Luca"},
+    "teams" : {"L": [{"S":"TeamA"}, {"S":"TeamC"}]}
+    }}}}
+ITEM
+}
+#--END user DDB table
