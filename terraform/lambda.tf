@@ -198,3 +198,48 @@ resource "aws_lambda_event_source_mapping" "aws_lambda_event_source_DDB" {
 
 #--End GetCurrentIncident_AWSConnect
 
+#--Start GetIncidentWithNumber
+#GetCurrentIncidentWithNumber data file
+data "archive_file" "GetIncidentWithNumber_file" {
+  type        = "zip"
+  source_dir  = "${path.module}/lambda_functions/"
+  output_path = "${path.module}/.terraform/archive_files/GetIncidentWithNumber.zip"
+}
+
+#GetIncidentWithNumber function
+resource "aws_lambda_function" "GetIncidentWithNumber" {
+  filename         = "${data.archive_file.GetIncidentWithNumber_file.output_path}"
+  function_name    = "GetIncidentWithNumber"
+  handler          = "GetIncidentWithNumber.lambda_handler"
+  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  runtime          = "python3.6"
+  source_code_hash = "${data.archive_file.GetIncidentWithNumber_file.output_base64sha256}"
+}
+
+#--End GetIncidentWithNumber
+
+
+#--Start Update_Incident_Status
+#Update_Incident_Status data file
+provider "aws" {
+  alias = "central"
+  region = "eu-central-1"
+}
+data "archive_file" "Update_Incident_Status_file" {
+  type        = "zip"
+  source_dir  = "${path.module}/lambda_functions/"
+  output_path = "${path.module}/.terraform/archive_files/Update_Incident_Status.zip"
+}
+
+#Update_Incident_Status function
+resource "aws_lambda_function" "Update_Incident_Status" {
+  provider = "aws.central"
+  filename         = "${data.archive_file.Update_Incident_Status_file.output_path}"
+  function_name    = "Update_Incident_Status"
+  handler          = "Update_Incident_Status.lambda_handler"
+  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  runtime          = "python3.6"
+  source_code_hash = "${data.archive_file.Update_Incident_Status_file.output_base64sha256}"
+}
+
+#--End Update_Incident_Status

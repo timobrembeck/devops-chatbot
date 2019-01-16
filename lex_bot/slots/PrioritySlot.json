@@ -1,0 +1,20 @@
+{
+    "description": "Priority of the incident",
+    "name": "Priority",
+    "enumerationValues": [
+      {
+        "value": "high",
+        "synonyms": []
+      },
+      {
+        "value": "low",
+        "synonyms": []
+      },
+      {
+        "value": "medium",
+        "synonyms": []
+      }
+    ],
+    "createVersion": true
+
+}
