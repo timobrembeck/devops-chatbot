@@ -39,7 +39,12 @@
     {
       "intentVersion": "1",
       "intentName": "GetIncidentAtKey"
+    },
+    {
+      "intentVersion": "1",
+      "intentName": "GetResponsibleEscalationTarget"
     }
+
   ],
   "name": "DevOpsChatBot",
   "locale": "en-US",
