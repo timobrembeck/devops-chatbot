@@ -3,7 +3,9 @@
   "sampleUtterances": [
     "open incidents",
     "get all open incidents",
-    "status open"
+    "status open",
+    "i want to know about open incidents",
+    "can you show me all open incidents"
   ],
   "slots": [
   ],

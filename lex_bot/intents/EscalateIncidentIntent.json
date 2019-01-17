@@ -2,7 +2,13 @@
     "name": "EscalateIncidentIntent",
     "sampleUtterances": [
       "I want to escalate an incident",
-      "Escalate incident"
+      "Escalate incident",
+      "i want to escalate an incident with message {message} and priority {priority}",
+      "escalate an incident {message} priority {priority}",
+      "i escalate an incident with message {message} and priority {priority}",
+      "escalate incident message {message} priority {priority}",
+      "escalate incident {message} {priority}",
+      "escalate incident {message} priority {priority}"
     ],
     "slots": [
       {
