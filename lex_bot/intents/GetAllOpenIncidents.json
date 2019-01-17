@@ -1,0 +1,19 @@
+{
+  "name": "GetAllOpenIncidents",
+  "sampleUtterances": [
+    "open incidents",
+    "get all open incidents",
+    "status open"
+  ],
+  "slots": [
+  ],
+  "fulfillmentActivity": {
+    "type": "CodeHook",
+    "codeHook": {
+      "uri": "arn:aws:lambda:eu-west-1:746022503515:function:GetAllOpenIncidents",
+      "messageVersion": "1.0"
+    }
+  },
+  "description": "Intent to request all incidents with the status open",
+  "createVersion": true
+}

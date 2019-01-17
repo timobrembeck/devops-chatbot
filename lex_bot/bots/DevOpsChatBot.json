@@ -43,6 +43,10 @@
     {
       "intentVersion": "1",
       "intentName": "GetResponsibleEscalationTarget"
+    },
+    {
+      "intentVersion": "1",
+      "intentName": "GetAllOpenIncidents"
     }
 
   ],
