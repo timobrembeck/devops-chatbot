@@ -8,7 +8,11 @@
       "help",
       "what should i do",
       "what can you do",
-      "could you do anything"
+      "could you do anything",
+      "what do you have to offer me",
+      "is there any thing you can do for me",
+      "how can you help me",
+      "how may you help me"
     ],
     "slots": [],
     "conclusionStatement": {

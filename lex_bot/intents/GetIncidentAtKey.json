@@ -6,7 +6,15 @@
       "incident with number",
       "incident at location",
       "incident location",
-      "incident number"
+      "incident number",
+      "incident with number {inputNumber} ",
+      "incident number {inputNumber} ",
+      "retreive an incident with number {inputNumber} ",
+      "incident {inputNumber} ",
+      "obtain incident {inputNumber} ",
+      "incident with location {inputNumber} ",
+      "incident location {inputNumber} ",
+      "retreive an incident with location {inputNumber} "
     ],
     "slots": [
       {
@@ -17,7 +25,7 @@
               "messages": [
               {
                   "contentType": "PlainText",
-                  "content": "What is the location or number ? "
+                  "content": "What is the number ? "
               }
               ],
               "maxAttempts": 2
