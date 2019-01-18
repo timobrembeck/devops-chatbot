@@ -173,8 +173,8 @@ demo_event = {
 }
 
 # Offline mock call comment when publish!
-print("init")
-print(lambda_handler(demo_event, '')['dialogAction']['message']['content'])
+#print("init")
+#print(lambda_handler(demo_event, '')['dialogAction']['message']['content'])
 # print("ini2t")
 # demo_event['currentIntent']['slots']['resource'] = "componentstatus"
 # print(lambda_handler(demo_event, ''))
