@@ -1,21 +1,8 @@
 import json
 import boto3
-
-
-def get_key_from_ddb(key):
-    ddb = boto3.client('dynamodb')
-
-    response = ddb.get_item(
-        TableName='alert-log',
-        Key={
-            'messageID': {
-                'S': key
-            }
-        }
-    )
-
-    return response
-
+from boto3.dynamodb.conditions import Key, Attr
+import datetime
+from datetime import date
 
 # -- AWS Lex Bot Intent response --
 def close(session_attributes, fulfillment_state, message):
@@ -32,13 +19,24 @@ def close(session_attributes, fulfillment_state, message):
 
 
 def lambda_handler(event, context):
-    counter = get_key_from_ddb('counter')
-    current_key = counter['Item']['message']['S']
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('escalation_target')
 
-    dataset = get_key_from_ddb(current_key)
-    message = 'The current incident has the message: ' + dataset['Item']['message'][
-        'S'] + ' and has been escalated to: ' + dataset['Item']['escalationTarget']['S']
-    print(json.dumps(message))
+    weekday = datetime.datetime.today().strftime('%A')
+
+    result = table.scan(
+        FilterExpression=Attr('dayName').eq(weekday),
+        ProjectionExpression="escalationNumber, escalationTarget"
+    )
+
+    message = 'The responsible persons are: \n'
+
+    for x in result['Items']:
+        message += 'Responsible Person: ' + x['escalationTarget'] + ' with the number: ' + x['escalationNumber'] + ' \n'
+
+    print(message)
+
+
 
     event_response = json.dumps(event)
 
