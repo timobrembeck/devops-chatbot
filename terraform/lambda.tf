@@ -243,3 +243,44 @@ resource "aws_lambda_function" "Update_Incident_Status" {
 }
 
 #--End Update_Incident_Status
+
+
+
+#--Start GetIncidentsByStatus
+#GetIncidentsByStatus data file
+data "archive_file" "GetIncidentsByStatus_file" {
+  type        = "zip"
+  source_dir  = "${path.module}/lambda_functions/"
+  output_path = "${path.module}/.terraform/archive_files/GetIncidentsByStatus.zip"
+}
+
+#GetIncidentsByStatus function
+resource "aws_lambda_function" "GetIncidentsByStatus" {
+  filename         = "${data.archive_file.GetIncidentsByStatus_file.output_path}"
+  function_name    = "GetIncidentsByStatus"
+  handler          = "GetIncidentsByStatus.lambda_handler"
+  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  runtime          = "python3.6"
+  source_code_hash = "${data.archive_file.GetIncidentsByStatus_file.output_base64sha256}"
+}
+#--End GetIncidentsByStatus
+
+
+#--Start GetIncidentsByPriority
+#GetIncidentsByPriority data file
+data "archive_file" "GetIncidentsByPriority_file" {
+  type        = "zip"
+  source_dir  = "${path.module}/lambda_functions/"
+  output_path = "${path.module}/.terraform/archive_files/GetIncidentsByPriority.zip"
+}
+
+#GetIncidentsByPriority function
+resource "aws_lambda_function" "GetIncidentsByPriority" {
+  filename         = "${data.archive_file.GetIncidentsByPriority_file.output_path}"
+  function_name    = "GetIncidentsByPriority"
+  handler          = "GetIncidentsByPriority.lambda_handler"
+  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  runtime          = "python3.6"
+  source_code_hash = "${data.archive_file.GetIncidentsByPriority_file.output_base64sha256}"
+}
+#--End GetIncidentsByPriority

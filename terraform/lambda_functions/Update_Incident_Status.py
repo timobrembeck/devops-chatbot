@@ -11,10 +11,10 @@ def update_item_at_Key(key):
                 }
             },
         AttributeUpdates={
-            "status": {
+            "currentStatus": {
                 "Action": "PUT", 
                 "Value": {
-                    "S":"Pending"
+                    "S":"pending"
                 }
             } 
         }
