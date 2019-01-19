@@ -242,8 +242,17 @@ resource "aws_lambda_function" "Update_Incident_Status" {
   source_code_hash = "${data.archive_file.Update_Incident_Status_file.output_base64sha256}"
 }
 
-#--End Update_Incident_Status
+#Update_Incident_Status function permissions
+resource "aws_lambda_permission" "Update_Incident_Status_with_Connect" {
+  provider = "aws.central"
+  statement_id  = "1"
+  action        = "lambda:InvokeFunction"
+  function_name = "Update_Incident_Status"
+  principal     = "connect.amazonaws.com"
+  source_arn = "arn:aws:connect:eu-central-1:746022503515:instance/736d65e0-6ce5-4210-9d44-55c366ea9a16"
+}
 
+#--End Update_Incident_Status
 
 
 #--Start GetIncidentsByStatus
