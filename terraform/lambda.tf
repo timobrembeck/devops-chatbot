@@ -244,6 +244,7 @@ resource "aws_lambda_function" "Update_Incident_Status" {
 
 #Update_Incident_Status function permissions
 resource "aws_lambda_permission" "Update_Incident_Status_with_Connect" {
+  depends_on    = ["aws_lambda_function.Update_Incident_Status"]
   provider = "aws.central"
   statement_id  = "1"
   action        = "lambda:InvokeFunction"
