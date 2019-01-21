@@ -255,7 +255,6 @@ resource "aws_lambda_permission" "Update_Incident_Status_with_Connect" {
 
 #--End Update_Incident_Status
 
-
 #--Start GetIncidentsByStatus
 #GetIncidentsByStatus data file
 data "archive_file" "GetIncidentsByStatus_file" {
@@ -294,3 +293,33 @@ resource "aws_lambda_function" "GetIncidentsByPriority" {
   source_code_hash = "${data.archive_file.GetIncidentsByPriority_file.output_base64sha256}"
 }
 #--End GetIncidentsByPriority
+
+#--Start Kubectl_Command
+
+#Kubectl_Command setup script
+resource "null_resource" "Setup_Kubectl_Command" {
+    provisioner "local-exec" {
+        command     = "sh setup.sh"
+        working_dir = "lambda_functions/Kubectl_Command"
+    }
+}
+
+#Kubectl_Command data file
+data "archive_file" "Kubectl_Command_file" {
+  type        = "zip"
+  source_dir  = "${path.module}/lambda_functions/Kubectl_Command"
+  output_path = "${path.module}/.terraform/archive_files/Kubectl_Command.zip"
+  depends_on  = ["null_resource.Setup_Kubectl_Command"]
+}
+
+#Kubectl_Command function
+resource "aws_lambda_function" "Kubectl_Command" {
+  filename         = "${data.archive_file.Kubectl_Command_file.output_path}"
+  function_name    = "Kubectl_Command"
+  handler          = "Kubectl_Command.lambda_handler"
+  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  runtime          = "python3.6"
+  source_code_hash = "${data.archive_file.Kubectl_Command_file.output_base64sha256}"
+}
+
+#--End Kubectl_Command
