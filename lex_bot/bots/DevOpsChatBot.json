@@ -47,8 +47,15 @@
     {
       "intentVersion": "1",
       "intentName": "GetAllOpenIncidents"
+    },
+    {
+      "intentVersion": "1",
+      "intentName": "GetIncidentsByPriorityIntent"
+    },
+    {
+      "intentVersion": "1",
+      "intentName": "GetIncidentsByStatusIntent"
     }
-
   ],
   "name": "DevOpsChatBot",
   "locale": "en-US",

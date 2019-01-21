@@ -1,0 +1,38 @@
+{
+    "name": "GetIncidentsByStatusIntent",
+    "sampleUtterances": [
+        "get all incidents by status",
+        "get all incidents with status {status} ",
+        "i want to know about the {status} status incidents",
+        "give me all incidents by status",
+        "give me all incidents with status {status} "
+    ],
+    "slots": [
+      {
+        "name": "status",
+          "slotConstraint": "Required",
+          "slotType": "AMAZON.Actor",
+          "valueElicitationPrompt": {
+              "messages": [
+              {
+                  "contentType": "PlainText",
+                  "content": "What is the status of the incident(open, pending or closed)? "
+              }
+              ],
+              "maxAttempts": 2
+          },
+          "priority": 2,
+          "sampleUtterances": []
+      }
+    ],
+    "fulfillmentActivity": {
+      "type": "CodeHook",
+      "codeHook": {
+        "uri": "arn:aws:lambda:eu-west-1:746022503515:function:GetIncidentsByStatus",
+        "messageVersion": "1.0"
+      }
+    },
+    "description": "Intent to request incidents by the status property",
+    "createVersion": true
+  }
+  

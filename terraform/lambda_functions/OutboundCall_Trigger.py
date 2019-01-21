@@ -46,8 +46,8 @@ def put_item_on_ddb(key, item, priority, timestamp, target):
             'priority': {
                 'S': priority
             },
-            'status': {
-                'S': 'Open'
+            'currentStatus': {
+                'S': 'open'
             },
             'timestamp': {
                 'S': timestamp
