@@ -3,21 +3,6 @@ import boto3
 from boto3.dynamodb.conditions import Key, Attr
 
 
-def get_key_from_ddb(key):
-    ddb = boto3.client('dynamodb')
-
-    response = ddb.get_item(
-        TableName='alert-log',
-        Key={
-            'messageID': {
-                'S': key
-            }
-        }
-    )
-
-    return response
-
-
 # -- AWS Lex Bot Intent response --
 def close(session_attributes, fulfillment_state, message):
     response = {
