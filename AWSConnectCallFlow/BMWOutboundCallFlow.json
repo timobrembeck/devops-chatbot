@@ -1,13 +1,19 @@
 {
 	"modules": [{
-		"id": "4ae51d1b-ed81-44db-b398-45f57f88144e",
-		"type": "Disconnect",
-		"branches": [],
-		"parameters": [],
+		"id": "1b9f71dd-c18c-44c2-b772-36bbec4d7ec5",
+		"type": "SetVoice",
+		"branches": [{
+			"condition": "Success",
+			"transition": "51b297b3-3b00-4137-9a44-fdf73c8d4370"
+		}],
+		"parameters": [{
+			"name": "GlobalVoice",
+			"value": "Brian"
+		}],
 		"metadata": {
 			"position": {
-				"x": 703,
-				"y": 262
+				"x": 127,
+				"y": 207
 			}
 		}
 	}, {
@@ -15,7 +21,7 @@
 		"type": "PlayPrompt",
 		"branches": [{
 			"condition": "Success",
-			"transition": "4ae51d1b-ed81-44db-b398-45f57f88144e"
+			"transition": "35d29379-032f-47a1-bf95-f177ea3fd206"
 		}],
 		"parameters": [{
 			"name": "Text",
@@ -27,28 +33,140 @@
 		}],
 		"metadata": {
 			"position": {
-				"x": 445,
-				"y": 80
+				"x": 583,
+				"y": 29
 			},
 			"useDynamic": false
 		}
 	}, {
-		"id": "1b9f71dd-c18c-44c2-b772-36bbec4d7ec5",
-		"type": "SetVoice",
+		"id": "51b297b3-3b00-4137-9a44-fdf73c8d4370",
+		"type": "SetAttributes",
 		"branches": [{
 			"condition": "Success",
 			"transition": "fd8d47b5-4188-4e4f-91e9-411aff7cc516"
+		}, {
+			"condition": "Error",
+			"transition": "4ae51d1b-ed81-44db-b398-45f57f88144e"
 		}],
 		"parameters": [{
-			"name": "GlobalVoice",
-			"value": "Brian"
+			"name": "Attribute",
+			"value": "1",
+			"key": "status",
+			"namespace": null
 		}],
 		"metadata": {
 			"position": {
-				"x": 186,
-				"y": 71
+				"x": 351,
+				"y": 108
 			}
 		}
+	}, {
+		"id": "4ae51d1b-ed81-44db-b398-45f57f88144e",
+		"type": "Disconnect",
+		"branches": [],
+		"parameters": [],
+		"metadata": {
+			"position": {
+				"x": 850,
+				"y": 376
+			}
+		}
+	}, {
+		"id": "12f8348e-9f93-4523-8d5b-c1dd1cbfc2ba",
+		"type": "PlayPrompt",
+		"branches": [{
+			"condition": "Success",
+			"transition": "38550773-620f-4cc8-b6aa-e2ff8e4c3e0e"
+		}],
+		"parameters": [{
+			"name": "Text",
+			"value": "After this call status of incident will be updated to pending.",
+			"namespace": null
+		}, {
+			"name": "TextToSpeechType",
+			"value": "text"
+		}],
+		"metadata": {
+			"position": {
+				"x": 1061,
+				"y": 57
+			},
+			"useDynamic": false
+		}
+	}, {
+		"id": "35d29379-032f-47a1-bf95-f177ea3fd206",
+		"type": "InvokeExternalResource",
+		"branches": [{
+			"condition": "Success",
+			"transition": "12f8348e-9f93-4523-8d5b-c1dd1cbfc2ba"
+		}, {
+			"condition": "Error",
+			"transition": "60f8e224-590b-4bb4-a7f2-6f48e8759376"
+		}],
+		"parameters": [{
+			"name": "FunctionArn",
+			"value": "arn:aws:lambda:eu-central-1:746022503515:function:Update_Incident_Status"
+		}, {
+			"name": "TimeLimit",
+			"value": "3"
+		}],
+		"metadata": {
+			"position": {
+				"x": 814,
+				"y": 58
+			},
+			"dynamicMetadata": {}
+		},
+		"target": "Lambda"
+	}, {
+		"id": "60f8e224-590b-4bb4-a7f2-6f48e8759376",
+		"type": "PlayPrompt",
+		"branches": [{
+			"condition": "Success",
+			"transition": "38550773-620f-4cc8-b6aa-e2ff8e4c3e0e"
+		}],
+		"parameters": [{
+			"name": "Text",
+			"value": "status of the incident will remain open.",
+			"namespace": null
+		}, {
+			"name": "TextToSpeechType",
+			"value": "text"
+		}],
+		"metadata": {
+			"position": {
+				"x": 1046,
+				"y": 214
+			},
+			"useDynamic": false
+		}
+	}, {
+		"id": "38550773-620f-4cc8-b6aa-e2ff8e4c3e0e",
+		"type": "Transfer",
+		"branches": [{
+			"condition": "Error",
+			"transition": "4ae51d1b-ed81-44db-b398-45f57f88144e"
+		}],
+		"parameters": [{
+			"name": "ContactFlowId",
+			"value": "arn:aws:connect:eu-central-1:746022503515:instance/736d65e0-6ce5-4210-9d44-55c366ea9a16/contact-flow/3f4c2b47-2efc-475e-b4d8-16929f8a6c5c",
+			"resourceName": "BMWContactFlowInboundCallsNew"
+		}],
+		"metadata": {
+			"position": {
+				"x": 1301,
+				"y": 313
+			},
+			"useDynamic": false,
+			"ContactFlow": {
+				"id": "arn:aws:connect:eu-central-1:746022503515:instance/736d65e0-6ce5-4210-9d44-55c366ea9a16/contact-flow/3f4c2b47-2efc-475e-b4d8-16929f8a6c5c",
+				"text": "BMWContactFlowInboundCallsNew",
+				"arn": null,
+				"metricDetail": null,
+				"resourceId": null
+			}
+		},
+		"target": "Flow"
 	}],
 	"version": "1",
 	"type": "contactFlow",
@@ -63,6 +181,6 @@
 		"description": null,
 		"type": "contactFlow",
 		"status": "published",
-		"hash": "5aa9771cbfb26794c2ac894a111be0234cecc2e3e685f5369fa73d98a07d12b5"
+		"hash": "784f1a469ba8654ab8331c4f93e1fafebd47de8d92c02946268a647dda8e74b1"
 	}
 }
