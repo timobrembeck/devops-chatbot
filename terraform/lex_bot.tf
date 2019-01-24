@@ -4,7 +4,8 @@ resource "null_resource" "test" {
     "aws_lambda_function.Escalate_Incident",
     "aws_lambda_function.GetIncidentWithNumber",
     "aws_lambda_function.GetIncidentsByPriority",
-    "aws_lambda_function.GetIncidentsByStatus"
+    "aws_lambda_function.GetIncidentsByStatus",
+    "aws_lambda_function.Kubectl_Command",
   ]
 
   provisioner "local-exec" {

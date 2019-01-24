@@ -93,7 +93,7 @@ def kubectl_get_api_call(intent_request):
     return close(intent_request['sessionAttributes'],
                  'Fulfilled',
                  {'contentType': 'CustomPayload',
-                  'content': str(result)})
+                  'content': "```"+str(result)+"```"})
 
 
 """ --- Intents --- """
@@ -110,7 +110,7 @@ def dispatch(intent_request):
     intent_name = intent_request['currentIntent']['name']
 
     # Dispatch to your bot's intent handlers
-    if intent_name == 'kubectlGet':
+    if intent_name == 'KubernetesIntent':
         return kubectl_get_api_call(intent_request)
 
     raise Exception('Intent with name ' + intent_name + ' not supported')

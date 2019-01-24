@@ -17,6 +17,7 @@ slot_types_dir = "./slots/"
 intents_dir    = "./intents/"
 bots_dir       = "./bots/"
 version        = "1"
+latest_version        = "$LATEST"
 
 """
 |--------------------------------------------------------------------------
@@ -50,7 +51,7 @@ def get_slot_types():
         with open(slot_types_dir + slot_type_file, "r") as stream:
             slot_type = json.load(stream)
         try:
-            slot_type_aws = lex.get_slot_type(name=slot_type["name"], version=version)
+            slot_type_aws = lex.get_slot_type(name=slot_type["name"], version=latest_version)
             slot_type["checksum"] = slot_type_aws["checksum"]
         except lex.exceptions.NotFoundException:
             pass
@@ -132,7 +133,7 @@ def get_intents():
         with open(intents_dir + intent_file, "r") as stream:
             intent = json.load(stream)
         try:
-            intent_aws = lex.get_intent(name=intent["name"], version=version)
+            intent_aws = lex.get_intent(name=intent["name"], version=latest_version)
             intent["checksum"] = intent_aws["checksum"]
         except lex.exceptions.NotFoundException:
             pass
@@ -197,7 +198,7 @@ def get_bots():
         with open(bots_dir + bot_file, "r") as stream:
             bot = json.load(stream)
         try:
-            bot_aws = lex.get_bot(name=bot["name"], versionOrAlias=version)
+            bot_aws = lex.get_bot(name=bot["name"], versionOrAlias=latest_version)
             bot["checksum"] = bot_aws["checksum"]
         except lex.exceptions.NotFoundException:
             pass

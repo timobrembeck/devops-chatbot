@@ -55,6 +55,10 @@
     {
       "intentVersion": "1",
       "intentName": "GetIncidentsByStatusIntent"
+    },
+    {
+      "intentVersion": "1",
+      "intentName": "KubernetesIntent"
     }
   ],
   "name": "DevOpsChatBot",
