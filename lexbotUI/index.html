@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Amazon Lex DevOps ChatBot</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel="stylesheet" type="text/css" href="./dist/bundle.css">
+		<script src="https://sdk.amazonaws.com/js/aws-sdk-2.41.0.min.js"></script>
+	</head>
+
+	<body>
+
+		<div id="lexbotapp"></div>
+
+		<script type="text/javascript" src="./dist/bundle.js"></script>
+		<script>
+			const lexbot = new LexBot('eu-west-1', 'eu-west-1:22770724-4e94-42ba-8ce7-ac422764597e', 500, 600);
+		</script>
+
+	</body>
+</html>
