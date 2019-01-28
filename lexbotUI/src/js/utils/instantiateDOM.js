@@ -3,12 +3,12 @@ import pushChat from './pushChat';
 export default async function instantiateDOM(IdentityPoolRegion, IdentityPoolId, height, width) {
 
     document.getElementById("lexbotapp").style.height = `${height}px`;
-    document.getElementById("lexbotapp").style.width = `${width}px`;
+    document.getElementById("lexbotapp").style.maxWidth = `${width}px`;
 
     //Create conversation div and append it to lexbotapp 
     const menu = document.createElement("div");
     menu.id = "menu";
-    menu.style.width = `${width}px`;
+    menu.style.maxWidth = `${width}px`;
     const menuText = document.createElement("h2");
     menuText.appendChild(document.createTextNode("Lex Bot Chat"));
     menu.appendChild(menuText);
@@ -18,7 +18,7 @@ export default async function instantiateDOM(IdentityPoolRegion, IdentityPoolId,
     const conversation = document.createElement("div");
     conversation.id = "conversation";
     conversation.style.height = `${height-100}px`;
-    conversation.style.width = `${width}px`;
+    conversation.style.maxWidth = `${width}px`;
     document.getElementById("lexbotapp").appendChild(conversation);
 
     //Create chatform form and append it to lexbotapp

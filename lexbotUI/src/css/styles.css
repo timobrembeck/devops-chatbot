@@ -20,6 +20,10 @@
     position: relative;
 }
 
+.userRequest:first-child{
+    margin-top:1em;
+}
+
 input#wisdom {
     padding: 0 4px;
     font-size: 1em;
@@ -34,6 +38,14 @@ input#wisdom {
 input::placeholder {
     color: #ccc;
     font-style: italic;
+}
+
+.userRequest{
+    margin-left:0.5em;
+}
+
+.lexResponse{
+    margin-right:0.5em;
 }
 
 p.userRequestText {
