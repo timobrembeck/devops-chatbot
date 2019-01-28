@@ -1,4 +1,5 @@
 import instantiateDOM from './utils/instantiateDOM';
+import configAWS from './utils/configAWS';
 
 window.LexBot = class LexBot {
     constructor(IdentityPoolRegion, IdentityPoolId, height, width){
@@ -10,7 +11,10 @@ window.LexBot = class LexBot {
     }
 
     async init() {
-        await instantiateDOM(this.IdentityPoolRegion, this.IdentityPoolId, this.height, this.width)
+        const config = configAWS(this.IdentityPoolRegion, this.IdentityPoolId);
+        const lexUserId = config.lexUserId;
+        const lexruntime = config.lexruntime;
+        await instantiateDOM(lexUserId, lexruntime, this.height, this.width)
     }
 }
 

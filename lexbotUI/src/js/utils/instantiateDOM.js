@@ -1,6 +1,6 @@
 import pushChat from './pushChat';
 
-export default async function instantiateDOM(IdentityPoolRegion, IdentityPoolId, height, width) {
+export default async function instantiateDOM(lexUserId, lexruntime, height, width) {
 
     document.getElementById("lexbotapp").style.height = `${height}px`;
     document.getElementById("lexbotapp").style.maxWidth = `${width}px`;
@@ -38,7 +38,7 @@ export default async function instantiateDOM(IdentityPoolRegion, IdentityPoolId,
     // add event listener to chatform
     document.getElementById("chatform").addEventListener("submit", (e) => {
         e.preventDefault();
-        return pushChat(IdentityPoolRegion, IdentityPoolId);
+        pushChat(lexUserId, lexruntime);
     });
 
 }
