@@ -58,7 +58,7 @@ resource "aws_dynamodb_table_item" "escalation_target_item_Monday" {
 {
     "dayName": {"S": "Monday"},
     "escalationTarget": {"S":"George"},
-    "escalationNumber": {"S":"+1511111111"}
+    "escalationNumber": {"S":"+4915111111111"}
 }
 ITEM
 }
@@ -72,7 +72,7 @@ resource "aws_dynamodb_table_item" "escalation_target_item_Tuesday" {
 {
     "dayName": {"S": "Tuesday"},
     "escalationTarget": {"S":"Max"},
-    "escalationNumber": {"S":"+1511111112"}
+    "escalationNumber": {"S":"+4915111111112"}
 }
 ITEM
 }
@@ -85,7 +85,7 @@ resource "aws_dynamodb_table_item" "escalation_target_item_Wednesday" {
 {
     "dayName": {"S": "Wednesday"},
     "escalationTarget": {"S":"Nick"},
-    "escalationNumber": {"S":"+1511111113"}
+    "escalationNumber": {"S":"+4915111111113"}
 }
 ITEM
 }
@@ -98,7 +98,7 @@ resource "aws_dynamodb_table_item" "escalation_target_item_Thursday" {
 {
     "dayName": {"S": "Thursday"},
     "escalationTarget": {"S":"David"},
-    "escalationNumber": {"S":"+1512123124"}
+    "escalationNumber": {"S":"+4915111111114"}
 }
 ITEM
 }
@@ -111,7 +111,7 @@ resource "aws_dynamodb_table_item" "escalation_target_item_Friday" {
 {
     "dayName": {"S": "Friday"},
     "escalationTarget": {"S":"Maria"},
-    "escalationNumber": {"S":"+1512123125"}
+    "escalationNumber": {"S":"+4915111111115"}
 }
 ITEM
 }
@@ -124,7 +124,7 @@ resource "aws_dynamodb_table_item" "escalation_target_item_Saturday" {
 {
     "dayName": {"S": "Saturday"},
     "escalationTarget": {"S":"Anastasia"},
-    "escalationNumber": {"S":"+1512123126"}
+    "escalationNumber": {"S":"+4915111111116"}
 }
 ITEM
 }
@@ -137,7 +137,7 @@ resource "aws_dynamodb_table_item" "escalation_target_item_Sunday" {
 {
     "dayName": {"S": "Sunday"},
     "escalationTarget": {"S":"Katerina"},
-    "escalationNumber": {"S":"+1512123127"}
+    "escalationNumber": {"S":"+4915111111117"}
 }
 ITEM
 }

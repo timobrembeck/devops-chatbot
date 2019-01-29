@@ -107,7 +107,8 @@ def lambda_handler(event, context):
         DestinationPhoneNumber=escalationNumber,
         SourcePhoneNumber='+448081649919',
         Attributes={
-           'message': message
+           'message': message,
+           'incidentIds': str(next_key)
         },
     )
 

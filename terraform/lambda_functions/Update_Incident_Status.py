@@ -40,34 +40,38 @@ def lambda_handler(event, context):
 
     print(event_response)
 
-    incidentId = str(event_response['Details']['Parameters']['incidentId'])
+    incidentIds = event_response['Details']['Parameters']['incidentIds']
     status = event_response['Details']['Parameters']['status']
 
-    item = get_item_from_ddb(incidentId)
-    doesItemExist = 'Item' in item
+    message = 'There are ' + str(len(incidentIds)) + " incidents with status to be updated"  + ': \n'
+    
+    for incidentId in incidentIds :
+        print(str(incidentId))
+        item = get_item_from_ddb(str(incidentId))
+        doesItemExist = 'Item' in item
 
-    if(doesItemExist): 
-        if( (status == "open") | (status == "pending") | (status == "closed") ):
+        if(doesItemExist): 
+            if( (status == "open") | (status == "pending") | (status == "closed") ):
 
-            update_item_at_Key(incidentId, status)
+                update_item_at_Key(str(incidentId), status)
 
-            message ='If there is incident with ID ' + incidentId + ', the status of the incident has been updated to ' + status
+                message += 'The status of the incident with ID ' + str(incidentId) + ', has been updated to ' + status +'. \n'
 
-            print(message)
-
-            response = {
-                'statusCode': 200,
-                'message': message
-            }
-            return response
-
+            else:
+                return {
+                    'statusCode': 400,
+                    'message': 'Wrong input! Status of the incident can be either open, pending or closed'
+                }
         else:
             return {
-                'statusCode': 400,
-                'message': 'Wrong input! Status of the incident can be either open, pending or closed'
+                    'statusCode': 400,
+                    'message': 'Wrong input! Incident with ID ' + str(incidentId) + ' does not exist.'
             }
-    else:
-        return {
-                'statusCode': 400,
-                'message': 'Wrong input! Incident with ID ' + incidentId + ' does not exist.'
-        }
+
+    print(message)
+
+    response = {
+        'statusCode': 200,
+        'message': message
+    }
+    return response

@@ -345,3 +345,48 @@ resource "aws_lambda_function" "Kubectl_Command" {
 }
 
 #--End Kubectl_Command
+
+
+
+#--Start Cronjob_OutboundCall
+#Cronjob_OutboundCall data file
+data "archive_file" "Cronjob_OutboundCall_file" {
+  type        = "zip"
+  source_dir  = "${path.module}/lambda_functions/"
+  output_path = "${path.module}/.terraform/archive_files/Cronjob_OutboundCall.zip"
+}
+
+#Cronjob_OutboundCall function
+resource "aws_lambda_function" "Cronjob_OutboundCall" {
+  filename         = "${data.archive_file.Cronjob_OutboundCall_file.output_path}"
+  function_name    = "Cronjob_OutboundCall"
+  handler          = "Cronjob_OutboundCall.lambda_handler"
+  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  runtime          = "python3.6"
+  source_code_hash = "${data.archive_file.Cronjob_OutboundCall_file.output_base64sha256}"
+}
+
+resource "aws_cloudwatch_event_rule" "everyday_at_17" {
+    name = "everyday-at-17"
+    description = "Every day at 17:00"
+    schedule_expression = "cron(0 17 * * ? *)"
+}
+
+resource "aws_cloudwatch_event_target" "check_everyday_at_17" {
+    rule = "${aws_cloudwatch_event_rule.everyday_at_17.name}"
+    target_id = "Cronjob_OutboundCall"
+    arn = "${aws_lambda_function.Cronjob_OutboundCall.arn}"
+}
+
+resource "aws_lambda_permission" "Cronjob_OutboundCall_with_ScheduledEvents" {
+    depends_on = ["aws_lambda_function.Cronjob_OutboundCall"]
+    statement_id = "AllowExecutionFromCloudWatch-call_Cronjob_OutboundCall"
+    action = "lambda:InvokeFunction"
+    function_name = "Cronjob_OutboundCall"
+    principal = "events.amazonaws.com"
+    source_arn = "${aws_cloudwatch_event_rule.everyday_at_17.arn}"
+    
+}
+
+
+#--End Cronjob_OutboundCall
