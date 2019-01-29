@@ -219,41 +219,41 @@ resource "aws_lambda_function" "GetIncidentWithNumber" {
 #--End GetIncidentWithNumber
 
 
-#--Start Update_Incident_Status
-#Update_Incident_Status data file
+#--Start Update_Incident_Status_AWSconnect
+#Update_Incident_Status_AWSconnect data file
 provider "aws" {
   alias = "central"
   region = "eu-central-1"
 }
-data "archive_file" "Update_Incident_Status_file" {
+data "archive_file" "Update_Incident_Status_AWSconnect_file" {
   type        = "zip"
   source_dir  = "${path.module}/lambda_functions/"
-  output_path = "${path.module}/.terraform/archive_files/Update_Incident_Status.zip"
+  output_path = "${path.module}/.terraform/archive_files/Update_Incident_Status_AWSconnect.zip"
 }
 
-#Update_Incident_Status function
-resource "aws_lambda_function" "Update_Incident_Status" {
+#Update_Incident_Status_AWSconnect function
+resource "aws_lambda_function" "Update_Incident_Status_AWSconnect" {
   provider = "aws.central"
-  filename         = "${data.archive_file.Update_Incident_Status_file.output_path}"
-  function_name    = "Update_Incident_Status"
-  handler          = "Update_Incident_Status.lambda_handler"
+  filename         = "${data.archive_file.Update_Incident_Status_AWSconnect_file.output_path}"
+  function_name    = "Update_Incident_Status_AWSconnect"
+  handler          = "Update_Incident_Status_AWSconnect.lambda_handler"
   role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
   runtime          = "python3.6"
-  source_code_hash = "${data.archive_file.Update_Incident_Status_file.output_base64sha256}"
+  source_code_hash = "${data.archive_file.Update_Incident_Status_AWSconnect_file.output_base64sha256}"
 }
 
-#Update_Incident_Status function permissions
-resource "aws_lambda_permission" "Update_Incident_Status_with_Connect" {
-  depends_on    = ["aws_lambda_function.Update_Incident_Status"]
+#Update_Incident_Status_AWSconnect function permissions
+resource "aws_lambda_permission" "Update_Incident_Status_AWSconnect_with_Connect" {
+  depends_on    = ["aws_lambda_function.Update_Incident_Status_AWSconnect"]
   provider = "aws.central"
   statement_id  = "1"
   action        = "lambda:InvokeFunction"
-  function_name = "Update_Incident_Status"
+  function_name = "Update_Incident_Status_AWSconnect"
   principal     = "connect.amazonaws.com"
   source_arn = "arn:aws:connect:eu-central-1:746022503515:instance/736d65e0-6ce5-4210-9d44-55c366ea9a16"
 }
 
-#--End Update_Incident_Status
+#--End Update_Incident_Status_AWSconnect
 
 #--Start GetIncidentsByStatus
 #GetIncidentsByStatus data file
