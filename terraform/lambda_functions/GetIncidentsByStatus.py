@@ -17,12 +17,16 @@ def get_incidents_by_status(status):
 
 # -- Function to create the response message --
 def create_response_message(status, incidents):
-    message = 'There are ' + str(len(incidents)) + " incidents with status " + status + ': \n'
+    if len(incidents)==0:
+        message = 'There are no incidents with status ' + status
+        return message
+    else:
+        message = 'There are ' + str(len(incidents)) + " incidents with status " + status + ': \n'
 
-    for counter, incident in enumerate(incidents):
-        message += 'Result ' + str(counter+1) + " is the incident with ID: " + incident['messageID'] + " and message " + incident['message'] + " which has been escalated to " + incident['escalationTarget'] +  " and has a priority " + incident['priority'] +' \n'
+        for counter, incident in enumerate(incidents):
+            message += 'Result ' + str(counter+1) + " is the incident with ID: " + incident['messageID'] + " and message " + incident['message'] + " which has been escalated to " + incident['escalationTarget'] +  " and has a priority " + incident['priority'] +' \n'
 
-    return message
+        return message
 
 # -- AWS Lex Bot Intent response --
 def close(session_attributes, fulfillment_state, message):
