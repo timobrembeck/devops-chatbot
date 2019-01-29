@@ -46,10 +46,6 @@
     },
     {
       "intentVersion": "1",
-      "intentName": "GetAllOpenIncidents"
-    },
-    {
-      "intentVersion": "1",
       "intentName": "GetIncidentsByPriorityIntent"
     },
     {
