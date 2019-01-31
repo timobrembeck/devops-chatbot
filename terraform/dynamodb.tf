@@ -58,7 +58,8 @@ resource "aws_dynamodb_table_item" "escalation_target_item_Monday" {
 {
     "dayName": {"S": "Monday"},
     "escalationTarget": {"S":"George"},
-    "escalationNumber": {"S":"+4915111111111"}
+    "escalationNumber": {"S":"+4915111111111"},
+    "team": {"S":"monday"}
 }
 ITEM
 }
@@ -72,7 +73,8 @@ resource "aws_dynamodb_table_item" "escalation_target_item_Tuesday" {
 {
     "dayName": {"S": "Tuesday"},
     "escalationTarget": {"S":"Max"},
-    "escalationNumber": {"S":"+4915111111112"}
+    "escalationNumber": {"S":"+4915111111112"},
+    "team": {"S":"tuesday"}
 }
 ITEM
 }
@@ -85,7 +87,8 @@ resource "aws_dynamodb_table_item" "escalation_target_item_Wednesday" {
 {
     "dayName": {"S": "Wednesday"},
     "escalationTarget": {"S":"Nick"},
-    "escalationNumber": {"S":"+4915111111113"}
+    "escalationNumber": {"S":"+4915111111113"},
+    "team": {"S":"wednesday"}
 }
 ITEM
 }
@@ -98,7 +101,8 @@ resource "aws_dynamodb_table_item" "escalation_target_item_Thursday" {
 {
     "dayName": {"S": "Thursday"},
     "escalationTarget": {"S":"David"},
-    "escalationNumber": {"S":"+4915111111114"}
+    "escalationNumber": {"S":"+4915111111114"},
+    "team": {"S":"thursday"}
 }
 ITEM
 }
@@ -111,7 +115,8 @@ resource "aws_dynamodb_table_item" "escalation_target_item_Friday" {
 {
     "dayName": {"S": "Friday"},
     "escalationTarget": {"S":"Maria"},
-    "escalationNumber": {"S":"+4915111111115"}
+    "escalationNumber": {"S":"+4915111111115"},
+    "team": {"S":"friday"}
 }
 ITEM
 }
@@ -124,7 +129,8 @@ resource "aws_dynamodb_table_item" "escalation_target_item_Saturday" {
 {
     "dayName": {"S": "Saturday"},
     "escalationTarget": {"S":"Anastasia"},
-    "escalationNumber": {"S":"+4915111111116"}
+    "escalationNumber": {"S":"+4915111111116"},
+    "team": {"S":"saturday"}
 }
 ITEM
 }
@@ -137,7 +143,8 @@ resource "aws_dynamodb_table_item" "escalation_target_item_Sunday" {
 {
     "dayName": {"S": "Sunday"},
     "escalationTarget": {"S":"Katerina"},
-    "escalationNumber": {"S":"+4915111111117"}
+    "escalationNumber": {"S":"+4915111111117"},
+    "team": {"S":"sunday"}
 }
 ITEM
 }
@@ -175,7 +182,7 @@ resource "aws_dynamodb_table_item" "user_item_Aamir" {
     "slackUserID": {"S": "UDNAUTB9A"},
     "email" : {"S" : "aamir@test.de"},
     "name" : {"S" : "Aamir"},
-    "teams" : {"L": [{"S":"TeamA"}, {"S":"TeamD"}]}
+    "teams" : {"L": [{"S":"friday"}, {"S":"tuesday"}]}
     }}}}
 ITEM
 }
@@ -189,7 +196,7 @@ resource "aws_dynamodb_table_item" "user_item_Jonathan" {
     "slackUserID": {"S": "UDNAUTB9X"},
     "email" : {"S" : "jonathan@test.de"},
     "name" : {"S" : "Jonathan"},
-    "teams" : {"L": [{"S":"TeamA"}, {"S":"TeamB"}]}
+    "teams" : {"L": [{"S":"friday"}, {"S":"tuesday"}]}
     }}}}
 ITEM
 }
@@ -203,7 +210,7 @@ resource "aws_dynamodb_table_item" "user_item_Konstantinos" {
     "slackUserID": {"S": "UDNAUTB9C"},
     "email" : {"S" : "konstantinos@test.de"},
     "name" : {"S" : "Konstantinos"},
-    "teams" : {"L": [{"S":"TeamA"}, {"S":"TeamC"}]}
+    "teams" : {"L": [{"S":"friday"}, {"S":"wednesday"}]}
     }}}}
 ITEM
 }
@@ -217,7 +224,7 @@ resource "aws_dynamodb_table_item" "user_item_Peewee" {
     "slackUserID": {"S": "UDNAUTB9D"},
     "email" : {"S" : "peewee@test.de"},
     "name" : {"S" : "Peewee"},
-    "teams" : {"L": [{"S":"TeamA"}, {"S":"TeamD"}]}
+    "teams" : {"L": [{"S":"friday"}, {"S":"wednesday"}]}
     }}}}
 ITEM
 }
@@ -231,7 +238,7 @@ resource "aws_dynamodb_table_item" "user_item_Timo" {
     "slackUserID": {"S": "UDNAWCCBF"},
     "email" : {"S" : "timo@test.de"},
     "name" : {"S" : "Timo"},
-    "teams" : {"L": [{"S":"TeamA"}, {"S":"TeamB"}]}
+    "teams" : {"L": [{"S":"friday"}, {"S":"thursday"}]}
     }}}}
 ITEM
 }
@@ -245,7 +252,7 @@ resource "aws_dynamodb_table_item" "user_item_Luca" {
     "slackUserID": {"S": "UDNAUTB9B"},
     "email" : {"S" : "luca@test.de"},
     "name" : {"S" : "Luca"},
-    "teams" : {"L": [{"S":"TeamA"}, {"S":"TeamC"}]}
+    "teams" : {"L": [{"S":"friday"}, {"S":"thursday"}]}
     }}}}
 ITEM
 }
