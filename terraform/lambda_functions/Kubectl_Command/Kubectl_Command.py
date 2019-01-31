@@ -15,13 +15,24 @@ def get_slots(intent_request):
     return intent_request['currentIntent']['slots']
 
 
-def close(session_attributes, fulfillment_state, message):
+def close(intent_request, fulfillment_state, message):
+    # if request is from connect the requestAttributes is set to something
+    if intent_request['requestAttributes'] is None:
+        # if message is a list -> transform it into table with slack code escaping
+        if (type(message) is list):
+            message = "```" + print_table(message) + "```"
+    else:
+        # if message is a list -> transform it into sentence
+        if (type(message) is list):
+            message = print_sentence(message, intent_request)
+
     response = {
-        'sessionAttributes': session_attributes,
+        'sessionAttributes': intent_request['sessionAttributes'],
         'dialogAction': {
             'type': 'Close',
             'fulfillmentState': fulfillment_state,
-            'message': message
+            'message': {'contentType': 'PlainText',
+                        'content': message}
         }
     }
 
@@ -46,6 +57,26 @@ def print_table(rows):
     return result
 
 
+def print_sentence(rows, intent_request):
+    get_resource = get_slots(intent_request)["resource"]
+    header, data = rows[0], rows[1:]
+
+    message = "There are " + str(len(data)) + " " + get_resource + "s in total. "
+
+    status = {}
+    for row in data:
+
+        if row[2] in status:
+            status[(row[2])] += 1
+        else:
+            status[(row[2])] = 1
+
+    for stat, count in status.items():
+        message += "There are " + str(count) + " " + get_resource + "s with status " + stat
+
+    return message
+
+
 """ --- Functions that control the bot's behavior --- """
 
 
@@ -67,7 +98,7 @@ def kubectl_get_api_call(intent_request):
         slots = get_slots(intent_request)
 
         # Validate slots here, not needed because it's a get call
-
+    logger.debug("The resource lex understood: " + get_resource)
     if get_resource == 'node' or get_resource == 'nodes':
         logger.debug("api call list_node")
         result = v1.list_node()
@@ -79,7 +110,7 @@ def kubectl_get_api_call(intent_request):
                    node.status.conditions[-1].message,
                    node.metadata.creation_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
             rows.append(row)
-        result = print_table(rows)
+        result = rows
     elif get_resource == 'componentstatus':
         logger.debug("api call list_component_status")
         result = v1.list_component_status()
@@ -90,10 +121,7 @@ def kubectl_get_api_call(intent_request):
         logger.warning("api call not in core api v1")
         result = {"message": "error: the core api v1 does not implement the resource " + get_resource + " yet."}
 
-    return close(intent_request['sessionAttributes'],
-                 'Fulfilled',
-                 {'contentType': 'CustomPayload',
-                  'content': "```"+str(result)+"```"})
+    return close(intent_request, 'Fulfilled', result)
 
 
 """ --- Intents --- """
@@ -104,8 +132,8 @@ def dispatch(intent_request):
     Called when the user specifies an intent for this bot.
     """
 
-    logger.debug(
-        'dispatch userId={}, intentName={}'.format(intent_request['userId'], intent_request['currentIntent']['name']))
+    # logger.debug(
+    #    'dispatch userId={}, intentName={}'.format(intent_request['userId'], intent_request['currentIntent']['name']))
 
     intent_name = intent_request['currentIntent']['name']
 
@@ -148,39 +176,49 @@ def lambda_handler(event, context):
         logger.error("Kubernetes API config fails.")
         raise Exception('Failed to initialize Kubernetes API')
 
-    return dispatch(event)
+    result = dispatch(event)
+    logger.debug(result)
+    return result
 
 
 # Offline mock event
-demo_event = {
-    "messageVersion": "1.0",
-    "invocationSource": "DialogCodeHook",
-    "userId": "John",
-    "sessionAttributes": {},
-    "bot": {
-        "name": "kubectl",
-        "alias": "$LATEST",
-        "version": "$LATEST"
-    },
-    "outputDialogMode": "Text",
-    "currentIntent": {
-        "name": "kubectlGet",
-        "slots": {
-            "resource": "node",
-        },
-        "confirmationStatus": "None"
-    }
-}
+demo_connect_event = {'messageVersion': '1.0',
+                      'invocationSource': 'FulfillmentCodeHook',
+                      'userId': 'test',
+                      'sessionAttributes': {},
+                      'requestAttributes': {'x-amz-lex:accept-content-types': 'PlainText,SSML'},
+                      'bot': {'name': 'DevOpsChatBot',
+                              'alias': '$LATEST',
+                              'version': '$LATEST'},
+                      'outputDialogMode': 'Text',
+                      'currentIntent': {'name': 'KubernetesIntent',
+                                        'slots': {'resource': 'node'},
+                                        'slotDetails': {
+                                            'resource': {'resolutions': [{'value': 'node'}],
+                                                         'originalValue': 'node'}},
+                                        'confirmationStatus': 'None',
+                                        'sourceLexNLUIntentInterpretation': None},
+                      'inputTranscript': 'node'}
+
+demo_chat_event = {'messageVersion': '1.0',
+                   'invocationSource': 'FulfillmentCodeHook',
+                   'userId': 'test',
+                   'sessionAttributes': {},
+                   'requestAttributes': None,
+                   'bot': {'name': 'DevOpsChatBot',
+                           'alias': '$LATEST',
+                           'version': '$LATEST'},
+                   'outputDialogMode': 'Text',
+                   'currentIntent': {'name': 'KubernetesIntent',
+                                     'slots': {'resource': 'node'},
+                                     'slotDetails': {'resource': {'resolutions': [{'value': 'node'}],
+                                                                  'originalValue': 'node'}},
+                                     'confirmationStatus': 'None',
+                                     'sourceLexNLUIntentInterpretation': None},
+                   'inputTranscript': 'node'}
 
 # Offline mock call comment when publish!
-#print("init")
-#print(lambda_handler(demo_event, '')['dialogAction']['message']['content'])
-# print("ini2t")
-# demo_event['currentIntent']['slots']['resource'] = "componentstatus"
-# print(lambda_handler(demo_event, ''))
-# print("init3")
-# demo_event['currentIntent']['slots']['resource'] = "deployment"
-# print(lambda_handler(demo_event, ''))
-# print("init4")
-# demo_event['currentIntent']['slots']['resource'] = "NonResource"
-# print(lambda_handler(demo_event, ''))
+# print("init")
+#print(lambda_handler(demo_connect_event, ''))
+#print(lambda_handler(demo_chat_event, ''))
+

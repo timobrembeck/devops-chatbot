@@ -10,7 +10,7 @@
   },
   "outputDialogMode": "Text",
   "currentIntent": {
-    "name": "kubectlGet",
+    "name": "KubernetesIntent",
     "slots": {
       "resource": "node"
     },
