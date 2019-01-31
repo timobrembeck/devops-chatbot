@@ -4,7 +4,9 @@
       "type": "ReturnIntent"
     },
     "sampleUtterances": [
-      "How is the weather"
+      "How is the weather",
+      "Is the sun shining today",
+      "Do I need to wear a coat"
     ],
     "slots": [],
     "conclusionStatement": {
@@ -16,7 +18,17 @@
         },
         {
           "contentType": "PlainText",
-          "content": "It's rainy",
+          "content": "It's rainy.",
+          "groupNumber": 1
+        },
+        {
+          "contentType": "PlainText",
+          "content": "It's under 0 degrees, please wear a coat.",
+          "groupNumber": 1
+        },
+        {
+          "contentType": "PlainText",
+          "content": "It's 25 degrees outside and there are no clouds.",
           "groupNumber": 1
         }
       ]
