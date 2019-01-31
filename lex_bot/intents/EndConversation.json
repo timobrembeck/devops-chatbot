@@ -4,6 +4,7 @@
       "type": "ReturnIntent"
     },
     "sampleUtterances": [
+      "Goodbye",
       "good bye",
       "bye",
       "end call",
@@ -16,7 +17,7 @@
       "messages": [
         {
           "contentType": "PlainText",
-          "content": "Thank you for using our services. Feel free to reach us for future help: Good bye",
+          "content": "Thank you for using our services. Feel free to reach us for future help. Goodbye!",
           "groupNumber": 1
         }
       ]
