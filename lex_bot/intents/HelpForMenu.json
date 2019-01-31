@@ -4,13 +4,13 @@
       "type": "ReturnIntent"
     },
     "sampleUtterances": [
-      "i need help",
+      "I need help",
       "help",
-      "what should i do",
+      "what should I do",
       "what can you do",
       "could you do anything",
       "what do you have to offer me",
-      "is there any thing you can do for me",
+      "is there anything you can do for me",
       "how can you help me",
       "how may you help me"
     ],
