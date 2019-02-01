@@ -1,4 +1,4 @@
-resource "null_resource" "test" {
+resource "null_resource" "Lex_Bot" {
   depends_on = [
     "aws_lambda_function.GetCurrentIncident_AWSConnect",
     "aws_lambda_function.Escalate_Incident",

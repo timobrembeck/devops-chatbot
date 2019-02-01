@@ -55,6 +55,10 @@
     {
       "intentVersion": "1",
       "intentName": "KubernetesIntent"
+    },
+    {
+      "intentVersion": "1",
+      "intentName": "CreateSlackChannelIntent"
     }
   ],
   "name": "DevOpsChatBot",
