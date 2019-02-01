@@ -14,7 +14,8 @@
       {
           "name": "message",
           "slotConstraint": "Required",
-          "slotType": "AMAZON.Actor",
+          "slotType": "MessageSlot",
+          "slotTypeVersion": "1",
           "valueElicitationPrompt": {
               "messages": [
               {
@@ -26,11 +27,12 @@
           },
           "priority": 2,
           "sampleUtterances": []
-      }, 
+      },
       {
         "name": "priority",
           "slotConstraint": "Required",
-          "slotType": "AMAZON.Actor",
+          "slotType": "PrioritySlot",
+          "slotTypeVersion": "1",
           "valueElicitationPrompt": {
               "messages": [
               {

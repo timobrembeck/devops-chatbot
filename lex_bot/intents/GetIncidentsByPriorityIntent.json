@@ -11,7 +11,8 @@
       {
         "name": "priority",
           "slotConstraint": "Required",
-          "slotType": "AMAZON.Actor",
+          "slotType": "PrioritySlot",
+          "slotTypeVersion": "1",
           "valueElicitationPrompt": {
               "messages": [
               {

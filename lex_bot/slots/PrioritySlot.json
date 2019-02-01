@@ -1,6 +1,6 @@
 {
     "description": "Priority of the incident",
-    "name": "Priority",
+    "name": "PrioritySlot",
     "enumerationValues": [
       {
         "value": "high",

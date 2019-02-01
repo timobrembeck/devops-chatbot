@@ -1,0 +1,27 @@
+{
+  "description": "Status of the incident",
+  "name": "MessageSlot",
+  "createVersion": true,
+  "enumerationValues": [
+    {
+      "value": "Something is broken.",
+      "synonyms": []
+    },
+    {
+      "value": "Incident  at factory.",
+      "synonyms": []
+    },
+    {
+      "value": "Service is down.",
+      "synonyms": []
+    },{
+      "value": "Kubernetes status is bad.",
+      "synonyms": []
+    },
+    {
+      "value": "Alert messages from xyz.",
+      "synonyms": []
+    }
+  ],
+  "valueSelectionStrategy": "ORIGINAL_VALUE"
+}
