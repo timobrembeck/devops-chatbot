@@ -390,3 +390,24 @@ resource "aws_lambda_permission" "Cronjob_OutboundCall_with_ScheduledEvents" {
 
 
 #--End Cronjob_OutboundCall
+
+#--Start Create_Slack_Channel
+
+#Create_Slack_Channel data file
+data "archive_file" "Create_Slack_Channel_file" {
+  type        = "zip"
+  source_dir  = "${path.module}/lambda_functions/"
+  output_path = "${path.module}/.terraform/archive_files/Create_Slack_Channel.zip"
+}
+
+#Create_Slack_Channel function
+resource "aws_lambda_function" "Create_Slack_Channel" {
+  filename         = "${data.archive_file.Create_Slack_Channel_file.output_path}"
+  function_name    = "Create_Slack_Channel"
+  handler          = "Create_Slack_Channel.lambda_handler"
+  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  runtime          = "python3.6"
+  source_code_hash = "${data.archive_file.Create_Slack_Channel_file.output_base64sha256}"
+}
+
+#--End Create_Slack_Channel
