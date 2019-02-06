@@ -6,6 +6,7 @@
         <p>
             <button type="button" class="btn btn-warning" (click)="fullLoad()">Test normal load</button>
             <button type="button" class="btn btn-danger" (click)="mediumLoad()">Test full load</button>
+            <button type="button" class="btn btn-dark" (click)="shutDown()">Shut down Webserver</button>
 
         </p>
         <div [ngSwitch]="isAuthenticated()">

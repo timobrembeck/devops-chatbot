@@ -15,4 +15,8 @@ export class HomeService {
     fullLoad(): Observable<Object> {
         return this.http.get<String>(SERVER_API_URL + 'api/load/full');
     }
+
+    shutDown(): Observable<Object> {
+        return this.http.post(SERVER_API_URL + 'management/shutdown', null);
+    }
 }

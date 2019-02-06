@@ -70,4 +70,16 @@ export class HomeComponent implements OnInit {
             }
         );
     }
+
+    shutDown() {
+        this.homeService.shutDown().subscribe(
+            (res: string) => {
+                console.log(res);
+                this.alertService.success('Successfully shut down the server', null);
+            },
+            (err: HttpErrorResponse) => {
+                console.log(err);
+            }
+        );
+    }
 }
