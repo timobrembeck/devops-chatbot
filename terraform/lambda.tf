@@ -72,7 +72,7 @@ resource "aws_lambda_permission" "TriggerIncidentNotification_AlertManager_APIGW
 
   # The /*/* portion grants access from any method on any resource
   # within the API Gateway "REST API".
-  source_arn = "${aws_api_gateway_rest_api.alert_manager_notification_api.execution_arn}/*/*/*"
+  source_arn = "arn:aws:execute-api:eu-west-1:746022503515:rgh2w4wxk8/*/*/*"
 }
 
 #--End TriggerIncidentNotification_AlertManager
