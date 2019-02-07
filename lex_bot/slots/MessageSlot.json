@@ -8,18 +8,63 @@
       "synonyms": []
     },
     {
-      "value": "Incident  at factory.",
+      "value": "Something is not working.",
+      "synonyms": []
+    },
+    {
+      "value": "Something is not working anymore.",
+      "synonyms": []
+    },
+    {
+      "value": "Something is not at all.",
+      "synonyms": []
+    },
+    {
+      "value": "Incident at factory.",
+      "synonyms": []
+    },
+    {
+      "value": "Incident at factory x.",
       "synonyms": []
     },
     {
       "value": "Service is down.",
       "synonyms": []
-    },{
+    },
+    {
+      "value": "Service is down because of this.",
+      "synonyms": []
+    },
+    {
       "value": "Kubernetes status is bad.",
       "synonyms": []
     },
     {
-      "value": "Alert messages from xyz.",
+      "value": "Alert messages from x.",
+      "synonyms": []
+    },
+    {
+      "value": "Something is broken and it does not work.",
+      "synonyms": []
+    },
+    {
+      "value": "The item is not working as expected.",
+      "synonyms": []
+    },
+    {
+      "value": "The item is not working anymore and it is useless.",
+      "synonyms": []
+    },
+    {
+      "value": "The service is down and can not be used by anybody who has access.",
+      "synonyms": []
+    },
+    {
+      "value": "The functionality is not as expected and this might create big problems in the performace.",
+      "synonyms": []
+    },
+    {
+      "value": "The functionality is not the expected one.",
       "synonyms": []
     }
   ],
