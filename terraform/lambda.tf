@@ -388,7 +388,6 @@ resource "aws_lambda_permission" "Cronjob_OutboundCall_with_ScheduledEvents" {
     
 }
 
-
 #--End Cronjob_OutboundCall
 
 #--Start Create_Slack_Channel
@@ -411,3 +410,24 @@ resource "aws_lambda_function" "Create_Slack_Channel" {
 }
 
 #--End Create_Slack_Channel
+
+
+
+#--Start GetResponsibleEscalationTarget
+#GetResponsibleEscalationTarget data file
+data "archive_file" "GetResponsibleEscalationTarget_file" {
+  type        = "zip"
+  source_dir  = "${path.module}/lambda_functions/"
+  output_path = "${path.module}/.terraform/archive_files/GetResponsibleEscalationTarget.zip"
+}
+
+#GetResponsibleEscalationTarget function
+resource "aws_lambda_function" "GetResponsibleEscalationTarget" {
+  filename         = "${data.archive_file.GetResponsibleEscalationTarget_file.output_path}"
+  function_name    = "GetResponsibleEscalationTarget"
+  handler          = "GetResponsibleEscalationTarget.lambda_handler"
+  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  runtime          = "python3.6"
+  source_code_hash = "${data.archive_file.GetResponsibleEscalationTarget_file.output_base64sha256}"
+}
+#--End GetResponsibleEscalationTarget
