@@ -59,7 +59,7 @@ resource "aws_dynamodb_table_item" "escalation_target_item_Monday" {
     "dayName": {"S": "Monday"},
     "escalationTarget": {"S":"George"},
     "escalationNumber": {"S":"+4915111111111"},
-    "team": {"S":"monday"}
+    "escalationTeam": {"S":"monday"}
 }
 ITEM
 }
@@ -74,7 +74,7 @@ resource "aws_dynamodb_table_item" "escalation_target_item_Tuesday" {
     "dayName": {"S": "Tuesday"},
     "escalationTarget": {"S":"Max"},
     "escalationNumber": {"S":"+4915111111112"},
-    "team": {"S":"tuesday"}
+    "escalationTeam": {"S":"tuesday"}
 }
 ITEM
 }
@@ -88,7 +88,7 @@ resource "aws_dynamodb_table_item" "escalation_target_item_Wednesday" {
     "dayName": {"S": "Wednesday"},
     "escalationTarget": {"S":"Nick"},
     "escalationNumber": {"S":"+4915111111113"},
-    "team": {"S":"wednesday"}
+    "escalationTeam": {"S":"wednesday"}
 }
 ITEM
 }
@@ -102,7 +102,7 @@ resource "aws_dynamodb_table_item" "escalation_target_item_Thursday" {
     "dayName": {"S": "Thursday"},
     "escalationTarget": {"S":"David"},
     "escalationNumber": {"S":"+4915111111114"},
-    "team": {"S":"thursday"}
+    "escalationTeam": {"S":"thursday"}
 }
 ITEM
 }
@@ -116,7 +116,7 @@ resource "aws_dynamodb_table_item" "escalation_target_item_Friday" {
     "dayName": {"S": "Friday"},
     "escalationTarget": {"S":"Maria"},
     "escalationNumber": {"S":"+4915111111115"},
-    "team": {"S":"friday"}
+    "escalationTeam": {"S":"friday"}
 }
 ITEM
 }
@@ -130,7 +130,7 @@ resource "aws_dynamodb_table_item" "escalation_target_item_Saturday" {
     "dayName": {"S": "Saturday"},
     "escalationTarget": {"S":"Anastasia"},
     "escalationNumber": {"S":"+4915111111116"},
-    "team": {"S":"saturday"}
+    "escalationTeam": {"S":"saturday"}
 }
 ITEM
 }
@@ -144,7 +144,7 @@ resource "aws_dynamodb_table_item" "escalation_target_item_Sunday" {
     "dayName": {"S": "Sunday"},
     "escalationTarget": {"S":"Katerina"},
     "escalationNumber": {"S":"+4915111111117"},
-    "team": {"S":"sunday"}
+    "escalationTeam": {"S":"sunday"}
 }
 ITEM
 }
@@ -153,107 +153,3 @@ ITEM
 
 # See https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-general-nosql-design.html on the design
 # Developer guide: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/
-#--Start user DDB table
-#user table
-resource "aws_dynamodb_table" "user" {
-   name = "user"
-   hash_key = "slackUserID"
-   read_capacity    = 20
-   write_capacity   = 20
-   stream_enabled = true
-   stream_view_type = "NEW_AND_OLD_IMAGES"
-
-   attribute {
-      name = "slackUserID"
-      type = "S"
-   }
-
-   tags {
-     Name = "DynamoDB user table"
-   }
-}
-
-#user table item
-resource "aws_dynamodb_table_item" "user_item_Aamir" {
-  table_name = "${aws_dynamodb_table.user.name}"
-  hash_key   = "${aws_dynamodb_table.user.hash_key}"
-  item = <<ITEM
-{
-    "slackUserID": {"S": "UDNAUTB9A"},
-    "email" : {"S" : "aamir@test.de"},
-    "name" : {"S" : "Aamir"},
-    "teams" : {"L": [{"S":"friday"}, {"S":"tuesday"}]}
-    }}}}
-ITEM
-}
-
-#user table item
-resource "aws_dynamodb_table_item" "user_item_Jonathan" {
-  table_name = "${aws_dynamodb_table.user.name}"
-  hash_key = "${aws_dynamodb_table.user.hash_key}"
-  item = <<ITEM
-{
-    "slackUserID": {"S": "UDNAUTB9X"},
-    "email" : {"S" : "jonathan@test.de"},
-    "name" : {"S" : "Jonathan"},
-    "teams" : {"L": [{"S":"friday"}, {"S":"tuesday"}]}
-    }}}}
-ITEM
-}
-
-#user table item
-resource "aws_dynamodb_table_item" "user_item_Konstantinos" {
-  table_name = "${aws_dynamodb_table.user.name}"
-  hash_key = "${aws_dynamodb_table.user.hash_key}"
-  item = <<ITEM
-{
-    "slackUserID": {"S": "UDNAUTB9C"},
-    "email" : {"S" : "konstantinos@test.de"},
-    "name" : {"S" : "Konstantinos"},
-    "teams" : {"L": [{"S":"friday"}, {"S":"wednesday"}]}
-    }}}}
-ITEM
-}
-
-#user table item
-resource "aws_dynamodb_table_item" "user_item_Peewee" {
-  table_name = "${aws_dynamodb_table.user.name}"
-  hash_key = "${aws_dynamodb_table.user.hash_key}"
-  item = <<ITEM
-{
-    "slackUserID": {"S": "UDNAUTB9D"},
-    "email" : {"S" : "peewee@test.de"},
-    "name" : {"S" : "Peewee"},
-    "teams" : {"L": [{"S":"friday"}, {"S":"wednesday"}]}
-    }}}}
-ITEM
-}
-
-#user table item
-resource "aws_dynamodb_table_item" "user_item_Timo" {
-  table_name = "${aws_dynamodb_table.user.name}"
-  hash_key = "${aws_dynamodb_table.user.hash_key}"
-  item = <<ITEM
-{
-    "slackUserID": {"S": "UDNAWCCBF"},
-    "email" : {"S" : "timo@test.de"},
-    "name" : {"S" : "Timo"},
-    "teams" : {"L": [{"S":"friday"}, {"S":"thursday"}]}
-    }}}}
-ITEM
-}
-
-#user table item
-resource "aws_dynamodb_table_item" "user_item_Luca" {
-  table_name = "${aws_dynamodb_table.user.name}"
-  hash_key = "${aws_dynamodb_table.user.hash_key}"
-  item = <<ITEM
-{
-    "slackUserID": {"S": "UDNAUTB9B"},
-    "email" : {"S" : "luca@test.de"},
-    "name" : {"S" : "Luca"},
-    "teams" : {"L": [{"S":"friday"}, {"S":"thursday"}]}
-    }}}}
-ITEM
-}
-#--END user DDB table

@@ -54,9 +54,9 @@ def lambda_handler(event, context):
 
     connect = boto3.client('connect', region_name='eu-central-1')
 
-    for escalationTarget in grouppedByEscTarget:
-        escalationNumber = get_escalation_target_from_ddb(escalationTarget)
-        message, incidentIds = create_response_message(grouppedByEscTarget[escalationTarget])
+    for escalationTargetName, escalationTargetIncidents in grouppedByEscTarget:
+        escalationNumber = get_escalation_target_from_ddb(escalationTargetName)
+        message, incidentIds = create_response_message(escalationTargetIncidents)
         incidentIds = ', '.join(str(e) for e in incidentIds)
         connect_response = connect.start_outbound_voice_contact(
             InstanceId='736d65e0-6ce5-4210-9d44-55c366ea9a16',
@@ -65,6 +65,7 @@ def lambda_handler(event, context):
             SourcePhoneNumber='+448081649919',
             Attributes={
                 'message': message,
+                'escalationTargetName': escalationTargetName,
                 'incidentIds': incidentIds
             },
         )

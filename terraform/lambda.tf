@@ -390,28 +390,79 @@ resource "aws_lambda_permission" "Cronjob_OutboundCall_with_ScheduledEvents" {
 
 #--End Cronjob_OutboundCall
 
+#--Start Slack Layer
+
+# Slack Layer data file
+data "archive_file" "Slack_Lambda_Layer_file" {
+  type        = "zip"
+  source_dir  = "${path.module}/lambda_functions/"
+  output_path = "${path.module}/.terraform/archive_files/Slack_Lambda_Layer.zip"
+}
+
+# Slack Layer function
+resource "aws_lambda_layer_version" "Slack_Lambda_Layer" {
+  filename            = "${data.archive_file.Slack_Lambda_Layer_file.output_path}"
+  layer_name          = "Slack_Lambda_Layer"
+  compatible_runtimes = ["python3.6"]
+  source_code_hash    = "${data.archive_file.Slack_Lambda_Layer_file.output_base64sha256}"
+}
+
+#--End Create_Slack_Channel
+
 #--Start Create_Slack_Channel
 
-#Create_Slack_Channel data file
+# Create_Slack_Channel data file
 data "archive_file" "Create_Slack_Channel_file" {
   type        = "zip"
   source_dir  = "${path.module}/lambda_functions/"
   output_path = "${path.module}/.terraform/archive_files/Create_Slack_Channel.zip"
 }
 
-#Create_Slack_Channel function
+# Create_Slack_Channel function
 resource "aws_lambda_function" "Create_Slack_Channel" {
   filename         = "${data.archive_file.Create_Slack_Channel_file.output_path}"
   function_name    = "Create_Slack_Channel"
   handler          = "Create_Slack_Channel.lambda_handler"
   role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  layers           = ["${aws_lambda_layer_version.Slack_Lambda_Layer.layer_arn}"]
   runtime          = "python3.6"
   source_code_hash = "${data.archive_file.Create_Slack_Channel_file.output_base64sha256}"
 }
 
 #--End Create_Slack_Channel
 
+#--Start Contact_Escalation_Target
 
+# Contact_Escalation_Target data file
+data "archive_file" "Contact_Escalation_Target_file" {
+  type        = "zip"
+  source_dir  = "${path.module}/lambda_functions/"
+  output_path = "${path.module}/.terraform/archive_files/Contact_Escalation_Target.zip"
+}
+
+# Contact_Escalation_Target function
+resource "aws_lambda_function" "Contact_Escalation_Target" {
+  filename         = "${data.archive_file.Contact_Escalation_Target_file.output_path}"
+  function_name    = "Contact_Escalation_Target"
+  handler          = "Contact_Escalation_Target.lambda_handler"
+  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  layers           = ["${aws_lambda_layer_version.Slack_Lambda_Layer.layer_arn}"]
+  runtime          = "python3.6"
+  timeout          = "200"
+  source_code_hash = "${data.archive_file.Contact_Escalation_Target_file.output_base64sha256}"
+}
+
+resource "aws_lambda_permission" "Contact_Escalation_Target_Permission" {
+  depends_on = ["aws_lambda_function.Contact_Escalation_Target"]
+  statement_id = "AllowExecutionFromLambda-call_Contact_Escalation_Target"
+  action = "lambda:InvokeFunction"
+  function_name = "Contact_Escalation_Target"
+  principal = "lambda.amazonaws.com"
+  source_arn = "${aws_lambda_function.OutboundCall_Trigger.arn}"
+
+}
+
+#--End Create_Slack_Channel
 
 #--Start GetResponsibleEscalationTarget
 #GetResponsibleEscalationTarget data file
