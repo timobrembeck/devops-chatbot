@@ -1,0 +1,59 @@
+{
+    "name": "ReportIncidentIntent",
+    "sampleUtterances": [
+      "I want to report an incident",
+      "report incident",
+      "i want to report an incident with message {message} and priority {priority}",
+      "report an incident {message} priority {priority}",
+      "i report an incident with message {message} and priority {priority}",
+      "report incident message {message} priority {priority}",
+      "report incident {message} {priority}",
+      "report incident {message} priority {priority}"
+    ],
+    "slots": [
+      {
+          "name": "message",
+          "slotConstraint": "Required",
+          "slotType": "MessageSlot",
+          "slotTypeVersion": "1",
+          "valueElicitationPrompt": {
+              "messages": [
+              {
+                  "contentType": "PlainText",
+                  "content": "What is the message ? "
+              }
+              ],
+              "maxAttempts": 2
+          },
+          "priority": 1,
+          "sampleUtterances": []
+      },
+      {
+        "name": "priority",
+          "slotConstraint": "Required",
+          "slotType": "PrioritySlot",
+          "slotTypeVersion": "1",
+          "valueElicitationPrompt": {
+              "messages": [
+              {
+                  "contentType": "PlainText",
+                  "content": "What is the priority of the incident(low, medium or high)? "
+              }
+              ],
+              "maxAttempts": 2
+          },
+          "priority": 2,
+          "sampleUtterances": []
+      }
+  ],
+    "fulfillmentActivity": {
+      "type": "CodeHook",
+      "codeHook": {
+        "uri": "arn:aws:lambda:eu-west-1:746022503515:function:ReportIncident",
+        "messageVersion": "1.0"
+      }
+    },
+    "description": "Intent to report an incident",
+    "createVersion": true
+  }
+  

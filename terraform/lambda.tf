@@ -150,22 +150,22 @@ resource "aws_lambda_permission" "OutboundCall_Trigger_with_sns" {
   source_arn    = "${aws_sns_topic.alert_to_awsconnect_SNS.arn}"
 }
 
-#--Start Escalate_Incident
-#Escalate_Incident data file
-data "archive_file" "Escalate_Incident_file" {
+#--Start ReportIncident
+#ReportIncident data file
+data "archive_file" "ReportIncident_file" {
   type        = "zip"
   source_dir  = "${path.module}/lambda_functions/"
-  output_path = "${path.module}/.terraform/archive_files/Escalate_Incident.zip"
+  output_path = "${path.module}/.terraform/archive_files/ReportIncident.zip"
 }
 
-#Escalate_Incident function
-resource "aws_lambda_function" "Escalate_Incident" {
-  filename         = "${data.archive_file.Escalate_Incident_file.output_path}"
-  function_name    = "Escalate_Incident"
-  handler          = "Escalate_Incident.lambda_handler"
+#ReportIncident function
+resource "aws_lambda_function" "ReportIncident" {
+  filename         = "${data.archive_file.ReportIncident_file.output_path}"
+  function_name    = "ReportIncident"
+  handler          = "ReportIncident.lambda_handler"
   role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
   runtime          = "python3.6"
-  source_code_hash = "${data.archive_file.Escalate_Incident_file.output_base64sha256}"
+  source_code_hash = "${data.archive_file.ReportIncident_file.output_base64sha256}"
 
   environment = {
     variables = {
@@ -173,8 +173,33 @@ resource "aws_lambda_function" "Escalate_Incident" {
     }
   }
 }
+#--End ReportIncident
 
-#--End Escalate_Incident
+
+#--Start EscalateIncident
+#EscalateIncident data file
+data "archive_file" "EscalateIncident_file" {
+  type        = "zip"
+  source_dir  = "${path.module}/lambda_functions/"
+  output_path = "${path.module}/.terraform/archive_files/EscalateIncident.zip"
+}
+
+#EscalateIncident function
+resource "aws_lambda_function" "EscalateIncident" {
+  filename         = "${data.archive_file.EscalateIncident_file.output_path}"
+  function_name    = "EscalateIncident"
+  handler          = "EscalateIncident.lambda_handler"
+  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  runtime          = "python3.6"
+  source_code_hash = "${data.archive_file.EscalateIncident_file.output_base64sha256}"
+
+  environment = {
+    variables = {
+      SNS_EIP_NOTIFY_ARN = "arn:aws:sns:${var.aws_region}:${var.iam_acc_key}:alert_dispatcher"
+    }
+  }
+}
+#--End ReportIncident
 
 #--Start GetCurrentIncident_AWSConnect
 #GetCurrentIncident_AWSConnect data file

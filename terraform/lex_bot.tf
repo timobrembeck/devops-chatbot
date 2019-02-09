@@ -1,7 +1,7 @@
 resource "null_resource" "Lex_Bot" {
   depends_on = [
     "aws_lambda_function.GetCurrentIncident_AWSConnect",
-    "aws_lambda_function.Escalate_Incident",
+    "aws_lambda_function.ReportIncident",
     "aws_lambda_function.GetIncidentByID",
     "aws_lambda_function.GetIncidentsByPriority",
     "aws_lambda_function.GetIncidentsByStatus",

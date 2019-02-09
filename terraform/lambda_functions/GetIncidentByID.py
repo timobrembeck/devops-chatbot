@@ -14,17 +14,19 @@ def get_key_from_ddb(key):
     )
     return response
 
-    # -- AWS Lex Bot Intent response --
-def close(session_attributes, fulfillment_state, message):
+# -- AWS Lex Bot Intent response --
+def close(message):
     response = {
-        'sessionAttributes': session_attributes,
+        'sessionAttributes': {},
         'dialogAction': {
             'type': 'Close',
-            'fulfillmentState': fulfillment_state,
-            'message': message
+            'fulfillmentState': 'Fulfilled',
+            'message': {
+                'contentType': 'PlainText',
+                'content': message
+            }
         }
     }
-
     return response
 
 def create_response_message(item, number):
@@ -47,14 +49,7 @@ def lambda_handler(event, context):
     print(message)
     #Check if lambda is called from AWS Lex
     if 'bot' in event_response:
-        return close(
-            {},
-            'Fulfilled',
-            {
-                'contentType': 'PlainText',
-                'content': message
-            }
-        )
+        return close(message)
     else:
         response = {
             'statusCode': 200,

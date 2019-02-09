@@ -1,0 +1,36 @@
+{
+    "description": "Escalation target of the incident",
+    "name": "EscalationTargetSlot",
+    "enumerationValues": [
+      {
+        "value": "Maria",
+        "synonyms": []
+      },
+      {
+        "value": "George",
+        "synonyms": []
+      },
+      {
+        "value": "Anastasia",
+        "synonyms": []
+      },
+      {
+        "value": "Katerina",
+        "synonyms": []
+      },
+      {
+        "value": "David",
+        "synonyms": []
+      },
+      {
+        "value": "Max",
+        "synonyms": []
+      },
+      {
+        "value": "Nick",
+        "synonyms": []
+      }
+    ],
+    "createVersion": true
+
+}

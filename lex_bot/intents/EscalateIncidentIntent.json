@@ -2,42 +2,38 @@
     "name": "EscalateIncidentIntent",
     "sampleUtterances": [
       "I want to escalate an incident",
-      "Escalate incident",
-      "i want to escalate an incident with message {message} and priority {priority}",
-      "escalate an incident {message} priority {priority}",
-      "i escalate an incident with message {message} and priority {priority}",
-      "escalate incident message {message} priority {priority}",
-      "escalate incident {message} {priority}",
-      "escalate incident {message} priority {priority}"
+      "escalate incident",
+      "i want to escalate the incident with id {incidentId} to {escalationTarget}",
+      "escalate the incident {incidentId} to {escalationTarget}",
+      "escalate incident id {incidentId} to escalation target {escalationTarget}"
     ],
     "slots": [
       {
-          "name": "message",
+          "name": "incidentId",
           "slotConstraint": "Required",
-          "slotType": "MessageSlot",
-          "slotTypeVersion": "1",
+          "slotType": "AMAZON.NUMBER",
           "valueElicitationPrompt": {
               "messages": [
               {
                   "contentType": "PlainText",
-                  "content": "What is the message ? "
+                  "content": "What is the id of the incident ? "
               }
               ],
               "maxAttempts": 2
           },
-          "priority": 2,
+          "priority": 1,
           "sampleUtterances": []
       },
       {
-        "name": "priority",
+        "name": "escalationTarget",
           "slotConstraint": "Required",
-          "slotType": "PrioritySlot",
+          "slotType": "EscalationTargetSlot",
           "slotTypeVersion": "1",
           "valueElicitationPrompt": {
               "messages": [
               {
                   "contentType": "PlainText",
-                  "content": "What is the priority of the incident(low, medium or high)? "
+                  "content": "What is the escalation target of the incident(Maria, George, Anastasia, Katerina, David, Max, Nick)? "
               }
               ],
               "maxAttempts": 2
@@ -49,11 +45,11 @@
     "fulfillmentActivity": {
       "type": "CodeHook",
       "codeHook": {
-        "uri": "arn:aws:lambda:eu-west-1:746022503515:function:Escalate_Incident",
+        "uri": "arn:aws:lambda:eu-west-1:746022503515:function:EscalateIncident",
         "messageVersion": "1.0"
       }
     },
-    "description": "Intent to escalate incident",
+    "description": "Intent to escalate an incident",
     "createVersion": true
   }
   

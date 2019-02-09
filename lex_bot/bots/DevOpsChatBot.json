@@ -6,6 +6,10 @@
     },
     {
       "intentVersion": "1",
+      "intentName": "ReportIncidentIntent"
+    },
+    {
+      "intentVersion": "1",
       "intentName": "EscalateIncidentIntent"
     },
     {
