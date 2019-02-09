@@ -2,7 +2,9 @@
   "name": "GetCurrentIncidentIntent",
   "sampleUtterances": [
     "Current Incident",
-    "Incident"
+    "Incident",
+    "Get the current incident",
+    "Retrieve the current incident"
   ],
   "slots": [
   ],

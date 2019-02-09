@@ -4,15 +4,15 @@
     "enumerationValues": [
       {
         "value": "open",
-        "synonyms": ["opened", "opens", "opening"]
+        "synonyms": []
       },
       {
         "value": "pending",
-        "synonyms": ["pend", "pendant"]
+        "synonyms": []
       },
       {
         "value": "closed",
-        "synonyms": ["close", "closing", "closes"]
+        "synonyms": []
       }
     ],
     "createVersion": true

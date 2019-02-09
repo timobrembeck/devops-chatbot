@@ -436,3 +436,24 @@ resource "aws_lambda_function" "GetResponsibleEscalationTarget" {
   source_code_hash = "${data.archive_file.GetResponsibleEscalationTarget_file.output_base64sha256}"
 }
 #--End GetResponsibleEscalationTarget
+
+
+#--Start Contact_Escalation_Target
+#Contact_Escalation_Target data file
+data "archive_file" "Contact_Escalation_Target_file" {
+  type        = "zip"
+  source_dir  = "${path.module}/lambda_functions/"
+  output_path = "${path.module}/.terraform/archive_files/Contact_Escalation_Target.zip"
+}
+
+#Contact_Escalation_Target function
+resource "aws_lambda_function" "Contact_Escalation_Target" {
+  filename         = "${data.archive_file.Contact_Escalation_Target_file.output_path}"
+  function_name    = "Contact_Escalation_Target"
+  handler          = "Contact_Escalation_Target.lambda_handler"
+  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  runtime          = "python3.6"
+  source_code_hash = "${data.archive_file.Contact_Escalation_Target_file.output_base64sha256}"
+}
+#--End Contact_Escalation_Target
+

@@ -27,7 +27,7 @@ def create_response_message(status, incidents):
         for counter, incident in enumerate(incidents):
             message += incident['messageID'] + ', '
 
-        message += 'In order to get more information about an incident, say get incident with number and the id of the incident.'
+        message += 'In order to get more information about an incident, say get incident with id and then the id of the incident.'
         return message
 
     elif len(incidents)>30:
@@ -68,7 +68,7 @@ def lambda_handler(event, context):
         incidents = get_incidents_by_status(status)
 
         message = create_response_message(status, incidents)
-        
+
         return close(
             {}, 
             'Fulfilled',

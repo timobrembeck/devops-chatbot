@@ -33,7 +33,7 @@ def create_response_message(item, number):
         message = 'The incident with id' + number + ' has the message: ' + item['Item']['message']['S'] + ' and has been escalated to: ' + item['Item']['escalationTarget']['S']        
         return message
     else:
-        message = 'Sorry, there is no incident with id: ' + number
+        message = 'Sorry, there is no incident with id ' + number
         return message
 
 
