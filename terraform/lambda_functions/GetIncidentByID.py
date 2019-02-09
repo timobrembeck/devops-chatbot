@@ -30,7 +30,7 @@ def close(session_attributes, fulfillment_state, message):
 def create_response_message(item, number):
     doesItemExist = 'Item' in item
     if(doesItemExist):
-        message = 'The current incident has the message: ' + item['Item']['message']['S'] + ' and has been escalated to: ' + item['Item']['escalationTarget']['S']        
+        message = 'The incident with id' + number + ' has the message: ' + item['Item']['message']['S'] + ' and has been escalated to: ' + item['Item']['escalationTarget']['S']        
         return message
     else:
         message = 'Sorry, there is no incident with id: ' + number
@@ -42,9 +42,7 @@ def lambda_handler(event, context):
     print(event_response)
 
     number = event_response['currentIntent']['slots']['inputNumber']
-    print(number)
     item = get_key_from_ddb(number)
-    print(item)
     message = create_response_message(item, number)
     print(message)
     #Check if lambda is called from AWS Lex

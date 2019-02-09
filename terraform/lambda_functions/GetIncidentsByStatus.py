@@ -20,11 +20,25 @@ def create_response_message(status, incidents):
     if len(incidents)==0:
         message = 'There are no incidents with status ' + status
         return message
-    else:
-        message = 'There are ' + str(len(incidents)) + " incidents with status " + status + ': \n'
+
+    elif len(incidents)>6:
+        message = 'There are ' + str(len(incidents)) + " incidents with status " + status + '. The IDs of the incidents are the following.'
 
         for counter, incident in enumerate(incidents):
-            message += 'Result ' + str(counter+1) + " is the incident with ID: " + incident['messageID'] + " and message " + incident['message'] + " which has been escalated to " + incident['escalationTarget'] +  " and has a priority " + incident['priority'] +' \n'
+            message += incident['messageID'] + ', '
+
+        message += 'In order to get more information about an incident, say get incident with number and the id of the incident.'
+        return message
+
+    elif len(incidents)>30:
+        message = 'There are ' + str(len(incidents)) + " incidents with status " + status + '. In order to get more information about an incident, say get incident with id and then the id of the incident.'
+        return message
+
+    else:
+        message = 'There are ' + str(len(incidents)) + " incidents with status " + status + '. '
+
+        for counter, incident in enumerate(incidents):
+            message += 'Result ' + str(counter+1) + " is the incident with ID: " + incident['messageID'] + " and message " + incident['message'] + " which has been escalated to " + incident['escalationTarget'] +  " and has a priority " + incident['priority'] + '. '
 
         return message
 
@@ -54,7 +68,7 @@ def lambda_handler(event, context):
         incidents = get_incidents_by_status(status)
 
         message = create_response_message(status, incidents)
-
+        
         return close(
             {}, 
             'Fulfilled',

@@ -21,11 +21,25 @@ def create_response_message(priority, incidents):
     if len(incidents)==0:
         message = 'There are no incidents with priority ' + priority
         return message
-    else:
-        message = 'There are ' + str(len(incidents)) + " incidents with priority " + priority + ': \n'
-        
+
+    elif len(incidents)>6:
+        message = 'There are ' + str(len(incidents)) + " incidents with priority " + priority + '. The IDs of the incidents are the following.'
+
         for counter, incident in enumerate(incidents):
-            message += 'Result ' + str(counter+1) + " is the incident with ID: " + incident['messageID'] + " and message " + incident['message'] + " which has been escalated to " + incident['escalationTarget'] + " and has the status " + incident['currentStatus'] + ' \n'
+            message += incident['messageID'] + ', '
+
+        message += 'In order to get more information about an incident, say get incident with number and the id of the incident.'
+        return message
+
+    elif len(incidents)>30:
+        message = 'There are ' + str(len(incidents)) + " incidents with priority " + priority + '. In order to get more information about an incident, say get incident with id and then the id of the incident.'
+        return message
+
+    else:
+        message = 'There are ' + str(len(incidents)) + " incidents with priority " + priority + '. '
+
+        for counter, incident in enumerate(incidents):
+            message += 'Result ' + str(counter+1) + " is the incident with ID: " + incident['messageID'] + " and message " + incident['message'] + " which has been escalated to " + incident['escalationTarget'] + " and has the status " + incident['currentStatus'] + '. '
 
         return message
 
