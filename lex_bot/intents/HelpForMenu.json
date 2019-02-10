@@ -19,7 +19,7 @@
       "messages": [
         {
           "contentType": "PlainText",
-          "content": "Some things you can ask me: To escalate an incident say Escalate incident. To get the current incident say current incident. Besides, to get the incidents by status say get incidents by status. Or to get the incidents by priority say get incidents by priority. Or to get an incident by id say get incident by id. Or to know about the weather say How is the weather. Or to lighten up, your mood says Tell me a joke. Or to end the conversation say Goodbye.",
+          "content": "Some things you can ask me: To report an incident say Report incident. To escalate an incident say Escalate incident. To get the current incident say current incident. Besides, to get the incidents by status say get incidents by status. Or to get the incidents by priority say get incidents by priority. Or to get an incident by id say get incident by id. Or to know about the weather say How is the weather. Or to lighten up, your mood says Tell me a joke. Or to end the conversation say Goodbye.",
           "groupNumber": 1
         }
       ]
