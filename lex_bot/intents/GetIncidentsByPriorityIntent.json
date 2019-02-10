@@ -3,7 +3,7 @@
     "sampleUtterances": [
       "get all incidents by priority",
       "get all incidents with priority {priority} ",
-      "i want to know about the {priority} priority incidents",
+      "i want to know about all incidents with {priority} priority",
       "give me all incidents by priority",
       "give me all incidents with priority {priority} "
     ],
