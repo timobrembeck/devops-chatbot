@@ -8,6 +8,11 @@ The alerting infrastructure needed for the devops-chatbot project can be automat
 - on the same folder path write the command 'terraform plan' on the terminal
 - finally write the command 'terrform apply'
 
+## Redeploy the kubernetes config
+
+    terraform destroy -target=null_resource.Setup_Kubectl_Command
+    terraform apply -target=aws_lambda_function.Kubectl_Command    
+
 ### Terraform in development
 - use -target to plan/apply single resources e.g. `terraform plan -target=aws_dynamodb_table.escalation_target`
 ## How to use it after deploying that

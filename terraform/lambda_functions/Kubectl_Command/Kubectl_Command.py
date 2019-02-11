@@ -5,7 +5,7 @@ from kubernetes import client, config
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
-node_list_keys = ('name', 'role', 'status', 'last_message', 'creation')
+node_list_keys = ('name', 'role', 'status', 'last_message', 'cpu_allocation', 'creation')
 
 v1 = 0
 """ --- Helpers to build responses which match the structure of the necessary dialog actions --- """
@@ -16,7 +16,7 @@ def get_slots(intent_request):
 
 
 def close(intent_request, fulfillment_state, message):
-    # if request is from connect the requestAttributes is set to something
+    # if request is from aws connect the requestAttributes is set to something
     if intent_request['requestAttributes'] is None:
         # if message is a list -> transform it into table with slack code escaping
         if (type(message) is list):
@@ -89,7 +89,7 @@ def kubectl_get_api_call(intent_request):
     global v1
 
     get_resource = get_slots(intent_request)["resource"]
-    result = {"message": "error: the server doesn't have a resource type " + get_resource}
+    result = "error: the resource is not supported yet or does not exist"
     source = intent_request['invocationSource']
 
     if source == 'DialogCodeHook':
@@ -104,10 +104,19 @@ def kubectl_get_api_call(intent_request):
         result = v1.list_node()
         rows = [node_list_keys]
         for node in result.items:
+            # More info on kubectl cpu allocation: https://github.com/kubernetes/kubernetes/issues/17512
+            cpu_node = 0
+            pod_result =v1.list_pod_for_all_namespaces(field_selector="spec.nodeName="+node.metadata.name)
+
+            for pod in pod_result.items:
+                for container in pod.spec.containers:
+                    cpu_node +=  int(container.resources.requests['cpu'].replace('m', ''))
+
             row = (node.metadata.name,
                    node.metadata.labels['kubernetes.io/role'],
                    node.status.conditions[-1].type,
                    node.status.conditions[-1].message,
+                   str(cpu_node/10) + "%",
                    node.metadata.creation_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
             rows.append(row)
         result = rows
@@ -174,7 +183,7 @@ def lambda_handler(event, context):
 
     if not (setup_kubernetes()):
         logger.error("Kubernetes API config fails.")
-        raise Exception('Failed to initialize Kubernetes API')
+        return close(event, 'Fulfilled', "Kubernetes is not properly configured. Please have a look in the logs.")
 
     result = dispatch(event)
     logger.debug(result)
@@ -218,7 +227,6 @@ demo_chat_event = {'messageVersion': '1.0',
                    'inputTranscript': 'node'}
 
 # Offline mock call comment when publish!
-# print("init")
+#print("init")
 #print(lambda_handler(demo_connect_event, ''))
 #print(lambda_handler(demo_chat_event, ''))
-
