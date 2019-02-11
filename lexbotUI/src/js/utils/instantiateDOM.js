@@ -10,7 +10,7 @@ export default async function instantiateDOM(lexUserId, lexruntime, height, widt
     menu.id = "menu";
     menu.style.maxWidth = `${width}px`;
     const menuText = document.createElement("h2");
-    menuText.appendChild(document.createTextNode("Lex Bot Chat"));
+    menuText.appendChild(document.createTextNode("Lex ChatBot"));
     menu.appendChild(menuText);
     document.getElementById("lexbotapp").appendChild(menu);
 
@@ -19,7 +19,13 @@ export default async function instantiateDOM(lexUserId, lexruntime, height, widt
     conversation.id = "conversation";
     conversation.style.height = `${height-100}px`;
     conversation.style.maxWidth = `${width}px`;
+    //Create welcome message
+    const welcomeMessage = document.createElement("h1");
+    welcomeMessage.id = "welcomeMessage";
+    welcomeMessage.appendChild(document.createTextNode("Welcome to Chatbot!!"));
+    conversation.appendChild(welcomeMessage);
     document.getElementById("lexbotapp").appendChild(conversation);
+
 
     //Create chatform form and append it to lexbotapp
     const chatform= document.createElement("form");

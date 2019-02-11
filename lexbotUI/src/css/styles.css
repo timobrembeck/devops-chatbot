@@ -1,23 +1,24 @@
 #lexbotapp{
     overflow: hidden;
+    margin: 0 auto;
 }
 
 #menu{
-    padding: 0 4px;
-    height: 50px;
-    background-color: #232f3e;
-    z-index: 100;
-    color: white;
     display:flex;
     justify-content: center;
     align-items: center;
+    height: 50px;
+    padding: 0 4px;
+    color: #ff8a00;
+    background-color: #34302d;
+    z-index: 100;
 }
 
 #conversation {
-    background-color: #e5e5e5;; 
+    position: relative;
     padding: 0 4px; 
     overflow: scroll;
-    position: relative;
+    background-color: #e5e5e5;; 
 }
 
 .userRequest:first-child{
@@ -28,10 +29,10 @@ input#wisdom {
     padding: 0 4px;
     font-size: 1em;
     height: 50px;
-    background: #fafafa;
+    color: white;
+    background-color: #34302d;
     border: none;
     outline: none;
-    color: #666;
     font-weight: 400;
 }
 
@@ -122,4 +123,13 @@ p.lexError {
     border-bottom-color: #86BB71;;
     border-width: 10px;
     margin-left: -10px;
+}
+
+#welcomeMessage{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0!important;
+    height: 400px;
+    color: #76bd1d;
 }
