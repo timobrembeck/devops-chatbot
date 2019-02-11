@@ -2,6 +2,8 @@ import boto3
 import time
 from Slack_Lambda_Layer import *
 
+bot_user_id = 'TDP6AJ71V'
+
 def trigger_outbound_call(escalation_target, incident):
     connect = boto3.client('connect', region_name='eu-central-1')
     response = connect.start_outbound_voice_contact(
@@ -60,6 +62,13 @@ def lambda_handler(event, context):
             channel_name = 'incident_' + incident['id']
             try:
                 channel = create_channel(channel_name)
+                try:
+                    invite_to_channel(channel['id'], bot_user_id)
+                except SlackException as e:
+                    if e.error in ['already_in_channel', 'user_not_found', 'cant_invite_self']:
+                        pass
+                    else:
+                        return result('Failed', 'The method "' + e.method + '" failed with error "' + e.error + '"')
                 set_channel_topic(channel['id'], 'Incident message: ' + incident['message'])
                 set_channel_purpose(channel['id'], 'Resolving incident with message: ' + incident['message'])
                 post_message(channel['id'], 'I created this channel for you to handle the incident with the message: "' + incident['message'] + '".\n\nLet\'s resolve this issue as fast as possible! :rocket:')
@@ -68,6 +77,13 @@ def lambda_handler(event, context):
                     channel = [c for c in get_channels() if c['name'] == channel_name][0]
                     if channel['is_archived']:
                         unarchive_channel(channel['id'])
+                        try:
+                            invite_to_channel(channel['id'], bot_user_id)
+                        except SlackException as e:
+                            if e.error in ['already_in_channel', 'user_not_found', 'cant_invite_self']:
+                                pass
+                            else:
+                                return result('Failed', 'The method "' + e.method + '" failed with error "' + e.error + '"')
                     join_channel(channel_name)
             users = get_users_from_ddb(escalationTarget['team'])
             if len(users) == 0:

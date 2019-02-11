@@ -1,6 +1,8 @@
 import boto3
 from Slack_Lambda_Layer import *
 
+bot_user_id = 'TDP6AJ71V'
+
 def get_current_incident_from_ddb():
     ddb = boto3.client('dynamodb')
     counter = ddb.get_item(
@@ -64,6 +66,13 @@ def lambda_handler(event, context):
     message = ''
     try:
         channel = create_channel(channel_name)
+        try:
+            invite_to_channel(channel['id'], bot_user_id)
+        except SlackException as e:
+            if e.error in ['already_in_channel', 'user_not_found', 'cant_invite_self']:
+                pass
+            else:
+                return result('Failed', 'The method "' + e.method + '" failed with error "' + e.error + '"')
         set_channel_topic(channel['id'], 'Incident message: ' + incident['message']['S'])
         set_channel_purpose(channel['id'], 'Resolving incident with message: ' + incident['message']['S'])
         post_message(channel['id'], 'I created this channel for you to handle the incident with the message: "' + incident['message']['S'] + '".\n\nLet\'s resolve this issue as fast as possible! :rocket:')
@@ -74,7 +83,14 @@ def lambda_handler(event, context):
             if channel['is_archived']:
                 unarchive_channel(channel['id'])
                 message += 'The Slack channel "' + channel_name + '" has been unarchived. '
-                join_channel(channel_name)
+                try:
+                    invite_to_channel(channel['id'], bot_user_id)
+                except SlackException as e:
+                    if e.error in ['already_in_channel', 'user_not_found', 'cant_invite_self']:
+                        pass
+                    else:
+                        return result('Failed', 'The method "' + e.method + '" failed with error "' + e.error + '"')
+            join_channel(channel_name)
         else:
             return result('Close', 'The method "' + e.method + '" failed with error "' + e.error + '"', {'fulfillmentState': 'Failed'})
 
