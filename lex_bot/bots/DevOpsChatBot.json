@@ -63,6 +63,14 @@
     {
       "intentVersion": "1",
       "intentName": "CreateSlackChannelIntent"
+    },
+    {
+      "intentVersion": "1",
+      "intentName": "CloseIncidentIntent"
+    },
+    {
+      "intentVersion": "1",
+      "intentName": "UpdateIncidentStatusIntent"
     }
   ],
   "name": "DevOpsChatBot",

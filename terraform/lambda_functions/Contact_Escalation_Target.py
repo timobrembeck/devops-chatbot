@@ -50,12 +50,12 @@ def lambda_handler(event, context):
 
     # first contact attempt (phone)
     trigger_outbound_call(escalationTarget, incident)
-    time.sleep(30)
+    time.sleep(60)
 
     # second contact attempt (phone)
     if get_incident_status(incident['id']) == 'open':
         trigger_outbound_call(escalationTarget, incident)
-        time.sleep(30)
+        time.sleep(60)
 
         # third contact attempt (slack)
         if get_incident_status(incident['id']) == 'open':

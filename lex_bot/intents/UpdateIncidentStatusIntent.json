@@ -1,0 +1,55 @@
+{
+    "name": "UpdateIncidentStatusIntent",
+    "sampleUtterances": [
+      "I want to update an incident",
+      "update incident",
+      "i want to update the incident with id {incidentId} to {status}",
+      "update the incident {incidentId} to {status}",
+      "update incident id {incidentId} to status {status}"
+    ],
+    "slots": [
+        {
+            "name": "incidentId",
+            "slotConstraint": "Required",
+            "slotType": "AMAZON.NUMBER",
+            "valueElicitationPrompt": {
+                "messages": [
+                {
+                    "contentType": "PlainText",
+                    "content": "What is the id of the incident ? "
+                }
+                ],
+                "maxAttempts": 2
+            },
+            "priority": 1,
+            "sampleUtterances": []
+        },
+        {
+            "name": "status",
+            "slotConstraint": "Required",
+            "slotType": "StatusSlot",
+            "slotTypeVersion": "1",
+            "valueElicitationPrompt": {
+                "messages": [
+                {
+                    "contentType": "PlainText",
+                    "content": "What is the status of the incident(open, pending or closed)? "
+                }
+                ],
+                "maxAttempts": 2
+            },
+            "priority": 2,
+            "sampleUtterances": []
+        }
+    ],
+    "fulfillmentActivity": {
+      "type": "CodeHook",
+      "codeHook": {
+        "uri": "arn:aws:lambda:eu-west-1:746022503515:function:UpdateIncidentStatus",
+        "messageVersion": "1.0"
+      }
+    },
+    "description": "Intent to update an incident status",
+    "createVersion": true
+}
+  
