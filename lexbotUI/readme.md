@@ -14,6 +14,7 @@
   - Type ```webpack``` on the root folder of the project to compile and minify the code/
 
 
-## The project is hosted in a S3 bucket on AWS and can be used following the URL :  ```http://lexbotwebapp.s3-website-eu-west-1.amazonaws.com/```
+The project is hosted in a S3 bucket on AWS and can be used following the URL :  
+## ```http://lexbotwebapp.s3-website-eu-west-1.amazonaws.com/```
 
 You can see an example of how the widget is used in the index.html.
