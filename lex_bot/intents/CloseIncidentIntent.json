@@ -1,0 +1,37 @@
+{
+  "name": "CloseIncidentIntent",
+  "sampleUtterances": [
+    "I want to close an incident",
+    "close incident",
+    "i want to close the incident with id {incidentId}",
+    "close the incident {incidentId}"
+  ],
+  "slots": [
+    {
+      "name": "incidentId",
+      "slotConstraint": "Required",
+      "slotType": "AMAZON.NUMBER",
+      "valueElicitationPrompt": {
+          "messages": [
+          {
+              "contentType": "PlainText",
+              "content": "What is the id of the incident ? "
+          }
+          ],
+          "maxAttempts": 2
+      },
+      "priority": 1,
+      "sampleUtterances": []
+    }
+  ],
+  "fulfillmentActivity": {
+    "type": "CodeHook",
+    "codeHook": {
+      "uri": "arn:aws:lambda:eu-west-1:746022503515:function:UpdateIncidentStatus",
+      "messageVersion": "1.0"
+    }
+  },
+  "description": "Intent to close an incident, meaning update the status of the incident to closed",
+  "createVersion": true
+}
+

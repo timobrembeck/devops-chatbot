@@ -325,24 +325,33 @@ resource "aws_lambda_function" "GetIncidentsByPriority" {
 #--End GetIncidentsByPriority
 
 
-#--Start Update_Incident_Status
-#Update_Incident_Status data file
-data "archive_file" "Update_Incident_Status_file" {
+#--Start UpdateIncidentStatus
+#UpdateIncidentStatus data file
+data "archive_file" "UpdateIncidentStatus_file" {
   type        = "zip"
   source_dir  = "${path.module}/lambda_functions/"
-  output_path = "${path.module}/.terraform/archive_files/Update_Incident_Status.zip"
+  output_path = "${path.module}/.terraform/archive_files/UpdateIncidentStatus.zip"
 }
 
-#Update_Incident_Status function
-resource "aws_lambda_function" "Update_Incident_Status" {
-  filename         = "${data.archive_file.Update_Incident_Status_file.output_path}"
-  function_name    = "Update_Incident_Status"
-  handler          = "Update_Incident_Status.lambda_handler"
+#UpdateIncidentStatus function
+resource "aws_lambda_function" "UpdateIncidentStatus" {
+  filename         = "${data.archive_file.UpdateIncidentStatus_file.output_path}"
+  function_name    = "UpdateIncidentStatus"
+  handler          = "UpdateIncidentStatus.lambda_handler"
   role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
   runtime          = "python3.6"
-  source_code_hash = "${data.archive_file.Update_Incident_Status_file.output_base64sha256}"
+  source_code_hash = "${data.archive_file.UpdateIncidentStatus_file.output_base64sha256}"
 }
-#--End Update_Incident_Status
+
+resource "aws_lambda_permission" "UpdateIncidentStatus_Permission" {
+    depends_on = ["aws_lambda_function.UpdateIncidentStatus"]
+    statement_id = "AllowExecutionFromCloseIncidentIntent"
+    action = "lambda:InvokeFunction"
+    function_name = "UpdateIncidentStatus"
+    principal = "lex.amazonaws.com"
+    source_arn = "arn:aws:lex:eu-west-1:746022503515:intent:CloseIncidentIntent:*"
+}
+#--End UpdateIncidentStatus
 
 
 
@@ -415,7 +424,6 @@ resource "aws_lambda_permission" "Cronjob_OutboundCall_with_ScheduledEvents" {
     function_name = "Cronjob_OutboundCall"
     principal = "events.amazonaws.com"
     source_arn = "${aws_cloudwatch_event_rule.everyday_at_17.arn}"
-    
 }
 
 #--End Cronjob_OutboundCall
