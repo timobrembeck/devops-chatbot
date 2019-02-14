@@ -2,10 +2,10 @@
     "name": "EscalateIncidentIntent",
     "sampleUtterances": [
       "I want to escalate an incident",
-      "escalate incident",
-      "i want to escalate the incident with id {incidentId} to {escalationTarget}",
-      "escalate the incident {incidentId} to {escalationTarget}",
-      "escalate incident id {incidentId} to escalation target {escalationTarget}"
+      "Escalate incident",
+      "I want to escalate the incident with id {incidentId} to {escalationTarget}",
+      "Escalate the incident {incidentId} to {escalationTarget}",
+      "Escalate incident id {incidentId} to escalation target {escalationTarget}"
     ],
     "slots": [
       {
