@@ -1,18 +1,18 @@
 {
     "name": "GetIncidentByIDIntent",
     "sampleUtterances": [
-      "retrieve the incident with id",
-      "retrieve the incident with number",
-      "get the incident with id",
-      "get the incident with number",
-      "incident with id",
-      "incident with number",
-      "incident id",
-      "incident with id {inputNumber} ",
-      "incident with number {inputNumber} ",
-      "incident id {inputNumber} ",
-      "incident number {inputNumber} ",
-      "incident {inputNumber} "
+      "Retrieve the incident with id",
+      "Retrieve the incident with number",
+      "Get the incident with id",
+      "Get the incident with number",
+      "Incident with id",
+      "Incident with number",
+      "Incident id",
+      "Incident with id {inputNumber} ",
+      "Incident with number {inputNumber} ",
+      "Incident id {inputNumber} ",
+      "Incident number {inputNumber} ",
+      "Incident {inputNumber} "
     ],
     "slots": [
       {
@@ -23,7 +23,7 @@
               "messages": [
               {
                   "contentType": "PlainText",
-                  "content": "What is the id of the incident ? "
+                  "content": "What is the id of the incident?"
               }
               ],
               "maxAttempts": 2
@@ -39,7 +39,7 @@
         "messageVersion": "1.0"
       }
     },
-    "description": "Intent to escalate incident with ID",
+    "description": "Intent to retrieve incident by ID",
     "createVersion": true
   }
   

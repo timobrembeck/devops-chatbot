@@ -2,9 +2,9 @@
   "name": "CloseIncidentIntent",
   "sampleUtterances": [
     "I want to close an incident",
-    "close incident",
-    "i want to close the incident with id {incidentId}",
-    "close the incident {incidentId}"
+    "Close incident",
+    "I want to close the incident with id {incidentId}",
+    "Close the incident {incidentId}"
   ],
   "slots": [
     {

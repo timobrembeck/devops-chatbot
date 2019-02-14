@@ -5,12 +5,12 @@
     },
     "sampleUtterances": [
       "Goodbye",
-      "good bye",
+      "Good bye",
       "bye",
-      "end call",
-      "see you",
-      "talk to you later",
-      "have a nice day"
+      "End call",
+      "See you",
+      "Talk to you later",
+      "Have a nice day"
     ],
     "slots": [],
     "conclusionStatement": {
