@@ -1,9 +1,11 @@
 {
     "name": "GetResponsibleEscalationTarget",
     "sampleUtterances": [
-      "responsible escalation target",
-      "responsible person",
-      "active person"
+      "Get responsible person",
+      "Get escalation target", 
+      "Responsible escalation target",
+      "Responsible person",
+      "Active person"
     ],
     "slots": [],
     "fulfillmentActivity": {
