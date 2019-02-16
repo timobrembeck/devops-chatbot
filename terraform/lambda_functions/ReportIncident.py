@@ -2,6 +2,7 @@ import boto3
 import os
 import json
 from datetime import datetime
+ddb = boto3.client('dynamodb')
 
 def publish_to_connect_sns(payload):
     sns = boto3.client('sns')
@@ -13,8 +14,6 @@ def publish_to_connect_sns(payload):
 
 
 def get_escalation_target_from_ddb(dayToday):
-    ddb = boto3.client('dynamodb')
-
     response = ddb.get_item(
         TableName = 'escalation_target', 
         Key = {
@@ -25,6 +24,17 @@ def get_escalation_target_from_ddb(dayToday):
     )
     
     return response
+
+def get_counter():
+    response = ddb.get_item(
+        TableName = 'alert-log', 
+        Key = {
+            'messageID': {
+                'S': 'counter'
+            }
+        }
+    )
+    return int(response['Item']['message']['S'])
 
 # -- AWS Lex Bot Intent response --
 def close(session_attributes, fulfillment_state, message):
@@ -58,6 +68,7 @@ def lambda_handler(event, context):
             'message': message,
             'priority': priority,
         }        
+        incidentId = str(get_counter() + 1)
 
         publish_to_connect_sns(payload)
             
@@ -68,7 +79,7 @@ def lambda_handler(event, context):
             'Fulfilled',
             {
                 'contentType': 'PlainText',
-                'content': 'The incident with message ' + message + ', priority ' + priority + ' and escalation target ' + escalationTarget + ' has been successfully reported.'
+                'content': 'The incident with id ' + incidentId + ' and message ' + message + ', which has the priority ' + priority + ' and escalation target ' + escalationTarget + ' has been successfully reported.'
             }
         )
 
@@ -85,6 +96,6 @@ def lambda_handler(event, context):
             
         print(json.dumps(payload))
 
-        resultMap = {'escalation': 'The incident with message ' + message + ', priority ' + priority + ' and escalation target ' + escalationTarget + ' has been successfully reported.' }
+        resultMap = {'escalation': 'The incident with id ' + incidentId + ' and message ' + message + ', which has the priority ' + priority + ' and escalation target ' + escalationTarget + ' has been successfully reported.' }
 
         return resultMap
