@@ -68,7 +68,7 @@ def lambda_handler(event, context):
             'Fulfilled',
             {
                 'contentType': 'PlainText',
-                'content': 'The incident with message ' + message + ' and priority ' + priority + ' has been escalated to ' + escalationTarget
+                'content': 'The incident with message ' + message + ', priority ' + priority + ' and escalation target ' + escalationTarget + ' has been successfully reported.'
             }
         )
 
@@ -85,6 +85,6 @@ def lambda_handler(event, context):
             
         print(json.dumps(payload))
 
-        resultMap = {'escalation': 'The incident with message ' + message + ' and priority ' + priority + ' has been escalated to ' + escalationTarget + ' with phone number: ' + escalationNumber }
+        resultMap = {'escalation': 'The incident with message ' + message + ', priority ' + priority + ' and escalation target ' + escalationTarget + ' has been successfully reported.' }
 
         return resultMap
