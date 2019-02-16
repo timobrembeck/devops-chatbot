@@ -13,16 +13,15 @@ def publish_to_connect_sns(payload):
     return response
 
 
-def get_escalation_target_from_ddb(dayToday):
+def get_escalation_target_from_ddb():
     response = ddb.get_item(
         TableName = 'escalation_target', 
         Key = {
-            'dayName': {
-                'S': dayToday
+            'responsibility': {
+                'S': datetime.now().strftime("%A")
             }
         }
     )
-    
     return response
 
 def get_counter():
@@ -55,8 +54,7 @@ def lambda_handler(event, context):
 
     print(event_response)
 
-    dayToday = datetime.now().strftime("%A")
-    escalation = get_escalation_target_from_ddb(dayToday)
+    escalation = get_escalation_target_from_ddb()
     escalationTarget = escalation['Item']['escalationTarget']['S']
     escalationNumber = escalation['Item']['escalationNumber']['S']
 

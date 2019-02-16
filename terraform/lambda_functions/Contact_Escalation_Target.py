@@ -1,7 +1,7 @@
 import boto3
 import time
 from Slack_Lambda_Layer import *
-
+dynamodb = boto3.client('dynamodb')
 bot_user_id = 'TDP6AJ71V'
 
 def trigger_outbound_call(escalation_target, incident):
@@ -20,8 +20,7 @@ def trigger_outbound_call(escalation_target, incident):
     return response
 
 def get_users_from_ddb(team):
-    ddb = boto3.client('dynamodb')
-    users = ddb.scan(
+    users = dynamodb.scan(
         TableName = 'user',
         ScanFilter = {
             'teams': {
@@ -33,7 +32,6 @@ def get_users_from_ddb(team):
     return users['Items']
 
 def get_incident_status(id):
-    dynamodb = boto3.client('dynamodb')
     response = dynamodb.get_item(
         TableName = 'alert-log',
         Key = {
@@ -43,6 +41,22 @@ def get_incident_status(id):
         }
     )
     return response['Item']['currentStatus']['S']
+
+def get_backup_escalation_target_from_ddb(responsibility):
+    response = dynamodb.get_item(
+        TableName = 'escalation_target', 
+        Key = {
+            'responsibility': {
+                'S': responsibility
+            }
+        }
+    )
+    backupEscalationTarget = {
+        'name': response['Item']['escalationTarget']['S'],
+        'number': response['Item']['escalationNumber']['S'],
+        'team': response['Item']['escalationTeam']['S']
+    }
+    return backupEscalationTarget
 
 def lambda_handler(event, context):
     escalationTarget = event['escalationTarget']
@@ -54,7 +68,8 @@ def lambda_handler(event, context):
 
     # second contact attempt (phone)
     if get_incident_status(incident['id']) == 'open':
-        trigger_outbound_call(escalationTarget, incident)
+        backupEscalationTarget = get_backup_escalation_target_from_ddb('IncidentManager')
+        trigger_outbound_call(backupEscalationTarget, incident)
         time.sleep(60)
 
         # third contact attempt (slack)

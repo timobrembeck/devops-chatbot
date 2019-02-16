@@ -33,7 +33,7 @@ def get_escalation_target():
     response = dynamodb.get_item(
         TableName = 'escalation_target', 
         Key = {
-            'dayName': {
+            'responsibility': {
                 'S': datetime.now().strftime("%A")
             }
         }

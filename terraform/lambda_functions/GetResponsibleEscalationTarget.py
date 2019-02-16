@@ -1,8 +1,7 @@
 import json
 import boto3
-from boto3.dynamodb.conditions import Key, Attr
-import datetime
-from datetime import date
+from datetime import datetime
+dynamodb = boto3.client('dynamodb')
 
 # -- AWS Lex Bot Intent response --
 def close(session_attributes, fulfillment_state, message):
@@ -17,28 +16,30 @@ def close(session_attributes, fulfillment_state, message):
 
     return response
 
+def get_escalation_target():
+    response = dynamodb.get_item(
+        TableName = 'escalation_target', 
+        Key = {
+            'responsibility': {
+                'S': datetime.now().strftime("%A")
+            }
+        }
+    )
+    escalationTarget = {
+        'name': response['Item']['escalationTarget']['S'],
+        'number': response['Item']['escalationNumber']['S'],
+        'team': response['Item']['escalationTeam']['S']
+    }
+    return escalationTarget
 
 def lambda_handler(event, context):
-    dynamodb = boto3.resource('dynamodb')
-    table = dynamodb.Table('escalation_target')
+    event_response = json.dumps(event)
 
-    weekday = datetime.datetime.today().strftime('%A')
+    escalationTarget = get_escalation_target()
 
-    result = table.scan(
-        FilterExpression=Attr('dayName').eq(weekday),
-        ProjectionExpression="escalationNumber, escalationTarget"
-    )
-
-    message = 'The responsible persons are: \n'
-
-    for x in result['Items']:
-        message += 'Responsible Person: ' + x['escalationTarget'] + ' with the number: ' + x['escalationNumber'] + ' \n'
+    message = 'The responsible person is ' + escalationTarget['name'] + ' with the number: ' + escalationTarget['number']
 
     print(message)
-
-
-
-    event_response = json.dumps(event)
 
     # Check if lambda is called from AWS Lex
     if 'bot' in event_response:
