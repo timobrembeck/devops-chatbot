@@ -36,8 +36,8 @@ def lambda_handler(event, context):
     current_key = counter['Item']['message']['S']
 
     dataset = get_key_from_ddb(current_key)
-    message = 'The current incident has the message: ' + dataset['Item']['message'][
-        'S'] + ' and has been escalated to: ' + dataset['Item']['escalationTarget']['S']
+    message = 'The current incident with id: ' + dataset['Item']['messageID']['S'] + ' is of ' + dataset['Item']['priority']['S'] + ' priority, has the status: ' + dataset['Item']['currentStatus']['S'] +  ' and the message: "' + dataset['Item']['message'][
+        'S'] + '". Responsible specialist on duty is: ' + dataset['Item']['escalationTarget']['S']
     print(json.dumps(message))
 
     event_response = json.dumps(event)

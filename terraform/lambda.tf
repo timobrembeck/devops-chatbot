@@ -464,6 +464,7 @@ resource "aws_lambda_function" "Create_Slack_Channel" {
   role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
   layers           = ["${aws_lambda_layer_version.Slack_Lambda_Layer.layer_arn}"]
   runtime          = "python3.6"
+  timeout          = "200"
   source_code_hash = "${data.archive_file.Create_Slack_Channel_file.output_base64sha256}"
 }
 
@@ -506,7 +507,7 @@ resource "aws_lambda_function" "Contact_Escalation_Target" {
   role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
   layers           = ["${aws_lambda_layer_version.Slack_Lambda_Layer.layer_arn}"]
   runtime          = "python3.6"
-  timeout          = "200"
+  timeout          = "600"
   source_code_hash = "${data.archive_file.Contact_Escalation_Target_file.output_base64sha256}"
 }
 
