@@ -22,6 +22,9 @@ def get_channels():
 def create_channel(channel_name):
     return slack_api_call('channels.create', {'name': channel_name})['channel']
 
+def archive_channel(channel_id):
+    return slack_api_call('channels.archive', {'channel': channel_id})
+
 def unarchive_channel(channel_id):
     return slack_api_call('channels.unarchive', {'channel': channel_id})
 
