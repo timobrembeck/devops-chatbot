@@ -30,6 +30,6 @@
       "messageVersion": "1.0"
     }
   },
-  "description": "Intent to retrieve information from kubernetes",
+  "description": "Intent to retrieve information from Kubernetes",
   "createVersion": true
 }
