@@ -1,75 +1,57 @@
 {
   "intents": [
     {
-      "intentVersion": "1",
       "intentName": "GetCurrentIncidentIntent"
     },
     {
-      "intentVersion": "1",
       "intentName": "ReportIncidentIntent"
     },
     {
-      "intentVersion": "1",
       "intentName": "EscalateIncidentIntent"
     },
     {
-      "intentVersion": "1",
       "intentName": "HelloIntent"
     },
     {
-      "intentVersion": "1",
       "intentName": "JokeTellingIntent"
     },
     {
-      "intentVersion": "1",
       "intentName": "TodaysWeatherIntent"
     },
     {
-      "intentVersion": "1",
       "intentName": "WhatIsYourNameIntent"
     },
     {
-      "intentVersion": "1",
       "intentName": "HelpForMenu"
     },
     {
-      "intentVersion": "1",
       "intentName": "EndConversation"
     },
     {
-      "intentVersion": "1",
       "intentName": "WelcomeIntent"
     }, 
     {
-      "intentVersion": "1",
       "intentName": "GetIncidentByIDIntent"
     },
     {
-      "intentVersion": "1",
       "intentName": "GetResponsibleEscalationTarget"
     },
     {
-      "intentVersion": "1",
       "intentName": "GetIncidentsByPriorityIntent"
     },
     {
-      "intentVersion": "1",
       "intentName": "GetIncidentsByStatusIntent"
     },
     {
-      "intentVersion": "1",
       "intentName": "KubernetesIntent"
     },
     {
-      "intentVersion": "1",
       "intentName": "CreateSlackChannelIntent"
     },
     {
-      "intentVersion": "1",
       "intentName": "CloseIncidentIntent"
     },
     {
-      "intentVersion": "1",
       "intentName": "UpdateIncidentStatusIntent"
     }
   ],
@@ -79,7 +61,7 @@
   "abortStatement": {
     "messages": [
       {
-        "content": "Bye.",
+        "content": "Sorry, I could not understand you.",
         "contentType": "PlainText"
       }
     ]
@@ -88,7 +70,7 @@
     "maxAttempts": 5,
     "messages": [
       {
-        "content": "Type or say help for all available commands.",
+        "content": "Type or say 'help' for all available commands.",
         "contentType": "PlainText"
       }
     ]

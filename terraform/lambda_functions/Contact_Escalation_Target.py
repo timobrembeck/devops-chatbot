@@ -2,7 +2,7 @@ import boto3
 import time
 from Slack_Lambda_Layer import *
 dynamodb = boto3.client('dynamodb')
-bot_user_id = 'TDP6AJ71V'
+bot_user_id = 'UECS2J05D'
 
 def trigger_outbound_call(escalation_target, incident):
     connect = boto3.client('connect', region_name='eu-central-1')
@@ -64,13 +64,13 @@ def lambda_handler(event, context):
 
     # first contact attempt (phone)
     trigger_outbound_call(escalationTarget, incident)
-    time.sleep(60)
+    time.sleep(120)
 
     # second contact attempt (phone)
     if get_incident_status(incident['id']) == 'open':
         backupEscalationTarget = get_backup_escalation_target_from_ddb('IncidentManager')
         trigger_outbound_call(backupEscalationTarget, incident)
-        time.sleep(60)
+        time.sleep(120)
 
         # third contact attempt (slack)
         if get_incident_status(incident['id']) == 'open':
@@ -83,7 +83,7 @@ def lambda_handler(event, context):
                     if e.error in ['already_in_channel', 'user_not_found', 'cant_invite_self']:
                         pass
                     else:
-                        return result('Failed', 'The method "' + e.method + '" failed with error "' + e.error + '"')
+                        return {'statusCode': 500, 'error': 'The method "' + e.method + '" failed with error "' + e.error + '"'}
                 set_channel_topic(channel['id'], 'Incident message: ' + incident['message'])
                 set_channel_purpose(channel['id'], 'Resolving incident with message: ' + incident['message'])
                 post_message(channel['id'], 'I created this channel for you to handle the incident with the message: "' + incident['message'] + '".\n\nLet\'s resolve this issue as fast as possible! :rocket:')
@@ -98,7 +98,7 @@ def lambda_handler(event, context):
                             if e.error in ['already_in_channel', 'user_not_found', 'cant_invite_self']:
                                 pass
                             else:
-                                return result('Failed', 'The method "' + e.method + '" failed with error "' + e.error + '"')
+                                return {'statusCode': 500, 'error': 'The method "' + e.method + '" failed with error "' + e.error + '"'}
                     join_channel(channel_name)
             users = get_users_from_ddb(escalationTarget['team'])
             if len(users) == 0:

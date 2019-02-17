@@ -6,8 +6,7 @@
     "Get the current incident",
     "Retrieve the current incident"
   ],
-  "slots": [
-  ],
+  "slots": [],
   "fulfillmentActivity": {
     "type": "CodeHook",
     "codeHook": {

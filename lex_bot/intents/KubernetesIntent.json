@@ -10,7 +10,6 @@
       "name": "resource",
       "slotConstraint": "Required",
       "slotType": "KubernetesResource",
-      "slotTypeVersion": "1",
       "valueElicitationPrompt": {
         "messages": [
           {
@@ -18,7 +17,7 @@
             "content": "About which Kubernetes resource you want more information?"
           }
         ],
-        "maxAttempts": 2
+        "maxAttempts": 3
       },
       "priority": 1,
       "sampleUtterances": []

@@ -1,27 +1,22 @@
 import boto3
 from Slack_Lambda_Layer import *
 
-bot_user_id = 'TDP6AJ71V'
+bot_user_id = 'UECS2J05D'
 
-def get_current_incident_from_ddb():
+def get_key_from_ddb(key):
     ddb = boto3.client('dynamodb')
-    counter = ddb.get_item(
-        TableName = 'alert-log',
-        Key = {
+
+    response = ddb.get_item(
+        TableName='alert-log',
+        Key={
             'messageID': {
-                'S': 'counter'
-            }
-        }
-    )['Item']['message']['S']
-    incident = ddb.get_item(
-        TableName = 'alert-log',
-        Key = {
-            'messageID': {
-                'S': counter
+                'S': key
             }
         }
     )
-    return incident['Item']
+    if 'Item' in response:
+        return response['Item']
+    return False
 
 def get_users_from_ddb(team):
     ddb = boto3.client('dynamodb')
@@ -36,7 +31,7 @@ def get_users_from_ddb(team):
     )
     return users['Items']
 
-def result(result_type, content, args):
+def result(result_type, content, args = {}):
         result = {
             'sessionAttributes': {},
             'dialogAction': {
@@ -51,17 +46,18 @@ def result(result_type, content, args):
             result['dialogAction']['fulfillmentState'] = args['fulfillmentState']
         elif result_type == 'ElicitSlot':
             result['dialogAction']['intentName'] = 'CreateSlackChannelIntent'
-            result['dialogAction']['slots'] = {
-                'team': args['team']
-            }
-            result['dialogAction']['slotToElicit'] = 'team'
+            result['dialogAction']['slots'] = args['slots']
+            result['dialogAction']['slotToElicit'] = args['slotToElicit']
         return result
 
 
 def lambda_handler(event, context):
 
     team = event['currentIntent']['slots']['team']
-    incident = get_current_incident_from_ddb()
+    incidentId = event['currentIntent']['slots']['incidentId']
+    incident = get_key_from_ddb(incidentId)
+    if not incident:
+        return result('ElicitSlot', 'There is no incident with id "' + str(incidentId) + '". Please try another one.', {'slots': {'team': team, 'incidentId': incidentId}, 'slotToElicit': 'incidentId'})
     channel_name = 'incident_' + incident['messageID']['S']
     message = ''
     try:
@@ -96,7 +92,7 @@ def lambda_handler(event, context):
 
     users = get_users_from_ddb(team)
     if len(users) == 0:
-        return result('ElicitSlot', 'The team "' + team + '" could not be found. Please try another one.', {'team': team})
+        return result('ElicitSlot', 'The team "' + team + '" could not be found. Please try another one.', {'slots': {'team': team, 'incidentId': incidentId}, 'slotToElicit': 'team'})
 
     for user in users:
         try:

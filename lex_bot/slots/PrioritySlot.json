@@ -4,15 +4,15 @@
     "enumerationValues": [
       {
         "value": "high",
-        "synonyms": []
+        "synonyms": ["hi", "urgent", "top", "major"]
       },
       {
         "value": "low",
-        "synonyms": []
+        "synonyms": ["unimportant", "irrelevant", "insignificant", "minor"]
       },
       {
         "value": "medium",
-        "synonyms": []
+        "synonyms": ["neutral"]
       }
     ],
     "createVersion": true

@@ -77,7 +77,7 @@ def lambda_handler(event, context):
             'Fulfilled',
             {
                 'contentType': 'PlainText',
-                'content': 'The incident with id ' + incidentId + ' and message ' + message + ', which has the priority ' + priority + ' and escalation target ' + escalationTarget + ' has been successfully reported.'
+                'content': 'The incident with id ' + incidentId + ' and message "' + message + '", which has the priority ' + priority + ' and escalation target ' + escalationTarget + ' has been successfully reported.'
             }
         )
 
@@ -94,6 +94,6 @@ def lambda_handler(event, context):
             
         print(json.dumps(payload))
 
-        resultMap = {'escalation': 'The incident with id ' + incidentId + ' and message ' + message + ', which has the priority ' + priority + ' and escalation target ' + escalationTarget + ' has been successfully reported.' }
+        resultMap = {'escalation': 'The incident with id ' + incidentId + ' and message "' + message + '", which has the priority ' + priority + ' and escalation target ' + escalationTarget + ' has been successfully reported.' }
 
         return resultMap

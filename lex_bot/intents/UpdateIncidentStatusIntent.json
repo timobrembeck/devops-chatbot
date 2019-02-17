@@ -16,10 +16,10 @@
                 "messages": [
                 {
                     "contentType": "PlainText",
-                    "content": "What is the id of the incident ? "
+                    "content": "What is the id of the incident?"
                 }
                 ],
-                "maxAttempts": 2
+                "maxAttempts": 5
             },
             "priority": 1,
             "sampleUtterances": []
@@ -28,15 +28,14 @@
             "name": "status",
             "slotConstraint": "Required",
             "slotType": "StatusSlot",
-            "slotTypeVersion": "1",
             "valueElicitationPrompt": {
                 "messages": [
                 {
                     "contentType": "PlainText",
-                    "content": "What is the status of the incident(open, pending or closed)? "
+                    "content": "What is the status of the incident (open, pending or closed)?"
                 }
                 ],
-                "maxAttempts": 2
+                "maxAttempts": 3
             },
             "priority": 2,
             "sampleUtterances": []

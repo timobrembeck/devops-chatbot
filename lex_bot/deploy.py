@@ -70,15 +70,11 @@ def get_slot_types():
 def put_slot_types():
     slot_types = get_slot_types()
     for slot_type in slot_types:
-        try:
-            lex.put_slot_type(**slot_type)
-        except lex.exceptions.ConflictException as e:
-            print(e)
-        if "checksum" in slot_type:
-            action = "Updated"
-        else:
-            action = "Created"
-        print(action + " Slot Type '" + slot_type["name"] + "'")
+        new_slot_type = lex.put_slot_type(**slot_type)
+        if "checksum" not in slot_type:
+            print("Created Slot Type '" + slot_type["name"] + "'")
+        elif slot_type["checksum"] != new_slot_type["checksum"]:
+            print("Updated Slot Type '" + slot_type["name"] + "'")
 
 """
 |--------------------------------------------------------------------------
@@ -132,6 +128,13 @@ def get_intents():
     for intent_file in intent_files:
         with open(intents_dir + intent_file, "r") as stream:
             intent = json.load(stream)
+        slots = []
+        for slot in intent["slots"]:
+            if slot["slotType"][:7] != "AMAZON.":
+                slot_type_versions = lex.get_slot_type_versions(name=slot["slotType"], maxResults=50)
+                slot["slotTypeVersion"] = slot_type_versions["slotTypes"][-1]["version"]
+            slots.append(slot)
+        intent["slots"] = slots
         try:
             intent_aws = lex.get_intent(name=intent["name"], version=latest_version)
             intent["checksum"] = intent_aws["checksum"]
@@ -154,18 +157,17 @@ def get_intents():
 def put_intents():
     intents = get_intents()
     for intent in intents:
-        if "checksum" in intent:
-            action = "Updated"
-        else:
-            action = "Created"
+        new_intent = lex.put_intent(**intent)
+        if "checksum" not in intent:
+            print("Created Intent '" + intent["name"] + "'")
             if intent["fulfillmentActivity"]["type"] == "CodeHook":
-                try:
+                #try:
                     add_permission(intent)
-                    print("Added Lambda Permission To Intent '" + intent["name"] + "'")
-                except lambda_client.exceptions.ResourceConflictException:
-                    pass
-        lex.put_intent(**intent)
-        print(action + " Intent '" + intent["name"] + "'")
+                #    print("Added Lambda Permission To Intent '" + intent["name"] + "'")
+                #except lambda_client.exceptions.ResourceConflictException:
+                #    pass
+        elif intent["checksum"] != new_intent["checksum"]:
+            print("Updated Intent '" + intent["name"] + "'")
 
 """
 |--------------------------------------------------------------------------
@@ -197,6 +199,12 @@ def get_bots():
     for bot_file in bot_files:
         with open(bots_dir + bot_file, "r") as stream:
             bot = json.load(stream)
+        intents = []
+        for intent in bot["intents"]:
+            intent_versions = lex.get_intent_versions(name=intent["intentName"], maxResults=50)
+            intent["intentVersion"] = intent_versions["intents"][-1]["version"]
+            intents.append(intent)
+        bot["intents"] = intents
         try:
             bot_aws = lex.get_bot(name=bot["name"], versionOrAlias=latest_version)
             bot["checksum"] = bot_aws["checksum"]
@@ -218,15 +226,11 @@ def get_bots():
 def put_bots():
     bots = get_bots()
     for bot in bots:
-        try:
-            lex.put_bot(**bot)
-        except lex.exceptions.ConflictException as e:
-            print(e)
-        if "checksum" in bot:
-            action = "Updated"
-        else:
-            action = "Created"
-        print(action + " Bot '" + bot["name"] + "'")
+        new_bot = lex.put_bot(**bot)
+        if "checksum" not in bot:
+            print("Created Bot '" + bot["name"] + "'")
+        elif bot["checksum"] != new_bot["checksum"]:
+            print("Updated Bot '" + bot["name"] + "'")
         put_bot_alias(bot)
 
 """
@@ -259,9 +263,10 @@ def get_bot_alias(bot):
     bot_alias = {
         "name":        bot["name"] + "Alias",
         "description": "Alias of " + bot["name"],
-        "botVersion":  version,
         "botName":     bot["name"]
     }
+    bot_versions = lex.get_bot_versions(name=bot_alias["botName"], maxResults=50)
+    bot_alias["botVersion"] = bot_versions["bots"][-1]["version"]
     try:
         bot_alias_aws = lex.get_bot_alias(name=bot_alias["name"], botName=bot_alias["botName"])
         bot_alias["checksum"] = bot_alias_aws["checksum"]
@@ -282,12 +287,11 @@ def get_bot_alias(bot):
 """
 def put_bot_alias(bot):
     bot_alias = get_bot_alias(bot)
-    lex.put_bot_alias(**bot_alias)
-    if "checksum" in bot_alias:
-        action = "Updated"
-    else:
-        action = "Created"
-    print(action + " Bot Alias '" + bot["name"] + "Alias'")
+    new_bot_alias = lex.put_bot_alias(**bot_alias)
+    if "checksum" not in bot_alias:
+        print("Created Bot Alias '" + bot_alias["name"] + "'")
+    elif bot_alias["checksum"] != new_bot_alias["checksum"]:
+        print("Updated Bot Alias '" + bot_alias["name"] + "'")
 
 """
 |--------------------------------------------------------------------------
@@ -354,10 +358,12 @@ def main(args):
         put_slot_types()
         put_intents()
         put_bots()
+        print("Successfully created AWS Lex infrastructure")
     elif len(args) == 2 and args[1] == "destroy":
         delete_bots()
         delete_intents()
         delete_slot_types()
+        print("Successfully deleted AWS Lex infrastructure")
     else:
         print("Usage: " + args[0] + " {create|destroy}")
 

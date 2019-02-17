@@ -12,7 +12,6 @@
         "name": "status",
           "slotConstraint": "Required",
           "slotType": "StatusSlot",
-          "slotTypeVersion": "1",
           "valueElicitationPrompt": {
               "messages": [
               {

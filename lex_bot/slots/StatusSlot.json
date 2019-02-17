@@ -12,7 +12,7 @@
       },
       {
         "value": "closed",
-        "synonyms": []
+        "synonyms": ["resolved", "solved", "finished"]
       }
     ],
     "createVersion": true
