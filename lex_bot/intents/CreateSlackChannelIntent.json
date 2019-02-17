@@ -1,11 +1,9 @@
 {
     "name": "CreateSlackChannelIntent",
     "sampleUtterances": [
-      "Slack",
       "Slack channel",
       "Create Slack channel",
       "Create channel",
-      "channel",
       "Discuss with team",
       "Discuss with team {team}",
       "Discuss with {team}",
@@ -28,9 +26,25 @@
     ],
     "slots": [
       {
+        "name": "incidentId",
+        "slotConstraint": "Required",
+        "slotType": "AMAZON.NUMBER",
+        "valueElicitationPrompt": {
+          "messages": [
+            {
+              "contentType": "PlainText",
+              "content": "What is the id of the incident?"
+            }
+          ],
+          "maxAttempts": 5
+        },
+        "priority": 2,
+        "sampleUtterances": []
+      },
+      {
         "name": "team",
           "slotConstraint": "Required",
-          "slotType": "AMAZON.SportsTeam",
+          "slotType": "AMAZON.SearchQuery",
           "valueElicitationPrompt": {
               "messages": [
               {
@@ -38,7 +52,7 @@
                   "content": "Which team should be invited to the Slack channel?"
               }
               ],
-              "maxAttempts": 2
+              "maxAttempts": 5
           },
           "priority": 2,
           "sampleUtterances": [
