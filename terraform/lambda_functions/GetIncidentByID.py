@@ -32,7 +32,8 @@ def close(message):
 def create_response_message(item, number):
     doesItemExist = 'Item' in item
     if(doesItemExist):
-        message = 'The incident with id' + number + ' has the message: ' + item['Item']['message']['S'] + ' and has been escalated to: ' + item['Item']['escalationTarget']['S']        
+        message = 'The incident with id: ' + item['Item']['messageID']['S'] + ' is of ' + item['Item']['priority']['S'] + ' priority, has the status: ' + item['Item']['currentStatus']['S'] +  ' and the message: "' + item['Item']['message'][
+        'S'] + '". Responsible specialist on duty is: ' + item['Item']['escalationTarget']['S']      
         return message
     else:
         message = 'Sorry, there is no incident with id ' + number
