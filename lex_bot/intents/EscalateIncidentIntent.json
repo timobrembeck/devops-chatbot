@@ -16,10 +16,10 @@
               "messages": [
               {
                   "contentType": "PlainText",
-                  "content": "What is the id of the incident ? "
+                  "content": "What is the id of the incident?"
               }
               ],
-              "maxAttempts": 2
+              "maxAttempts": 5
           },
           "priority": 1,
           "sampleUtterances": []
@@ -28,7 +28,6 @@
         "name": "escalationTarget",
           "slotConstraint": "Required",
           "slotType": "EscalationTargetSlot",
-          "slotTypeVersion": "1",
           "valueElicitationPrompt": {
               "messages": [
               {

@@ -1,10 +1,12 @@
 {
   "name": "CloseIncidentIntent",
   "sampleUtterances": [
-    "I want to close an incident",
+    "Close an incident",
     "Close incident",
-    "I want to close the incident with id {incidentId}",
-    "Close the incident {incidentId}"
+    "Close the incident with id {incidentId}",
+    "Close incident with id {incidentId}",
+    "Close the incident {incidentId}",
+    "Close incident {incidentId}"
   ],
   "slots": [
     {
@@ -15,10 +17,10 @@
           "messages": [
           {
               "contentType": "PlainText",
-              "content": "What is the id of the incident ? "
+              "content": "What is the id of the incident?"
           }
           ],
-          "maxAttempts": 2
+          "maxAttempts": 5
       },
       "priority": 1,
       "sampleUtterances": []

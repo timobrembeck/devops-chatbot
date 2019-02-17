@@ -12,15 +12,14 @@
         "name": "priority",
           "slotConstraint": "Required",
           "slotType": "PrioritySlot",
-          "slotTypeVersion": "1",
           "valueElicitationPrompt": {
               "messages": [
               {
                   "contentType": "PlainText",
-                  "content": "What is the priority of the incident(low, medium or high)? "
+                  "content": "What is the priority of the incident (low, medium or high)?"
               }
               ],
-              "maxAttempts": 2
+              "maxAttempts": 3
           },
           "priority": 2,
           "sampleUtterances": []
