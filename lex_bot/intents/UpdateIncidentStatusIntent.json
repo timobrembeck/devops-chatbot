@@ -2,10 +2,10 @@
     "name": "UpdateIncidentStatusIntent",
     "sampleUtterances": [
       "I want to update an incident",
-      "update incident",
-      "i want to update the incident with id {incidentId} to {status}",
-      "update the incident {incidentId} to {status}",
-      "update incident id {incidentId} to status {status}"
+      "Update incident",
+      "I want to update the incident with id {incidentId} to {status}",
+      "Update the incident {incidentId} to {status}",
+      "Update incident id {incidentId} to status {status}"
     ],
     "slots": [
         {

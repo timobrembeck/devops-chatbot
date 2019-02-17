@@ -1,11 +1,11 @@
 {
     "name": "GetIncidentsByStatusIntent",
     "sampleUtterances": [
-        "get all incidents by status",
-        "get all incidents with status {status} ",
-        "i want to know about the {status} status incidents",
-        "give me all incidents by status",
-        "give me all incidents with status {status} "
+        "Get all incidents by status",
+        "Get all incidents with status {status} ",
+        "I want to know about the {status} status incidents",
+        "Give me all incidents by status",
+        "Give me all incidents with status {status} "
     ],
     "slots": [
       {

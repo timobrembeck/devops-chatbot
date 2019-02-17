@@ -1,11 +1,11 @@
 {
     "name": "GetIncidentsByPriorityIntent",
     "sampleUtterances": [
-      "get all incidents by priority",
-      "get all incidents with priority {priority} ",
-      "i want to know about all incidents with {priority} priority",
-      "give me all incidents by priority",
-      "give me all incidents with priority {priority} "
+      "Get all incidents by priority",
+      "Get all incidents with priority {priority} ",
+      "I want to know about all incidents with {priority} priority",
+      "Give me all incidents by priority",
+      "Give me all incidents with priority {priority} "
     ],
     "slots": [
       {

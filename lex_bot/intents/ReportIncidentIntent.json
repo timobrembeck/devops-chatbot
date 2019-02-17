@@ -2,13 +2,13 @@
     "name": "ReportIncidentIntent",
     "sampleUtterances": [
       "I want to report an incident",
-      "report incident",
-      "i want to report an incident with message {message} and priority {priority}",
-      "report an incident {message} priority {priority}",
-      "i report an incident with message {message} and priority {priority}",
-      "report incident message {message} priority {priority}",
-      "report incident {message} {priority}",
-      "report incident {message} priority {priority}"
+      "Report incident",
+      "I want to report an incident with message {message} and priority {priority}",
+      "Report an incident {message} priority {priority}",
+      "I report an incident with message {message} and priority {priority}",
+      "Report incident message {message} priority {priority}",
+      "Report incident {message} {priority}",
+      "Report incident {message} priority {priority}"
     ],
     "slots": [
       {

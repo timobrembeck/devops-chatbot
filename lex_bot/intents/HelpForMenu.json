@@ -5,14 +5,14 @@
     },
     "sampleUtterances": [
       "I need help",
-      "help",
-      "what should I do",
-      "what can you do",
-      "could you do anything",
-      "what do you have to offer me",
-      "is there anything you can do for me",
-      "how can you help me",
-      "how may you help me"
+      "Help",
+      "What should I do",
+      "What can you do",
+      "Could you do anything",
+      "What do you have to offer me",
+      "Is there anything you can do for me",
+      "How can you help me",
+      "How may you help me"
     ],
     "slots": [],
     "conclusionStatement": {

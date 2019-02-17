@@ -4,17 +4,17 @@
       "type": "ReturnIntent"
     },
     "sampleUtterances": [
-      "thank you",
-      "thanks",
-      "danke",
-      "danke schon"
+      "Thank you",
+      "Thanks",
+      "Danke",
+      "Dankeschön"
     ],
     "slots": [],
     "conclusionStatement": {
       "messages": [
         {
           "contentType": "PlainText",
-          "content": "you are welcome!",
+          "content": "You are welcome!",
           "groupNumber": 1
         }
       ]

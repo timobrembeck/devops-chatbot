@@ -1,9 +1,9 @@
 {
   "name": "KubernetesIntent",
   "sampleUtterances": [
-    "kubernetes",
-    "kubectl",
-    "cluster"
+    "Kubernetes",
+    "Kubectl",
+    "Cluster"
   ],
   "slots": [
     {
