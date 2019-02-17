@@ -30,6 +30,6 @@
       "messageVersion": "1.0"
     }
   },
-  "description": "Intent to escalate incident with number",
+  "description": "Intent to retrieve information from kubernetes",
   "createVersion": true
 }
