@@ -5,7 +5,7 @@ This Section descriptes, how to deploy the Testserver in a Kubernetes Cluster an
 - [Setup development kubernetes cluster](https://github.com/timoludwig/devops-chatbot/tree/feature/kubernetes-demo/kubernetes) Note:The 
 - Kubernetes [Kompose](https://kubernetes.io/docs/tasks/configure-pod-container/translate-compose-kubernetes/)
 ### Setup
-##### Testserver preparation
+#### Testserver preparation
 Build the testerserver according to the [instructions](https://github.com/timoludwig/devops-chatbot/tree/develop/testWebserver). Upload the image to dockerHub or a registry of your choice (Note: In this example dockerHub is used). 
 Replace the ```Image``` variable with your docker Image Name ``` devops-chatbot/testWebserver/src/main/docker/app.yml``` (A latest version is available under p2w2/testwebserver in dockerHub)
 ##### Run and Deploy the testwebserver
@@ -17,7 +17,7 @@ To delete the deployment, use:
 ```sh
 devops-chatbot/testWebserver/src/main/docker/$ kompose down -f app.yml 
 ```
-##### Prometheus preparation
+#### Prometheus preparation
 First the devops-chatbot/prometheus/prom_server/prometheus.yml must be changed.
 In the prometheus.yml file change the target "Alertmanager" to the API Gateway and the scrap target to the testserver url.
 Build the prometheus Image. Upload the image to dockerHub.
