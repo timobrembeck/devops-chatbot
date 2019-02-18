@@ -1,0 +1,17 @@
+groups:
+- name: example
+  rules:
+  - alert: highMemoryHeapUsage
+    expr: com_chatbot_web_rest_LoadResources_mediumLoad > 100
+    for: 2s
+    labels:
+      severity: page
+    annotations:
+      summary: High load
+  - alert: serverDown
+    expr: up == 0
+    for: 5s
+    labels:
+      severity: page
+    annotations:
+      summary: server is down

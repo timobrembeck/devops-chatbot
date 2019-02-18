@@ -62,6 +62,10 @@
     },
     {
       "intentVersion": "1",
+      "intentName": "PrometheusIntent"
+    },
+    {
+      "intentVersion": "1",
       "intentName": "CreateSlackChannelIntent"
     },
     {

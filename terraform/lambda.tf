@@ -449,6 +449,27 @@ resource "aws_lambda_function" "Create_Slack_Channel" {
 
 #--End Create_Slack_Channel
 
+#--Start prometheus_queries
+
+#prometheus_queries data file
+data "archive_file" "prometheus_queries" {
+  type        = "zip"
+  source_dir  = "${path.module}/lambda_functions/"
+  output_path = "${path.module}/.terraform/archive_files/prometheus_queries.zip"
+}
+
+#Create_Slack_Channel function
+resource "aws_lambda_function" "prometheus_queries" {
+  filename         = "${data.archive_file.prometheus_queries.output_path}"
+  function_name    = "prometheus_queries"
+  handler          = "prometheus_queries.lambda_handler"
+  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  runtime          = "python3.6"
+  source_code_hash = "${data.archive_file.prometheus_queries.output_base64sha256}"
+}
+
+#--End prometheus_queries
+
 
 
 #--Start GetResponsibleEscalationTarget

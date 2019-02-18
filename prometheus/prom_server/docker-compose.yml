@@ -1,0 +1,8 @@
+version: '2'
+services:
+    prometheus-app:
+        image: p2w2/prometheus
+        ports:
+            - 9090:9090
+        labels:
+          kompose.service.type: loadbalancer
