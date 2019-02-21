@@ -81,8 +81,9 @@ def lambda_handler(event, context):
     message = 'The status of the incident with id ' + str(incidentId) + ' has been updated to ' + status
     print(message)
 
-    if 'closed' in [incident['currentStatus'], status]:
-        channel = [c for c in get_channels() if c['name'] == 'incident_' + str(incidentId)][0]
+    channel = [c for c in get_channels() if c['name'] == 'incident_' + str(incidentId)]
+    if 'closed' in [incident['currentStatus'], status] and len(channel) == 1:
+        channel = channel[0]
         try:
             if status == 'closed':
                 post_message(channel['id'], 'Well done! :clap::clap::clap: The incident with the id: ' + str(incidentId) + ' is resolved. :tada:\n\nThere is no need for this channel anymore, so I will archive it.')
