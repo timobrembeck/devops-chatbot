@@ -16,8 +16,12 @@ def get_slots(intent_request):
 
 
 def close(intent_request, fulfillment_state, message):
-    # if request is from aws connect the requestAttributes is set to something
-    if intent_request['requestAttributes'] is None:
+    # check if request is from slack bot
+    # See https://github.com/timoludwig/devops-chatbot/wiki/AWS-Lambda-Notes
+
+    if intent_request['requestAttributes'] is not None and \
+            'x-amz-lex:channel-name' in intent_request['requestAttributes'] and \
+            intent_request['requestAttributes']['x-amz-lex:channel-name'] == 'Slack':
         # if message is a list -> transform it into table with slack code escaping
         if (type(message) is list):
             message = "```" + print_table(message) + "```"
@@ -106,17 +110,17 @@ def kubectl_get_api_call(intent_request):
         for node in result.items:
             # More info on kubectl cpu allocation: https://github.com/kubernetes/kubernetes/issues/17512
             cpu_node = 0
-            pod_result =v1.list_pod_for_all_namespaces(field_selector="spec.nodeName="+node.metadata.name)
+            pod_result = v1.list_pod_for_all_namespaces(field_selector="spec.nodeName=" + node.metadata.name)
 
             for pod in pod_result.items:
                 for container in pod.spec.containers:
-                    cpu_node +=  int(container.resources.requests['cpu'].replace('m', ''))
+                    cpu_node += int(container.resources.requests['cpu'].replace('m', ''))
 
             row = (node.metadata.name,
                    node.metadata.labels['kubernetes.io/role'],
                    node.status.conditions[-1].type,
                    node.status.conditions[-1].message,
-                   str(cpu_node/10) + "%",
+                   str(cpu_node / 10) + "%",
                    node.metadata.creation_timestamp.strftime("%Y-%m-%d %H:%M:%S"))
             rows.append(row)
         result = rows
@@ -159,7 +163,12 @@ def dispatch(intent_request):
 def setup_kubernetes():
     # This file has to be bundled with the function.zip (created by kops after cluster ~/.kube/conf)
     global v1
-    config.load_kube_config("config")
+    try:
+        config.load_kube_config("config")
+    except:
+        message = "Loading config from package failed"
+        logger.error(message)
+        return False
 
     v1 = client.CoreV1Api()
 
@@ -226,7 +235,32 @@ demo_chat_event = {'messageVersion': '1.0',
                                      'sourceLexNLUIntentInterpretation': None},
                    'inputTranscript': 'node'}
 
+demo_slack_event = {'messageVersion': '1.0',
+                    'invocationSource': 'FulfillmentCodeHook',
+                    'userId': 'test',
+                    'sessionAttributes': {},
+                    'requestAttributes': {'x-amz-lex:channel-id': '7cd6cfc4-8356-4e6b-a879-81aae1b89097',
+                                          'x-amz-lex:webhook-endpoint-url': 'https://channels.lex.eu-west-1.amazonaws.com/slack/webhook/7cd6cfc4-8356-4e6b-a879-81aae1b89097',
+                                          'x-amz-lex:accept-content-types': 'PlainText',
+                                          'x-amz-lex:user-id': '465214619063.487654285126',
+                                          'x-amz-lex:slack-team-id': 'TDP6AJ71V',
+                                          'x-amz-lex:slack-bot-token': 'xoxb-465214619063-488886612183-Ze0VbE4Ul1UGpbeKuYhRRDDI',
+                                          'x-amz-lex:channel-name': 'Slack', 'x-amz-lex:channel-type': 'Slack'},
+                    'bot': {'name': 'DevOpsChatBot', 'alias': 'DevOpsChatBotAlias', 'version': '10'},
+                    'bot': {'name': 'DevOpsChatBot',
+                            'alias': '$LATEST',
+                            'version': '$LATEST'},
+                    'outputDialogMode': 'Text',
+                    'currentIntent': {'name': 'KubernetesIntent',
+                                      'slots': {'resource': 'node'},
+                                      'slotDetails': {'resource': {'resolutions': [{'value': 'node'}],
+                                                                   'originalValue': 'node'}},
+                                      'confirmationStatus': 'None',
+                                      'sourceLexNLUIntentInterpretation': None},
+                    'inputTranscript': 'node'}
+
 # Offline mock call comment when publish!
 #print("init")
 #print(lambda_handler(demo_connect_event, ''))
 #print(lambda_handler(demo_chat_event, ''))
+#print(lambda_handler(demo_slack_event, ''))
