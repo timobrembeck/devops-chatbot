@@ -69,8 +69,8 @@ def lambda_handler(event, context):
                 pass
             else:
                 return result('Failed', 'The method "' + e.method + '" failed with error "' + e.error + '"')
-        set_channel_topic(channel['id'], 'Incident message: ' + incident['message']['S'])
-        set_channel_purpose(channel['id'], 'Resolving incident with message: ' + incident['message']['S'])
+        set_channel_topic(channel['id'], 'Incident with ID: ' + incident['messageID']['S'] + ' and message: "' + (incident['message']['S'][:200] + '[...]' if len(incident['message']['S']) > 200 else incident['message']['S']) + '"')
+        set_channel_purpose(channel['id'], 'Resolving incident with ID: ' + incident['messageID']['S'] + ' and message: "' + (incident['message']['S'][:200] + '[...]' if len(incident['message']['S']) > 200 else incident['message']['S']) + '"')
         post_message(channel['id'], 'I created this channel for you to handle the incident with the message: "' + incident['message']['S'] + '".\n\nLet\'s resolve this issue as fast as possible! :rocket:')
         message += 'The Slack channel "' + channel_name + '" has been created. '
     except SlackException as e:
