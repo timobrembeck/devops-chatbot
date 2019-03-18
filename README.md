@@ -1,9 +1,16 @@
-# Automatic Deployment of the whole infrastructure using Terraform
+# Incident management ChatBot
+This project provides an infrastructure to automate the incident management of cloud-based services.
+With Amazon Web Services, we use state-of-the-art technologies to implement a variety of useful tools to alert, escalate, handle and resolve incidents.
+The core of our work is a chatbot which provides a human-like interface and natural language processing to enable the interaction to various web services concerning the incident management.
 
-The alerting infrastructure needed for the devops-chatbot project can be automatically created using this terraform configuration. At the moment all the components from the diagram(architecture overview) plus the amazon lex-bot have been deployed and tested. Amazon Connect has been deployed and configured manually via the AWS console, since there is not support to automatically deploy/configure it.
+## Deployment
 
-## Things to do in order to deploy the infrastructure : 
-- if you want to use other AWS account than the one used by the team change the iam_acc_key variable in the variables.tf file and your aws credentials(.config file)
+    terraform plan
+    terraform apply
+
+The alerting infrastructure needed for the devops-chatbot project can be automatically created using this terraform configuration. At the moment all the components from the diagram (architecture overview) plus the amazon lex-bot have been deployed and tested. Amazon Connect has been deployed and configured manually via the AWS console, since there is not support to automatically deploy/configure it.
+
+- if you want to use another AWS account than the one used by the team change the iam_acc_key variable in the variables.tf file and your aws credentials(.config file)
 - navigate to the terraform folder, open a terminal and type 'terraform init'
 - on the same folder path write the command 'terraform plan' on the terminal
 - finally write the command 'terrform apply'
