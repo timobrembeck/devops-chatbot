@@ -1,4 +1,4 @@
-import logging
+import logging, os
 
 from kubernetes import client, config
 
@@ -244,7 +244,7 @@ demo_slack_event = {'messageVersion': '1.0',
                                           'x-amz-lex:accept-content-types': 'PlainText',
                                           'x-amz-lex:user-id': '465214619063.487654285126',
                                           'x-amz-lex:slack-team-id': 'TDP6AJ71V',
-                                          'x-amz-lex:slack-bot-token': 'xoxb-465214619063-488886612183-Ze0VbE4Ul1UGpbeKuYhRRDDI',
+                                          'x-amz-lex:slack-bot-token': os.environ['token'],
                                           'x-amz-lex:channel-name': 'Slack', 'x-amz-lex:channel-type': 'Slack'},
                     'bot': {'name': 'DevOpsChatBot', 'alias': 'DevOpsChatBotAlias', 'version': '10'},
                     'bot': {'name': 'DevOpsChatBot',
