@@ -69,7 +69,7 @@
     "fulfillmentActivity": {
       "type": "CodeHook",
       "codeHook": {
-        "uri": "arn:aws:lambda:eu-west-1:746022503515:function:Create_Slack_Channel",
+        "uri": "arn:aws:lambda:eu-west-1:000000000000:function:Create_Slack_Channel",
         "messageVersion": "1.0"
       }
     },

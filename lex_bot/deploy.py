@@ -10,28 +10,36 @@ import boto3, fnmatch, json, os, sys, time
 | slot_types_dir: The directory which contains the slot type files
 | intents_dir:    The directory which contains the intent files
 | bots_dir:       The directory which contains the bot files
-| version:        The version of all bots, intents and slot types
+| latest_version: The version of all bots, intents and slot types
+| lex_region:     The region in which AWS Lex should be deployed
+| lambda_region:  The region in which AWS Lambda should be deployed
 |
 """
 slot_types_dir = "./slots/"
 intents_dir    = "./intents/"
 bots_dir       = "./bots/"
-version        = "1"
-latest_version        = "$LATEST"
+latest_version = "$LATEST"
+lex_region     = "eu-west-1"
+lambda_region  = "eu-west-1"
 
 """
 |--------------------------------------------------------------------------
 | AWS Clients
 |--------------------------------------------------------------------------
 |
-| lex:            A client representing Amazon Lex Model Building Service
-| lambda_client:  A client representing AWS Lambda
 | aws_account_id: The AWS account id retrieved from the aws cli config
+| lex:            A client representing Amazon Lex Model Building Service
+| lex_arn:        The AWS Lex ARN derived from region and account id
+| lambda_client:  A client representing AWS Lambda
+| lambda_arn:     The AWS Lambda ARN derived from region and account id
 |
 """
-lex            = boto3.client("lex-models", region_name="eu-west-1")
-lambda_client  = boto3.client("lambda",     region_name="eu-west-1")
 aws_account_id = boto3.client('sts').get_caller_identity()['Account']
+lex            = boto3.client("lex-models", region_name=lex_region)
+lex_arn        = "arn:aws:lex:" + lex_region + ":" + aws_account_id + ":intent:"
+lambda_client  = boto3.client("lambda",     region_name=lambda_region)
+lambda_arn     = "arn:aws:lambda:" + lambda_region + ":" + aws_account_id + ":function:"
+
 
 """
 |--------------------------------------------------------------------------
@@ -100,14 +108,13 @@ def delete_slot_types():
 | can invoke the lambda function if they hook to the correct ARN.
 |
 """
-def add_permission(intent):
-    function = intent["fulfillmentActivity"]["codeHook"]["uri"].split(":")[-1]
+def add_permission(intent, lambda_function):
     permission = {
-        "FunctionName": "arn:aws:lambda:eu-west-1:" + aws_account_id + ":function:" + function,
-        "StatementId":  "statement-id-" + function,
+        "FunctionName": lambda_arn + lambda_function,
+        "StatementId":  "statement-id-" + lambda_function,
         "Action":       "lambda:InvokeFunction",
         "Principal":    "lex.amazonaws.com",
-        "SourceArn":    "arn:aws:lex:eu-west-1:" + aws_account_id + ":intent:" + intent["name"] + ":*"
+        "SourceArn":    lex_arn + intent["name"] + ":*"
     }
     lambda_client.add_permission(**permission)
 
@@ -157,15 +164,15 @@ def get_intents():
 def put_intents():
     intents = get_intents()
     for intent in intents:
+        if intent["fulfillmentActivity"]["type"] == "CodeHook":
+            lambda_function = intent["fulfillmentActivity"]["codeHook"]["uri"].split(":")[-1]
+            intent["fulfillmentActivity"]["codeHook"]["uri"] = lambda_arn + lambda_function
         new_intent = lex.put_intent(**intent)
         if "checksum" not in intent:
             print("Created Intent '" + intent["name"] + "'")
             if intent["fulfillmentActivity"]["type"] == "CodeHook":
-                #try:
-                    add_permission(intent)
-                #    print("Added Lambda Permission To Intent '" + intent["name"] + "'")
-                #except lambda_client.exceptions.ResourceConflictException:
-                #    pass
+                add_permission(intent, lambda_function)
+                print("Added Permission for Lambda function " + lambda_function + " to Intent '" + intent["name"] + "'")
         elif intent["checksum"] != new_intent["checksum"]:
             print("Updated Intent '" + intent["name"] + "'")
 

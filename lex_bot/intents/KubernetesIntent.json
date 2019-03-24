@@ -26,7 +26,7 @@
   "fulfillmentActivity": {
     "type": "CodeHook",
     "codeHook": {
-      "uri": "arn:aws:lambda:eu-west-1:746022503515:function:Kubectl_Command",
+      "uri": "arn:aws:lambda:eu-west-1:000000000000:function:Kubectl_Command",
       "messageVersion": "1.0"
     }
   },
