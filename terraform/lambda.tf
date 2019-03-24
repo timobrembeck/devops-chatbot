@@ -11,14 +11,14 @@ resource "aws_lambda_function" "TriggerIncidentNotification_CloudWatch" {
   filename         = "${data.archive_file.TriggerIncidentNotification_CloudWatch_file.output_path}"
   function_name    = "TriggerIncidentNotification_CloudWatch"
   handler          = "TriggerIncidentNotification_CloudWatch.lambda_handler"
-  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  role             = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.lambda_role}"
   runtime          = "python3.6"
   source_code_hash = "${data.archive_file.TriggerIncidentNotification_CloudWatch_file.output_base64sha256}"
 
   environment = {
     variables = {
       AlexNumber             = "+4919999999999"
-      SNS_EIP_NOTIFY_ARN     = "arn:aws:sns:${var.aws_region}:${var.iam_acc_key}:alert_dispatcher"
+      SNS_EIP_NOTIFY_ARN     = "arn:aws:sns:${var.aws_region}:${data.aws_caller_identity.current.account_id}:alert_dispatcher"
       SodNumber              = "+4919999999999"
       destinationPhoneNumber = "+4919999999999"
     }
@@ -50,14 +50,14 @@ resource "aws_lambda_function" "TriggerIncidentNotification_AlertManager" {
   filename         = "${data.archive_file.TriggerIncidentNotification_AlertManager_file.output_path}"
   function_name    = "TriggerIncidentNotification_AlertManager"
   handler          = "TriggerIncidentNotification_AlertManager.lambda_handler"
-  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  role             = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.lambda_role}"
   runtime          = "python3.6"
   source_code_hash = "${data.archive_file.TriggerIncidentNotification_AlertManager_file.output_base64sha256}"
 
   environment = {
     variables = {
       BearerToken        = "xyz"
-      SNS_EIP_NOTIFY_ARN = "arn:aws:sns:${var.aws_region}:${var.iam_acc_key}:alert_dispatcher"
+      SNS_EIP_NOTIFY_ARN = "arn:aws:sns:${var.aws_region}:${data.aws_caller_identity.current.account_id}:alert_dispatcher"
     }
   }
 }
@@ -77,7 +77,7 @@ resource "aws_lambda_permission" "TriggerIncidentNotification_AlertManager_APIGW
   # source_arn = "${aws_api_gateway_rest_api.alert_manager_notification_api.execution_arn}/*/*/*"
   
   # Custom specification of the source_arn 
-  source_arn = "arn:aws:execute-api:eu-west-1:746022503515:rgh2w4wxk8/*/*/*"
+  source_arn = "arn:aws:execute-api:${var.aws_region}:${data.aws_caller_identity.current.account_id}:rgh2w4wxk8/*/*/*"
 }
 
 #--End TriggerIncidentNotification_AlertManager
@@ -96,13 +96,13 @@ resource "aws_lambda_function" "Dispatch_Alerts" {
   filename         = "${data.archive_file.Dispatch_Alerts_file.output_path}"
   function_name    = "Dispatch_Alerts"
   handler          = "Dispatch_Alerts.lambda_handler"
-  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  role             = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.lambda_role}"
   runtime          = "python3.6"
   source_code_hash = "${data.archive_file.Dispatch_Alerts_file.output_base64sha256}"
 
   environment = {
     variables = {
-      SNS_EIP_NOTIFY_ARN = "arn:aws:sns:${var.aws_region}:${var.iam_acc_key}:alert_to_awsconnect"
+      SNS_EIP_NOTIFY_ARN = "arn:aws:sns:${var.aws_region}:${data.aws_caller_identity.current.account_id}:alert_to_awsconnect"
       sodPhoneNumber     = "+4919999999999"
       odPhoneNumber_org  = "+4919999999999"
     }
@@ -135,7 +135,7 @@ resource "aws_lambda_function" "OutboundCall_Trigger" {
   filename         = "${data.archive_file.OutboundCall_Trigger_file.output_path}"
   function_name    = "OutboundCall_Trigger"
   handler          = "OutboundCall_Trigger.lambda_handler"
-  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  role             = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.lambda_role}"
   runtime          = "python3.6"
   source_code_hash = "${data.archive_file.OutboundCall_Trigger_file.output_base64sha256}"
 }
@@ -163,13 +163,13 @@ resource "aws_lambda_function" "ReportIncident" {
   filename         = "${data.archive_file.ReportIncident_file.output_path}"
   function_name    = "ReportIncident"
   handler          = "ReportIncident.lambda_handler"
-  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  role             = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.lambda_role}"
   runtime          = "python3.6"
   source_code_hash = "${data.archive_file.ReportIncident_file.output_base64sha256}"
 
   environment = {
     variables = {
-      SNS_EIP_NOTIFY_ARN = "arn:aws:sns:${var.aws_region}:${var.iam_acc_key}:alert_dispatcher"
+      SNS_EIP_NOTIFY_ARN = "arn:aws:sns:${var.aws_region}:${data.aws_caller_identity.current.account_id}:alert_dispatcher"
     }
   }
 }
@@ -189,13 +189,13 @@ resource "aws_lambda_function" "EscalateIncident" {
   filename         = "${data.archive_file.EscalateIncident_file.output_path}"
   function_name    = "EscalateIncident"
   handler          = "EscalateIncident.lambda_handler"
-  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  role             = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.lambda_role}"
   runtime          = "python3.6"
   source_code_hash = "${data.archive_file.EscalateIncident_file.output_base64sha256}"
 
   environment = {
     variables = {
-      SNS_EIP_NOTIFY_ARN = "arn:aws:sns:${var.aws_region}:${var.iam_acc_key}:alert_dispatcher"
+      SNS_EIP_NOTIFY_ARN = "arn:aws:sns:${var.aws_region}:${data.aws_caller_identity.current.account_id}:alert_dispatcher"
     }
   }
 }
@@ -214,7 +214,7 @@ resource "aws_lambda_function" "GetCurrentIncident_AWSConnect" {
   filename         = "${data.archive_file.GetCurrentIncident_AWSConnect_file.output_path}"
   function_name    = "GetCurrentIncident_AWSConnect"
   handler          = "GetCurrentIncident_AWSConnect.lambda_handler"
-  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  role             = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.lambda_role}"
   runtime          = "python3.6"
   source_code_hash = "${data.archive_file.GetCurrentIncident_AWSConnect_file.output_base64sha256}"
 }
@@ -241,7 +241,7 @@ resource "aws_lambda_function" "GetIncidentByID" {
   filename         = "${data.archive_file.GetIncidentByID_file.output_path}"
   function_name    = "GetIncidentByID"
   handler          = "GetIncidentByID.lambda_handler"
-  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  role             = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.lambda_role}"
   runtime          = "python3.6"
   source_code_hash = "${data.archive_file.GetIncidentByID_file.output_base64sha256}"
 }
@@ -267,7 +267,7 @@ resource "aws_lambda_function" "Update_Incident_Status_AWSconnect" {
   filename         = "${data.archive_file.Update_Incident_Status_AWSconnect_file.output_path}"
   function_name    = "Update_Incident_Status_AWSconnect"
   handler          = "Update_Incident_Status_AWSconnect.lambda_handler"
-  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  role             = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.lambda_role}"
   runtime          = "python3.6"
   source_code_hash = "${data.archive_file.Update_Incident_Status_AWSconnect_file.output_base64sha256}"
 }
@@ -280,7 +280,7 @@ resource "aws_lambda_permission" "Update_Incident_Status_AWSconnect_with_Connect
   action        = "lambda:InvokeFunction"
   function_name = "Update_Incident_Status_AWSconnect"
   principal     = "connect.amazonaws.com"
-  source_arn = "arn:aws:connect:eu-central-1:746022503515:instance/736d65e0-6ce5-4210-9d44-55c366ea9a16"
+  source_arn = "arn:aws:connect:eu-central-1:${data.aws_caller_identity.current.account_id}:instance/736d65e0-6ce5-4210-9d44-55c366ea9a16"
 }
 
 #--End Update_Incident_Status_AWSconnect
@@ -298,7 +298,7 @@ resource "aws_lambda_function" "GetIncidentsByStatus" {
   filename         = "${data.archive_file.GetIncidentsByStatus_file.output_path}"
   function_name    = "GetIncidentsByStatus"
   handler          = "GetIncidentsByStatus.lambda_handler"
-  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  role             = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.lambda_role}"
   runtime          = "python3.6"
   source_code_hash = "${data.archive_file.GetIncidentsByStatus_file.output_base64sha256}"
 }
@@ -318,7 +318,7 @@ resource "aws_lambda_function" "GetIncidentsByPriority" {
   filename         = "${data.archive_file.GetIncidentsByPriority_file.output_path}"
   function_name    = "GetIncidentsByPriority"
   handler          = "GetIncidentsByPriority.lambda_handler"
-  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  role             = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.lambda_role}"
   runtime          = "python3.6"
   source_code_hash = "${data.archive_file.GetIncidentsByPriority_file.output_base64sha256}"
 }
@@ -338,7 +338,7 @@ resource "aws_lambda_function" "UpdateIncidentStatus" {
   filename         = "${data.archive_file.UpdateIncidentStatus_file.output_path}"
   function_name    = "UpdateIncidentStatus"
   handler          = "UpdateIncidentStatus.lambda_handler"
-  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  role             = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.lambda_role}"
   runtime          = "python3.6"
   source_code_hash = "${data.archive_file.UpdateIncidentStatus_file.output_base64sha256}"
 }
@@ -349,7 +349,7 @@ resource "aws_lambda_permission" "UpdateIncidentStatus_Permission" {
     action = "lambda:InvokeFunction"
     function_name = "UpdateIncidentStatus"
     principal = "lex.amazonaws.com"
-    source_arn = "arn:aws:lex:eu-west-1:746022503515:intent:CloseIncidentIntent:*"
+    source_arn = "arn:aws:lex:${var.aws_region}:${data.aws_caller_identity.current.account_id}:intent:CloseIncidentIntent:*"
 }
 #--End UpdateIncidentStatus
 
@@ -378,7 +378,7 @@ resource "aws_lambda_function" "Kubectl_Command" {
   filename         = "${data.archive_file.Kubectl_Command_file.output_path}"
   function_name    = "Kubectl_Command"
   handler          = "Kubectl_Command.lambda_handler"
-  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  role             = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.lambda_role}"
   runtime          = "python3.6"
   source_code_hash = "${data.archive_file.Kubectl_Command_file.output_base64sha256}"
 }
@@ -400,7 +400,7 @@ resource "aws_lambda_function" "Cronjob_OutboundCall" {
   filename         = "${data.archive_file.Cronjob_OutboundCall_file.output_path}"
   function_name    = "Cronjob_OutboundCall"
   handler          = "Cronjob_OutboundCall.lambda_handler"
-  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  role             = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.lambda_role}"
   runtime          = "python3.6"
   source_code_hash = "${data.archive_file.Cronjob_OutboundCall_file.output_base64sha256}"
 }
@@ -461,7 +461,7 @@ resource "aws_lambda_function" "Create_Slack_Channel" {
   filename         = "${data.archive_file.Create_Slack_Channel_file.output_path}"
   function_name    = "Create_Slack_Channel"
   handler          = "Create_Slack_Channel.lambda_handler"
-  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  role             = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.lambda_role}"
   layers           = ["${aws_lambda_layer_version.Slack_Lambda_Layer.layer_arn}"]
   runtime          = "python3.6"
   timeout          = "200"
@@ -485,7 +485,7 @@ resource "aws_lambda_function" "GetResponsibleEscalationTarget" {
   filename         = "${data.archive_file.GetResponsibleEscalationTarget_file.output_path}"
   function_name    = "GetResponsibleEscalationTarget"
   handler          = "GetResponsibleEscalationTarget.lambda_handler"
-  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  role             = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.lambda_role}"
   runtime          = "python3.6"
   source_code_hash = "${data.archive_file.GetResponsibleEscalationTarget_file.output_base64sha256}"
 }
@@ -504,7 +504,7 @@ resource "aws_lambda_function" "Contact_Escalation_Target" {
   filename         = "${data.archive_file.Contact_Escalation_Target_file.output_path}"
   function_name    = "Contact_Escalation_Target"
   handler          = "Contact_Escalation_Target.lambda_handler"
-  role             = "arn:aws:iam::${var.iam_acc_key}:role/${var.lambda_role}"
+  role             = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.lambda_role}"
   layers           = ["${aws_lambda_layer_version.Slack_Lambda_Layer.layer_arn}"]
   runtime          = "python3.6"
   timeout          = "600"
