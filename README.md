@@ -1,3 +1,5 @@
+> :warning: This project is no longer maintained
+
 # Incident management ChatBot
 This project provides an infrastructure to automate the incident management of cloud-based services.
 With Amazon Web Services, we use state-of-the-art technologies to implement a variety of useful tools to alert, escalate, handle and resolve incidents.
