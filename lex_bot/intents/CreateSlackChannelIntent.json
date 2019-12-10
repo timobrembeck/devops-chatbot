@@ -1,0 +1,79 @@
+{
+    "name": "CreateSlackChannelIntent",
+    "sampleUtterances": [
+      "Slack channel",
+      "Create Slack channel",
+      "Create channel",
+      "Discuss with team",
+      "Discuss with team {team}",
+      "Discuss with {team}",
+      "Discuss in Slack",
+      "Discuss in channel",
+      "Discuss in Slack channel",
+      "Collaborate in Slack",
+      "Collaborate in channel",
+      "Collaborate in Slack channel",
+      "Invite team",
+      "Invite team {team}",
+      "Invite team to Slack",
+      "Invite team {team} to Slack",
+      "Invite team to Slack channel",
+      "Invite team {team} to Slack channel",
+      "Invite team to channel",
+      "Invite team {team} to channel",
+      "Invite team members",
+      "Invite members of team {team}"
+    ],
+    "slots": [
+      {
+        "name": "incidentId",
+        "slotConstraint": "Required",
+        "slotType": "AMAZON.NUMBER",
+        "valueElicitationPrompt": {
+          "messages": [
+            {
+              "contentType": "PlainText",
+              "content": "What is the id of the incident?"
+            }
+          ],
+          "maxAttempts": 5
+        },
+        "priority": 2,
+        "sampleUtterances": []
+      },
+      {
+        "name": "team",
+          "slotConstraint": "Required",
+          "slotType": "AMAZON.SearchQuery",
+          "valueElicitationPrompt": {
+              "messages": [
+              {
+                  "contentType": "PlainText",
+                  "content": "Which team should be invited to the Slack channel?"
+              }
+              ],
+              "maxAttempts": 5
+          },
+          "priority": 2,
+          "sampleUtterances": [
+            "Team {team}",
+            "Invite {team}",
+            "Members of {team}",
+            "Channel with {team}",
+            "Channel for {team}",
+            "Discuss with {team}",
+            "Collaborate with {team}"
+          ]
+      }
+  ],
+    "fulfillmentActivity": {
+      "type": "CodeHook",
+      "codeHook": {
+        "uri": "arn:aws:lambda:eu-west-1:000000000000:function:Create_Slack_Channel",
+        "messageVersion": "1.0"
+      }
+    },
+    "description": "Intent to create a Slack channel for an incident and invite the responsible team members",
+    "createVersion": true
+  }
+  

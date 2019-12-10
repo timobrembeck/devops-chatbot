@@ -1,0 +1,20 @@
+{
+    "description": "Priority of the incident",
+    "name": "PrioritySlot",
+    "enumerationValues": [
+      {
+        "value": "high",
+        "synonyms": ["hi", "urgent", "top", "major"]
+      },
+      {
+        "value": "low",
+        "synonyms": ["unimportant", "irrelevant", "insignificant", "minor"]
+      },
+      {
+        "value": "medium",
+        "synonyms": ["neutral"]
+      }
+    ],
+    "createVersion": true
+
+}

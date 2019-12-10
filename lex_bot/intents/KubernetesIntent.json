@@ -1,0 +1,35 @@
+{
+  "name": "KubernetesIntent",
+  "sampleUtterances": [
+    "Kubernetes",
+    "Kubectl",
+    "Cluster"
+  ],
+  "slots": [
+    {
+      "name": "resource",
+      "slotConstraint": "Required",
+      "slotType": "KubernetesResource",
+      "valueElicitationPrompt": {
+        "messages": [
+          {
+            "contentType": "PlainText",
+            "content": "About which Kubernetes resource you want more information?"
+          }
+        ],
+        "maxAttempts": 3
+      },
+      "priority": 1,
+      "sampleUtterances": []
+    }
+  ],
+  "fulfillmentActivity": {
+    "type": "CodeHook",
+    "codeHook": {
+      "uri": "arn:aws:lambda:eu-west-1:000000000000:function:Kubectl_Command",
+      "messageVersion": "1.0"
+    }
+  },
+  "description": "Intent to retrieve information from Kubernetes",
+  "createVersion": true
+}

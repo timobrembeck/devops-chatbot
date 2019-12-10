@@ -1,0 +1,15 @@
+{
+  "description": "The resource to get via kubectl",
+  "name": "KubernetesResource",
+  "enumerationValues": [
+    {
+      "value": "node",
+      "synonyms": []
+    },
+    {
+      "value": "deployment",
+      "synonyms": []
+    }
+  ],
+  "createVersion": true
+}

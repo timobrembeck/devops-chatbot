@@ -1,8 +1,8 @@
 {
-    "Details": {
-      "Parameters": {
-        "priority": "high",
-        "message": "testMessage"
-      }
+  "Details": {
+    "Parameters": {
+      "priority": "high",
+      "message": "testMessage"
     }
   }
+}

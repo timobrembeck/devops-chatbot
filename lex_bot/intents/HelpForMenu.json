@@ -1,0 +1,28 @@
+  {
+    "name": "HelpForMenu",
+    "fulfillmentActivity": {
+      "type": "ReturnIntent"
+    },
+    "sampleUtterances": [
+      "I need help",
+      "Help",
+      "What should I do",
+      "What can you do",
+      "Could you do anything",
+      "What do you have to offer me",
+      "Is there anything you can do for me",
+      "How can you help me",
+      "How may you help me"
+    ],
+    "slots": [],
+    "conclusionStatement": {
+      "messages": [
+        {
+          "contentType": "PlainText",
+          "content": "Some things you can ask me: To report an incident say Report incident. To escalate an incident say Escalate incident. To get the current incident say current incident. Besides, to get the incidents by status say get incidents by status. Or to get the incidents by priority say get incidents by priority. Or to get an incident by id say get incident by id. Or to know about the weather say How is the weather. Or to lighten up, your mood says Tell me a joke. Or to end the conversation say Goodbye.",
+          "groupNumber": 1
+        }
+      ]
+    },
+    "createVersion": true
+  }

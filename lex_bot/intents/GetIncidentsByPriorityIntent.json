@@ -1,0 +1,38 @@
+{
+    "name": "GetIncidentsByPriorityIntent",
+    "sampleUtterances": [
+      "Get all incidents by priority",
+      "Get all incidents with priority {priority} ",
+      "I want to know about all incidents with {priority} priority",
+      "Give me all incidents by priority",
+      "Give me all incidents with priority {priority} "
+    ],
+    "slots": [
+      {
+        "name": "priority",
+          "slotConstraint": "Required",
+          "slotType": "PrioritySlot",
+          "valueElicitationPrompt": {
+              "messages": [
+              {
+                  "contentType": "PlainText",
+                  "content": "What is the priority of the incident (low, medium or high)?"
+              }
+              ],
+              "maxAttempts": 3
+          },
+          "priority": 2,
+          "sampleUtterances": []
+      }
+    ],
+    "fulfillmentActivity": {
+      "type": "CodeHook",
+      "codeHook": {
+        "uri": "arn:aws:lambda:eu-west-1:000000000000:function:GetIncidentsByPriority",
+        "messageVersion": "1.0"
+      }
+    },
+    "description": "Intent to request incidents by the priority property",
+    "createVersion": true
+  }
+  

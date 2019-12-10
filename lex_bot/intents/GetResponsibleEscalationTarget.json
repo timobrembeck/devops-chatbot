@@ -1,0 +1,21 @@
+{
+    "name": "GetResponsibleEscalationTarget",
+    "sampleUtterances": [
+      "Get responsible person",
+      "Get escalation target", 
+      "Responsible escalation target",
+      "Responsible person",
+      "Active person"
+    ],
+    "slots": [],
+    "fulfillmentActivity": {
+      "type": "CodeHook",
+      "codeHook": {
+        "uri": "arn:aws:lambda:eu-west-1:000000000000:function:GetResponsibleEscalationTarget",
+        "messageVersion": "1.0"
+      }
+    },
+    "description": "Intent to get the responsible escalation target (for today)",
+    "createVersion": true
+  }
+

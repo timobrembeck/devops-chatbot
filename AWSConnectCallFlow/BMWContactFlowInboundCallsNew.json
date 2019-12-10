@@ -1,0 +1,464 @@
+{
+	"modules": [{
+		"id": "db659555-6834-4d71-8350-ab9c5a9a9bd8",
+		"type": "SetVoice",
+		"branches": [{
+			"condition": "Success",
+			"transition": "31cee2e8-a615-453f-b9f0-1a46fcdb45e8"
+		}],
+		"parameters": [{
+			"name": "GlobalVoice",
+			"value": "Matthew"
+		}],
+		"metadata": {
+			"position": {
+				"x": 163,
+				"y": 33
+			}
+		}
+	}, {
+		"id": "e485f546-14f6-427f-8749-a9ebd9109156",
+		"type": "SetAttributes",
+		"branches": [{
+			"condition": "Success",
+			"transition": "649c81ef-bc44-4d3f-becc-7642d54a724f"
+		}, {
+			"condition": "Error",
+			"transition": "649c81ef-bc44-4d3f-becc-7642d54a724f"
+		}],
+		"parameters": [{
+			"name": "Attribute",
+			"value": "$.Lex.Slots.message",
+			"key": "message",
+			"namespace": null
+		}],
+		"metadata": {
+			"position": {
+				"x": 979,
+				"y": 119
+			}
+		}
+	}, {
+		"id": "31cee2e8-a615-453f-b9f0-1a46fcdb45e8",
+		"type": "PlayPrompt",
+		"branches": [{
+			"condition": "Success",
+			"transition": "9a9c58b4-298e-47c2-99d0-c7a73c1d2404"
+		}],
+		"parameters": [{
+			"name": "Text",
+			"value": "welcome to BMW incident management service. How can I help you?",
+			"namespace": null
+		}, {
+			"name": "TextToSpeechType",
+			"value": "text"
+		}],
+		"metadata": {
+			"position": {
+				"x": 117,
+				"y": 371
+			},
+			"useDynamic": false
+		}
+	}, {
+		"id": "3c54dcb9-ea79-4d15-a774-d75e1044fa6f",
+		"type": "SetAttributes",
+		"branches": [{
+			"condition": "Success",
+			"transition": "9a9c58b4-298e-47c2-99d0-c7a73c1d2404"
+		}, {
+			"condition": "Error",
+			"transition": "66c358a6-925d-41d1-b889-2ed5668e0682"
+		}],
+		"parameters": [{
+			"name": "Attribute",
+			"value": "$.Lex.Slots.team",
+			"key": "team",
+			"namespace": null
+		}],
+		"metadata": {
+			"position": {
+				"x": 707,
+				"y": 0
+			}
+		}
+	}, {
+		"id": "c0a5cded-d813-4524-ae91-4009149ab5fc",
+		"type": "SetAttributes",
+		"branches": [{
+			"condition": "Success",
+			"transition": "56e22b18-b65d-47ad-8b8e-e760a598523d"
+		}, {
+			"condition": "Error",
+			"transition": "66c358a6-925d-41d1-b889-2ed5668e0682"
+		}],
+		"parameters": [{
+			"name": "Attribute",
+			"value": "$.Lex.Slots.intent",
+			"key": "Name",
+			"namespace": null
+		}],
+		"metadata": {
+			"position": {
+				"x": 861,
+				"y": 953
+			}
+		}
+	}, {
+		"id": "56e22b18-b65d-47ad-8b8e-e760a598523d",
+		"type": "Disconnect",
+		"branches": [],
+		"parameters": [],
+		"metadata": {
+			"position": {
+				"x": 1082,
+				"y": 986
+			}
+		}
+	}, {
+		"id": "649c81ef-bc44-4d3f-becc-7642d54a724f",
+		"type": "SetAttributes",
+		"branches": [{
+			"condition": "Success",
+			"transition": "6147f143-0cd9-4f8b-95c5-169a27b97cf6"
+		}, {
+			"condition": "Error",
+			"transition": "66c358a6-925d-41d1-b889-2ed5668e0682"
+		}],
+		"parameters": [{
+			"name": "Attribute",
+			"value": "$.Lex.Slots.priority",
+			"key": "priority",
+			"namespace": null
+		}],
+		"metadata": {
+			"position": {
+				"x": 1261,
+				"y": 94
+			}
+		}
+	}, {
+		"id": "c99010d2-c286-48c4-8141-6fe8fbb55d75",
+		"type": "SetAttributes",
+		"branches": [{
+			"condition": "Success",
+			"transition": "6147f143-0cd9-4f8b-95c5-169a27b97cf6"
+		}, {
+			"condition": "Error",
+			"transition": "66c358a6-925d-41d1-b889-2ed5668e0682"
+		}],
+		"parameters": [{
+			"name": "Attribute",
+			"value": "$.Lex.Slots.inputNumber",
+			"key": "inputNumber",
+			"namespace": null
+		}],
+		"metadata": {
+			"position": {
+				"x": 860,
+				"y": 329
+			}
+		}
+	}, {
+		"id": "42b5c98b-6d7b-4353-ac77-0560f3c063e0",
+		"type": "SetAttributes",
+		"branches": [{
+			"condition": "Success",
+			"transition": "6147f143-0cd9-4f8b-95c5-169a27b97cf6"
+		}, {
+			"condition": "Error",
+			"transition": "66c358a6-925d-41d1-b889-2ed5668e0682"
+		}],
+		"parameters": [{
+			"name": "Attribute",
+			"value": "$.Lex.Slots.priority",
+			"key": "priority",
+			"namespace": null
+		}],
+		"metadata": {
+			"position": {
+				"x": 864,
+				"y": 534
+			}
+		}
+	}, {
+		"id": "50ab24e5-504b-4ed9-9af2-a8fb21d76851",
+		"type": "SetAttributes",
+		"branches": [{
+			"condition": "Success",
+			"transition": "6147f143-0cd9-4f8b-95c5-169a27b97cf6"
+		}, {
+			"condition": "Error",
+			"transition": "66c358a6-925d-41d1-b889-2ed5668e0682"
+		}],
+		"parameters": [{
+			"name": "Attribute",
+			"value": "$.Lex.Slots.Name",
+			"key": "Name",
+			"namespace": null
+		}],
+		"metadata": {
+			"position": {
+				"x": 868,
+				"y": 1387
+			}
+		}
+	}, {
+		"id": "2ccd259e-a31a-4bb5-9f2b-38117e19cca4",
+		"type": "SetAttributes",
+		"branches": [{
+			"condition": "Success",
+			"transition": "6147f143-0cd9-4f8b-95c5-169a27b97cf6"
+		}, {
+			"condition": "Error",
+			"transition": "66c358a6-925d-41d1-b889-2ed5668e0682"
+		}],
+		"parameters": [{
+			"name": "Attribute",
+			"value": "$.Lex.Slots.resource",
+			"key": "resource",
+			"namespace": null
+		}],
+		"metadata": {
+			"position": {
+				"x": 859,
+				"y": 1152
+			}
+		}
+	}, {
+		"id": "66c358a6-925d-41d1-b889-2ed5668e0682",
+		"type": "PlayPrompt",
+		"branches": [{
+			"condition": "Success",
+			"transition": "6147f143-0cd9-4f8b-95c5-169a27b97cf6"
+		}],
+		"parameters": [{
+			"name": "Text",
+			"value": "I am sorry something went wrong. Please try again",
+			"namespace": null
+		}, {
+			"name": "TextToSpeechType",
+			"value": "text"
+		}],
+		"metadata": {
+			"position": {
+				"x": 1506,
+				"y": 389
+			},
+			"useDynamic": false
+		}
+	}, {
+		"id": "9a9c58b4-298e-47c2-99d0-c7a73c1d2404",
+		"type": "GetUserInput",
+		"branches": [{
+			"condition": "Evaluate",
+			"conditionType": "Equals",
+			"conditionValue": "CreateSlackChannelIntent",
+			"transition": "3c54dcb9-ea79-4d15-a774-d75e1044fa6f"
+		}, {
+			"condition": "Evaluate",
+			"conditionType": "Equals",
+			"conditionValue": "EndConversation",
+			"transition": "c0a5cded-d813-4524-ae91-4009149ab5fc"
+		}, {
+			"condition": "Evaluate",
+			"conditionType": "Equals",
+			"conditionValue": "EscalateIncidentIntent",
+			"transition": "e485f546-14f6-427f-8749-a9ebd9109156"
+		}, {
+			"condition": "Evaluate",
+			"conditionType": "Equals",
+			"conditionValue": "GetCurrentIncidentIntent",
+			"transition": "2ccd259e-a31a-4bb5-9f2b-38117e19cca4"
+		}, {
+			"condition": "Evaluate",
+			"conditionType": "Equals",
+			"conditionValue": "GetIncidentAtKey",
+			"transition": "c99010d2-c286-48c4-8141-6fe8fbb55d75"
+		}, {
+			"condition": "Evaluate",
+			"conditionType": "Equals",
+			"conditionValue": "GetIncidentsByPriorityIntent",
+			"transition": "42b5c98b-6d7b-4353-ac77-0560f3c063e0"
+		}, {
+			"condition": "Evaluate",
+			"conditionType": "Equals",
+			"conditionValue": "GetIncidentsByStatusIntent",
+			"transition": "bd30cb1c-d9e9-41d5-b3d6-715b41a629a1"
+		}, {
+			"condition": "Evaluate",
+			"conditionType": "Equals",
+			"conditionValue": "GetResponsibleEscalationTarget",
+			"transition": "2ccd259e-a31a-4bb5-9f2b-38117e19cca4"
+		}, {
+			"condition": "Evaluate",
+			"conditionType": "Equals",
+			"conditionValue": "HelloIntent",
+			"transition": "6147f143-0cd9-4f8b-95c5-169a27b97cf6"
+		}, {
+			"condition": "Evaluate",
+			"conditionType": "Equals",
+			"conditionValue": "HelpForMenu",
+			"transition": "6147f143-0cd9-4f8b-95c5-169a27b97cf6"
+		}, {
+			"condition": "Evaluate",
+			"conditionType": "Equals",
+			"conditionValue": "JokeTellingIntent",
+			"transition": "6147f143-0cd9-4f8b-95c5-169a27b97cf6"
+		}, {
+			"condition": "Evaluate",
+			"conditionType": "Equals",
+			"conditionValue": "KubernetesIntent",
+			"transition": "2ccd259e-a31a-4bb5-9f2b-38117e19cca4"
+		}, {
+			"condition": "Evaluate",
+			"conditionType": "Equals",
+			"conditionValue": "TodaysWeatherIntent",
+			"transition": "6147f143-0cd9-4f8b-95c5-169a27b97cf6"
+		}, {
+			"condition": "Evaluate",
+			"conditionType": "Equals",
+			"conditionValue": "WelcomeIntent",
+			"transition": "6147f143-0cd9-4f8b-95c5-169a27b97cf6"
+		}, {
+			"condition": "Evaluate",
+			"conditionType": "Equals",
+			"conditionValue": "WhatIsYourNameIntent",
+			"transition": "50ab24e5-504b-4ed9-9af2-a8fb21d76851"
+		}, {
+			"condition": "NoMatch",
+			"transition": "2ccd259e-a31a-4bb5-9f2b-38117e19cca4"
+		}, {
+			"condition": "Error",
+			"transition": "2ccd259e-a31a-4bb5-9f2b-38117e19cca4"
+		}],
+		"parameters": [{
+			"name": "AudioPrompt",
+			"value": "arn:aws:connect:eu-central-1:746022503515:instance/736d65e0-6ce5-4210-9d44-55c366ea9a16/prompt/4e97b18a-f8ab-4d4c-b2d6-8f157a96b121",
+			"namespace": null,
+			"resourceName": "Beep.wav"
+		}, {
+			"name": "BotName",
+			"value": "DevOpsChatBot"
+		}, {
+			"name": "BotAlias",
+			"value": "$LATEST"
+		}, {
+			"name": "BotRegion",
+			"value": "eu-west-1"
+		}],
+		"metadata": {
+			"position": {
+				"x": 524,
+				"y": 263
+			},
+			"promptName": "Beep.wav",
+			"conditionMetadata": [{
+				"id": "e8ac1459-22c6-4725-b638-bcabbe10f9bb",
+				"value": "CreateSlackChannelIntent"
+			}, {
+				"id": "05d9f418-5e63-4754-9441-18fc07351cb3",
+				"value": "EndConversation"
+			}, {
+				"id": "c1680f33-69fa-4da4-9ce3-7e9c84eec93e",
+				"value": "EscalateIncidentIntent"
+			}, {
+				"id": "c6c2deef-e28c-4f75-b7bd-446156749cf7",
+				"value": "GetCurrentIncidentIntent"
+			}, {
+				"id": "bf638c9c-025c-45d7-8f4f-a4f657caeae1",
+				"value": "GetIncidentAtKey"
+			}, {
+				"id": "fb7aa4c8-a0fd-4964-8adc-3b1a80452f41",
+				"value": "GetIncidentsByPriorityIntent"
+			}, {
+				"id": "80810853-7749-4171-b420-9393a626af77",
+				"value": "GetIncidentsByStatusIntent"
+			}, {
+				"id": "3145791c-6a34-40a0-959f-4bace0714ed7",
+				"value": "GetResponsibleEscalationTarget"
+			}, {
+				"id": "44245381-7e1a-45d9-a4ee-e36ec5bc2cf4",
+				"value": "HelloIntent"
+			}, {
+				"id": "058efca9-6c13-4aa7-b1c8-5466faf746a8",
+				"value": "HelpForMenu"
+			}, {
+				"id": "8f990e59-db9c-494b-8ee8-d0591ef4430f",
+				"value": "JokeTellingIntent"
+			}, {
+				"id": "849f83ea-aa8b-49dc-8f45-ab33e132c46c",
+				"value": "KubernetesIntent"
+			}, {
+				"id": "3e2f177b-532d-4730-86c7-331adca370b0",
+				"value": "TodaysWeatherIntent"
+			}, {
+				"id": "3b33d755-5108-4b5c-9023-325be677d88f",
+				"value": "WelcomeIntent"
+			}, {
+				"id": "6ceac25c-fa03-48e5-a6af-0cdd0f86f34c",
+				"value": "WhatIsYourNameIntent"
+			}],
+			"useDynamic": false,
+			"dynamicMetadata": {}
+		},
+		"target": "Lex"
+	}, {
+		"id": "6147f143-0cd9-4f8b-95c5-169a27b97cf6",
+		"type": "PlayPrompt",
+		"branches": [{
+			"condition": "Success",
+			"transition": "9a9c58b4-298e-47c2-99d0-c7a73c1d2404"
+		}],
+		"parameters": [{
+			"name": "AudioPrompt",
+			"value": "messages.content",
+			"namespace": "Lex.SessionAttributes",
+			"resourceName": null
+		}],
+		"metadata": {
+			"position": {
+				"x": 1490,
+				"y": 607
+			},
+			"useDynamic": true
+		}
+	}, {
+		"id": "bd30cb1c-d9e9-41d5-b3d6-715b41a629a1",
+		"type": "SetAttributes",
+		"branches": [{
+			"condition": "Success",
+			"transition": "6147f143-0cd9-4f8b-95c5-169a27b97cf6"
+		}, {
+			"condition": "Error",
+			"transition": "66c358a6-925d-41d1-b889-2ed5668e0682"
+		}],
+		"parameters": [{
+			"name": "Attribute",
+			"value": "$.Lex.Slots.status",
+			"key": "status",
+			"namespace": null
+		}],
+		"metadata": {
+			"position": {
+				"x": 863,
+				"y": 732
+			}
+		}
+	}],
+	"version": "1",
+	"type": "contactFlow",
+	"start": "db659555-6834-4d71-8350-ab9c5a9a9bd8",
+	"metadata": {
+		"entryPointPosition": {
+			"x": 20,
+			"y": 20
+		},
+		"snapToGrid": false,
+		"name": "BMWContactFlowInboundCallsNew",
+		"description": "Direct Lex Intraction",
+		"type": "contactFlow",
+		"status": "published",
+		"hash": "afb123c438888481f78d852a450296eb51a8a21fc95fbe47f361a7b0a9815ee9"
+	}
+}

@@ -1,122 +1,110 @@
 import boto3
-import os
 import json
 from datetime import datetime
 
-def get_key_from_ddb(key):
-    ddb = boto3.client('dynamodb')
-    
-    response = ddb.get_item(
+dynamodb = boto3.client('dynamodb')
+
+def get_counter():
+    response = dynamodb.get_item(
         TableName = 'alert-log', 
         Key = {
             'messageID': {
-                'S': key
+                'S': 'counter'
             }
         }
     )
-    
+    return int(response['Item']['message']['S'])
+
+def set_counter(counter):
+    response = dynamodb.put_item(
+        TableName = 'alert-log',
+        Item = {
+            'messageID': {
+                'S': 'counter'
+            },
+            'message': {
+                'S': counter
+            }
+        }
+    )
     return response
 
-def get_escalation_target_from_ddb(dayToday):
-    ddb = boto3.client('dynamodb')
-
-    response = ddb.get_item(
+def get_escalation_target():
+    response = dynamodb.get_item(
         TableName = 'escalation_target', 
         Key = {
-            'dayName': {
-                'S': dayToday
+            'responsibility': {
+                'S': datetime.now().strftime("%A")
             }
         }
     )
+    escalationTarget = {
+        'name': response['Item']['escalationTarget']['S'],
+        'number': response['Item']['escalationNumber']['S'],
+        'team': response['Item']['escalationTeam']['S']
+    }
+    return escalationTarget
     
-    return response
-    
-def put_item_on_ddb(key, item, target):
-    ddb = boto3.client('dynamodb')
-    
-    response = ddb.put_item(
+def save_incident(incident):
+    response = dynamodb.put_item(
         TableName = 'alert-log',
         Item = {
             'messageID': {
-                'S': key
+                'S': incident['id']
             },
             'message': {
-                'S': item
+                'S': incident['message']
             },
-            'active': {
-                'BOOL': True
+            'priority': {
+                'S': incident['priority']
+            },
+            'currentStatus': {
+                'S': 'open'
+            },
+            'timestamp': {
+                'S': incident['timestamp']
             },
             'escalationTarget': {
-                'S': target
+                'S': incident['escalationTarget']
             }
         }
     )
-    
     return response
 
-
-    
-def increase_counter_on_ddb(key, item):
-    ddb = boto3.client('dynamodb')
-    
-    response = ddb.put_item(
-        TableName = 'alert-log',
-        Item = {
-            'messageID': {
-                'S': key
-            },
-            'message': {
-                'S': item
-            }
-        }
+def contact_escalation_target(escalationTarget, incident):
+    lambda_client = boto3.client('lambda')
+    response = lambda_client.invoke(
+        FunctionName='arn:aws:lambda:eu-west-1:746022503515:function:Contact_Escalation_Target',
+        InvocationType='Event',
+        Payload=bytes(json.dumps({
+            'escalationTarget': escalationTarget,
+            'incident': incident
+        }), "utf-8")
     )
-    
     return response
-    
+
 def lambda_handler(event, context):
     
     sns_msg = json.loads(event['Records'][0]['Sns']['Message'])
     print(sns_msg)
 
-    message = sns_msg['message']
-    priority = sns_msg['priority']
+    new_counter = str(get_counter() + 1)
 
-    print(message)
-    print(priority)
+    escalationTarget = get_escalation_target()
 
-    counter = get_key_from_ddb('counter')
-    print(counter)
-    current_key = int(counter['Item']['message']['S'])
-    next_key = current_key + 1
-    
-    print(str(next_key))
-
-    dayToday = datetime.now().strftime("%A")
-    escalation = get_escalation_target_from_ddb(dayToday)
-    escalationTarget = escalation['Item']['escalationTarget']['S']
-    escalationNumber = escalation['Item']['escalationNumber']['S']
-    
-    print(escalation)
-
-    put_item_on_ddb(str(next_key), message, escalationTarget)
-    increase_counter_on_ddb('counter', str(next_key))
-
-    #connect = boto3.client('connect')
-    
-    #response = connect.start_outbound_voice_contact(
-        ##Attributes={
-        ##    'message': message
-        ##},
-        #ContactFlowId='ccd7e5bc-2ace-4d0e-bc71-df8e89bd6021',
-        #DestinationPhoneNumber=escalationNumber,
-        #InstanceId='9828d4e7-acc4-4f9f-9e4e-fab1138fcc06',
-        #SourcePhoneNumber='+15106792051'
-    #)
-    
-    print('[info] Escalation target ' +  escalationTarget + ' with phone number: ' + escalationNumber + ' has been called with message: "' + message + ' "')
-
-    response = {
-        'statusCode': 200
+    incident = {
+        'id': new_counter,
+        'timestamp': str(datetime.now().timestamp()),
+        'priority': sns_msg['priority'],
+        'message': sns_msg['message'],
+        'escalationTarget': escalationTarget['name']
     }
-    
-    return response
+
+    save_incident(incident)
+    set_counter(new_counter)
+
+    contact_escalation_target(escalationTarget, incident)
+
+    print('[info] Escalation target ' +  escalationTarget['name'] + ' with phone number: ' + escalationTarget['number'] + ' has been called with message: "' + incident['message'] + ' "')
+
+    return { 'statusCode': 200 }

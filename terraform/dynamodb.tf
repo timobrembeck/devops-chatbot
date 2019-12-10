@@ -23,8 +23,7 @@ resource "aws_dynamodb_table_item" "alert_log_counter_item" {
   item = <<ITEM
 {
     "messageID": {"S": "counter"},
-    "message": {"S":"0"},
-    "active": {"B": "true"}
+    "message": {"S":"0"}
 }
 ITEM
 }
@@ -35,14 +34,14 @@ ITEM
 #escalation_target table
 resource "aws_dynamodb_table" "escalation_target" {
    name = "escalation_target"
-   hash_key = "dayName"
+   hash_key = "responsibility"
    read_capacity = 20
    write_capacity = 20
    stream_enabled = true
    stream_view_type = "NEW_AND_OLD_IMAGES"
 
    attribute {
-      name = "dayName"
+      name = "responsibility"
       type = "S"
    }
 
@@ -57,9 +56,10 @@ resource "aws_dynamodb_table_item" "escalation_target_item_Monday" {
   hash_key   = "${aws_dynamodb_table.escalation_target.hash_key}"
   item = <<ITEM
 {
-    "dayName": {"S": "Monday"},
+    "responsibility": {"S": "Monday"},
     "escalationTarget": {"S":"George"},
-    "escalationNumber": {"S":"+1511111111"}
+    "escalationNumber": {"S":"+4915111111111"},
+    "escalationTeam": {"S":"monday"}
 }
 ITEM
 }
@@ -71,9 +71,10 @@ resource "aws_dynamodb_table_item" "escalation_target_item_Tuesday" {
   hash_key   = "${aws_dynamodb_table.escalation_target.hash_key}"
   item = <<ITEM
 {
-    "dayName": {"S": "Tuesday"},
+    "responsibility": {"S": "Tuesday"},
     "escalationTarget": {"S":"Max"},
-    "escalationNumber": {"S":"+1511111112"}
+    "escalationNumber": {"S":"+4915111111112"},
+    "escalationTeam": {"S":"tuesday"}
 }
 ITEM
 }
@@ -84,9 +85,10 @@ resource "aws_dynamodb_table_item" "escalation_target_item_Wednesday" {
   hash_key   = "${aws_dynamodb_table.escalation_target.hash_key}"
   item = <<ITEM
 {
-    "dayName": {"S": "Wednesday"},
+    "responsibility": {"S": "Wednesday"},
     "escalationTarget": {"S":"Nick"},
-    "escalationNumber": {"S":"+1511111113"}
+    "escalationNumber": {"S":"+4915111111113"},
+    "escalationTeam": {"S":"wednesday"}
 }
 ITEM
 }
@@ -97,9 +99,10 @@ resource "aws_dynamodb_table_item" "escalation_target_item_Thursday" {
   hash_key   = "${aws_dynamodb_table.escalation_target.hash_key}"
   item = <<ITEM
 {
-    "dayName": {"S": "Thursday"},
+    "responsibility": {"S": "Thursday"},
     "escalationTarget": {"S":"David"},
-    "escalationNumber": {"S":"+1512123124"}
+    "escalationNumber": {"S":"+4915111111114"},
+    "escalationTeam": {"S":"thursday"}
 }
 ITEM
 }
@@ -110,9 +113,10 @@ resource "aws_dynamodb_table_item" "escalation_target_item_Friday" {
   hash_key   = "${aws_dynamodb_table.escalation_target.hash_key}"
   item = <<ITEM
 {
-    "dayName": {"S": "Friday"},
+    "responsibility": {"S": "Friday"},
     "escalationTarget": {"S":"Maria"},
-    "escalationNumber": {"S":"+1512123125"}
+    "escalationNumber": {"S":"+4915111111115"},
+    "escalationTeam": {"S":"friday"}
 }
 ITEM
 }
@@ -123,9 +127,10 @@ resource "aws_dynamodb_table_item" "escalation_target_item_Saturday" {
   hash_key   = "${aws_dynamodb_table.escalation_target.hash_key}"
   item = <<ITEM
 {
-    "dayName": {"S": "Saturday"},
+    "responsibility": {"S": "Saturday"},
     "escalationTarget": {"S":"Anastasia"},
-    "escalationNumber": {"S":"+1512123126"}
+    "escalationNumber": {"S":"+4915111111116"},
+    "escalationTeam": {"S":"saturday"}
 }
 ITEM
 }
@@ -136,11 +141,28 @@ resource "aws_dynamodb_table_item" "escalation_target_item_Sunday" {
   hash_key   = "${aws_dynamodb_table.escalation_target.hash_key}"
   item = <<ITEM
 {
-    "dayName": {"S": "Sunday"},
+    "responsibility": {"S": "Sunday"},
     "escalationTarget": {"S":"Katerina"},
-    "escalationNumber": {"S":"+1512123127"}
+    "escalationNumber": {"S":"+4915111111117"},
+    "escalationTeam": {"S":"sunday"}
+}
+ITEM
+}
+
+resource "aws_dynamodb_table_item" "escalation_target_item_IncidentManager" {
+  table_name = "${aws_dynamodb_table.escalation_target.name}"
+  hash_key   = "${aws_dynamodb_table.escalation_target.hash_key}"
+  item = <<ITEM
+{
+    "responsibility": {"S": "IncidentManager"},
+    "escalationTarget": {"S":"Felix"},
+    "escalationNumber": {"S":"+4915111111118"},
+    "escalationTeam": {"S":"incidentmanager"}
 }
 ITEM
 }
 
 #--END escalation_target DDB table
+
+# See https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-general-nosql-design.html on the design
+# Developer guide: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/

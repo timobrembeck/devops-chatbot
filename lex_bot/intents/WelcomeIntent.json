@@ -1,0 +1,23 @@
+{
+    "name": "WelcomeIntent",
+    "fulfillmentActivity": {
+      "type": "ReturnIntent"
+    },
+    "sampleUtterances": [
+      "Thank you",
+      "Thanks",
+      "Danke",
+      "Dankeschön"
+    ],
+    "slots": [],
+    "conclusionStatement": {
+      "messages": [
+        {
+          "contentType": "PlainText",
+          "content": "You are welcome!",
+          "groupNumber": 1
+        }
+      ]
+    },
+    "createVersion": true
+  }

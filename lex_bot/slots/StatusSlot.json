@@ -1,0 +1,20 @@
+{
+    "description": "Status of the incident",
+    "name": "StatusSlot",
+    "enumerationValues": [
+      {
+        "value": "open",
+        "synonyms": []
+      },
+      {
+        "value": "pending",
+        "synonyms": []
+      },
+      {
+        "value": "closed",
+        "synonyms": ["resolved", "solved", "finished"]
+      }
+    ],
+    "createVersion": true
+
+}

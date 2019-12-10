@@ -1,0 +1,26 @@
+  {
+    "name": "EndConversation",
+    "fulfillmentActivity": {
+      "type": "ReturnIntent"
+    },
+    "sampleUtterances": [
+      "Goodbye",
+      "Good bye",
+      "Bye",
+      "End call",
+      "See you",
+      "Talk to you later",
+      "Have a nice day"
+    ],
+    "slots": [],
+    "conclusionStatement": {
+      "messages": [
+        {
+          "contentType": "PlainText",
+          "content": "Thank you for using our services. Feel free to reach us for future help. Goodbye!",
+          "groupNumber": 1
+        }
+      ]
+    },
+    "createVersion": true
+  }

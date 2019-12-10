@@ -5,7 +5,10 @@
   },
   "sampleUtterances": [
     "What's your name",
-    "What is your name"
+    "What is your name",
+    "Who are you",
+    "How can I call you",
+    "What should I call you"
   ],
   "slots": [
     {

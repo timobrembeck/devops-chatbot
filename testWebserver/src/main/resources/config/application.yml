@@ -19,10 +19,12 @@ management:
         web:
             base-path: /management
             exposure:
-                include: ["configprops", "env", "health", "info", "threaddump", "logfile" ]
+                include: ["configprops", "env", "health", "info", "threaddump", "logfile", "shutdown" ]
     endpoint:
         health:
             show-details: when-authorized
+        shutdown:
+            enabled: true
     info:
         git:
             mode: full

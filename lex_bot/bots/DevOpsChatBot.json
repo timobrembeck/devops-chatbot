@@ -1,28 +1,58 @@
 {
   "intents": [
     {
-      "intentVersion": "1",
       "intentName": "GetCurrentIncidentIntent"
     },
     {
-      "intentVersion": "1",
+      "intentName": "ReportIncidentIntent"
+    },
+    {
       "intentName": "EscalateIncidentIntent"
     },
     {
-      "intentVersion": "1",
       "intentName": "HelloIntent"
     },
     {
-      "intentVersion": "1",
       "intentName": "JokeTellingIntent"
     },
     {
-      "intentVersion": "1",
       "intentName": "TodaysWeatherIntent"
     },
     {
-      "intentVersion": "1",
       "intentName": "WhatIsYourNameIntent"
+    },
+    {
+      "intentName": "HelpForMenu"
+    },
+    {
+      "intentName": "EndConversation"
+    },
+    {
+      "intentName": "WelcomeIntent"
+    }, 
+    {
+      "intentName": "GetIncidentByIDIntent"
+    },
+    {
+      "intentName": "GetResponsibleEscalationTarget"
+    },
+    {
+      "intentName": "GetIncidentsByPriorityIntent"
+    },
+    {
+      "intentName": "GetIncidentsByStatusIntent"
+    },
+    {
+      "intentName": "KubernetesIntent"
+    },
+    {
+      "intentName": "CreateSlackChannelIntent"
+    },
+    {
+      "intentName": "CloseIncidentIntent"
+    },
+    {
+      "intentName": "UpdateIncidentStatusIntent"
     }
   ],
   "name": "DevOpsChatBot",
@@ -31,7 +61,7 @@
   "abortStatement": {
     "messages": [
       {
-        "content": "Bye.",
+        "content": "Sorry, I could not understand you.",
         "contentType": "PlainText"
       }
     ]
@@ -40,7 +70,7 @@
     "maxAttempts": 5,
     "messages": [
       {
-        "content": "Type help for all available commands.",
+        "content": "Type or say 'help' for all available commands.",
         "contentType": "PlainText"
       }
     ]
